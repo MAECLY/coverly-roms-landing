@@ -1,28 +1,26 @@
 #!/usr/bin/env node
 /**
- * Build the CSS custom properties of the app and the landing page from the
- * design tokens, so both read one source of truth: design/tokens.json
- * (W3C DTCG). Zero dependencies.
+ * Build the landing's CSS custom properties from the design tokens:
+ * design/tokens.json (W3C DTCG), a copy of the one in the app repository
+ * (MAECLY/coverly-roms), which builds the app's own tokens.css from the same
+ * file with the same generator. `make sync-tokens` fetches the app's copy.
+ * Zero dependencies.
  *
- *   node scripts/brand/build_tokens.mjs           write the generated files
- *   node scripts/brand/build_tokens.mjs --check   fail if they are stale or a
+ *   node scripts/brand/build_tokens.mjs           write site/assets/tokens.css
+ *   node scripts/brand/build_tokens.mjs --check   fail if it is stale or a
  *                                                 contrast pair drops below
  *                                                 its WCAG target
+ *   node scripts/brand/build_tokens.mjs --print   print the CSS, write nothing
  *
- * Outputs (never edit them by hand):
- *   src/styles/tokens.css   app: imported first by src/styles/globals.css
- *   site/assets/tokens.css  landing: <link>ed before site/assets/site.css
+ * Output (never edit it by hand):
+ *   site/assets/tokens.css  <link>ed before site/assets/site.css
  *
- * Emitted format (docs/08-brand/brand.md §8):
+ * Emitted format (the app's docs/08-brand/brand.md §8):
  *   - Every colour role is a full colour, `--cr-primary: #0e5e6f`, for plain
  *     CSS (`color: var(--cr-primary)`). Legacy names (`--cr-accent` ...) are
  *     the same colours under their old names.
- *   - App only: RGB channels, `--cr-primary-rgb: 14 94 111`, for Tailwind 3
- *     opacity modifiers (`rgb(var(--cr-primary-rgb) / <alpha-value>)`, see
- *     tailwind.config.ts), the shadcn/ui names as full colours
- *     (`--background: #f2f3ef`) and the primitive scales.
- *   - Light is the default; dark is emitted under the same selectors each
- *     surface already uses for its theme toggle.
+ *   - Light is the default; dark is emitted under the selectors theme.js
+ *     uses for the colour mode toggle.
  *   - Durations collapse to 0ms under prefers-reduced-motion: reduce.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -36,29 +34,15 @@ export const REPO = resolve(
 );
 export const SOURCE = join(REPO, 'design', 'tokens.json');
 export const OUTPUTS = {
-  app: join(REPO, 'src', 'styles', 'tokens.css'),
   site: join(REPO, 'site', 'assets', 'tokens.css'),
 };
 
 const EXT = 'com.coverly-roms';
 
 /* Theme selectors, mirrored from the code that sets data-theme:
-   - app: src/lib/theme.ts always sets data-theme once settings load; before
-     that, the OS decides (no attribute yet).
-   - landing: site/assets/theme.js sets data-theme to the resolved mode; a
-     no-JS visitor follows the OS unless the page is forced light. */
+   site/assets/theme.js sets data-theme to the resolved mode; a no-JS
+   visitor follows the OS unless the page is forced light. */
 const SURFACES = {
-  app: {
-    light: [':root'],
-    lightScheme: 'light dark',
-    forcedLight: ":root[data-theme='light']",
-    dark: ":root[data-theme='dark']",
-    media: ':root:not([data-theme])',
-    mediaScheme: false,
-    channels: true,
-    shadcn: true,
-    primitives: true,
-  },
   site: {
     light: [':root'],
     lightScheme: 'light',
@@ -67,7 +51,6 @@ const SURFACES = {
     media: ":root:not([data-theme='light'])",
     mediaScheme: true,
     channels: false,
-    shadcn: false,
     primitives: false,
     band: '.band-dark',
   },
@@ -164,7 +147,7 @@ function slug(key) {
 
 // ── Colour themes ─────────────────────────────────────────────────────
 
-/** One theme's colour roles: [{css, hex|value, rgb, shadcn?}], deduped. */
+/** One theme's colour roles: [{name, value, rgb}], deduped. */
 export function themeColours(tokens, mode) {
   const groups = tokens.color;
   const out = new Map();
@@ -199,30 +182,6 @@ export function themeColours(tokens, mode) {
     );
   }
   return [...out.values()];
-}
-
-/** shadcn/ui names of one theme: [{name: '--background', value}]. */
-export function shadcnColours(tokens, mode) {
-  return entries(tokens.color[`shadcn-${mode}`]).map(([name, tok]) => ({
-    name: `--${name}`,
-    value: cssColour(resolveValue(tokens, tok.$value)),
-    role: tok.$extensions?.[EXT]?.css,
-    tailwind: tok.$extensions?.[EXT]?.tailwind ?? name,
-  }));
-}
-
-/** Tailwind colour map: shadcn names plus `cr-<role>`, all with alpha. */
-export function tailwindColors(tokens) {
-  const rgb = (css) => `rgb(var(${css}-rgb) / <alpha-value>)`;
-  const colors = {};
-  for (const c of shadcnColours(tokens, 'light'))
-    colors[c.tailwind] = rgb(c.role);
-  const cr = {};
-  for (const c of themeColours(tokens, 'light')) {
-    if (c.rgb) cr[c.name.replace(/^--cr-/, '')] = rgb(c.name);
-  }
-  colors.cr = cr;
-  return colors;
 }
 
 // ── Contrast (WCAG 2) ─────────────────────────────────────────────────
@@ -360,9 +319,6 @@ function themeDecls(tokens, surface, mode) {
     lines.push([c.name, c.value]);
     if (surface.channels && c.rgb) lines.push([`${c.name}-rgb`, c.rgb]);
   }
-  if (surface.shadcn) {
-    for (const c of shadcnColours(tokens, mode)) lines.push([c.name, c.value]);
-  }
   for (const level of ['raised', 'overlay']) {
     lines.push([
       `--cr-shadow-${level}`,
@@ -402,16 +358,12 @@ function rule(selectors, decls, indent = 0) {
   return `${pad}${selectors.join(`,\n${pad}`)} {\n${body}\n${pad}}`;
 }
 
-function header(kind) {
-  const where =
-    kind === 'app'
-      ? 'Imported first by src/styles/globals.css.'
-      : '<link>ed before assets/site.css on every page.';
+function header() {
   return `/* GENERATED by scripts/brand/build_tokens.mjs from design/tokens.json.
-   Do not edit: change the JSON and run \`pnpm tokens\` (or \`make tokens\`).
-   ${where}
+   Do not edit: change the JSON (or \`make sync-tokens\`), then \`make tokens\`.
+   <link>ed before assets/site.css on every page.
    --cr-<role> is a full colour; light is the default, dark follows the
-   theme toggle. See docs/08-brand/brand.md §8. */`;
+   theme toggle. See docs/08-brand/brand.md §8 in MAECLY/coverly-roms. */`;
 }
 
 /* Landing only: a section that is greyboard-dark in either mode (the
@@ -435,7 +387,7 @@ function bandBlocks(surface, darkScheme) {
 export function buildCss(tokens, kind) {
   const surface = SURFACES[kind];
   if (!surface) throw new Error(`unknown output ${kind}`);
-  const blocks = [header(kind)];
+  const blocks = [header()];
   const light = [
     ...staticDecls(tokens, surface),
     ...themeDecls(tokens, surface, 'light'),
@@ -446,18 +398,11 @@ export function buildCss(tokens, kind) {
     blocks.push(rule([surface.forcedLight], [['color-scheme', 'light']]));
   const dark = themeDecls(tokens, surface, 'dark');
   const darkScheme = [...dark, ['color-scheme', 'dark']];
-  if (kind === 'app') {
-    blocks.push(rule([surface.dark], darkScheme));
-    blocks.push(
-      `@media (prefers-color-scheme: dark) {\n${rule([surface.media], surface.mediaScheme ? darkScheme : dark, 2)}\n}`,
-    );
-  } else {
-    // The landing lists the OS default first, then the forced choice.
-    blocks.push(
-      `@media (prefers-color-scheme: dark) {\n${rule([surface.media], surface.mediaScheme ? darkScheme : dark, 2)}\n}`,
-    );
-    blocks.push(rule([surface.dark], darkScheme));
-  }
+  // The OS default first, then the forced choice.
+  blocks.push(
+    `@media (prefers-color-scheme: dark) {\n${rule([surface.media], surface.mediaScheme ? darkScheme : dark, 2)}\n}`,
+  );
+  blocks.push(rule([surface.dark], darkScheme));
   if (surface.band) blocks.push(...bandBlocks(surface, darkScheme));
   const still = entries(tokens.duration).map(([name]) => [
     `--cr-duration-${name}`,
@@ -497,6 +442,10 @@ export function readOutputs() {
 function main(argv) {
   const check = argv.includes('--check');
   const tokens = readTokens();
+  if (argv.includes('--print')) {
+    process.stdout.write(buildCss(tokens, 'site'));
+    return 0;
+  }
   const problems = contrastFailures(tokens);
   for (const p of problems) console.error(`contrast: ${p}`);
   const files = buildAll(tokens);
@@ -515,7 +464,7 @@ function main(argv) {
     }
     if (check) {
       console.error(
-        `stale: ${rel} differs from design/tokens.json (run pnpm tokens)`,
+        `stale: ${rel} differs from design/tokens.json (run make tokens)`,
       );
       stale += 1;
     } else {
