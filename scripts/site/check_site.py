@@ -96,7 +96,7 @@ BUDGET = {
     # the data-rel/data-asset hooks of release.js, about 1.4 KB raw.
     "page": (62_000, 14_500),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
-    # the showcase (docs/07-build-and-release/landing-showcase-spec.md §8):
+    # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
     # finale, about 10 KB raw / 2.5 KB gzip, minus the retired hero grid.
     # Raised again to 72,000 / 16,500 for WP4 (demo states and keyframes,

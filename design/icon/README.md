@@ -1,5 +1,11 @@
 # Coverly ROMs icon: Lean-To
 
+> A copy of [`design/icon/`](https://github.com/MAECLY/coverly-roms/tree/main/design/icon)
+> in the app repository, which is the source: change the SVGs there, then
+> copy them here. The landing uses `app.svg` for the Open Graph cards
+> (`make og`) and ships the PNG/ICO/SVG icons under `site/` that the app's
+> `pnpm icons` rasterises. Paths below are the app repository's.
+
 The single source of the Coverly ROMs mark. Every icon the app and the landing
 ship (`src-tauri/icons/`, `public/favicon.png`, `site/favicon.ico`,
 `site/assets/favicon.svg`, `site/assets/apple-touch-icon.png`,
@@ -9,11 +15,11 @@ then regenerate; never edit the PNG/ICO/ICNS outputs by hand.
 
 **Chosen 2026-10-17 from round 2, v05 "Lean-To".** A solid cover leans about
 12° against an upright empty slot, and both rest on a shelf rule: the gap in the
-shelf that Coverly fills. History: [round 1](../../docs/08-brand/icon-explorations/round-1/index.html)
-(10 concepts, #10 Shelf Gap picked) and [round 2](../../docs/08-brand/icon-explorations/round-2/index.html)
+shelf that Coverly fills. History: [round 1](https://github.com/MAECLY/coverly-roms/blob/main/docs/08-brand/icon-explorations/round-1/index.html)
+(10 concepts, #10 Shelf Gap picked) and [round 2](https://github.com/MAECLY/coverly-roms/blob/main/docs/08-brand/icon-explorations/round-2/index.html)
 (10 Shelf Gap variants, v05 Lean-To picked). See also
-[`docs/08-brand/icon-explorations/README.md`](../../docs/08-brand/icon-explorations/README.md)
-and the brand rules in [`docs/08-brand/brand.md`](../../docs/08-brand/brand.md#9-icon).
+[`docs/08-brand/icon-explorations/README.md`](https://github.com/MAECLY/coverly-roms/blob/main/docs/08-brand/icon-explorations/README.md)
+and the brand rules in [`docs/08-brand/brand.md`](https://github.com/MAECLY/coverly-roms/blob/main/docs/08-brand/brand.md#9-icon).
 
 ## Files
 

@@ -8,8 +8,9 @@ output folder with every marker replaced from the release's GitHub API record
 (GET /repos/<repo>/releases/latest). The generated folder is what Vercel
 serves; it is never committed.
 
-Plain standard-library Python, so the runner needs nothing installed, and
-src-tauri/tests/site_release.rs runs it against a fixture.
+Plain standard-library Python, so the build needs nothing installed, and
+scripts/site/check_site.py and release.test.mjs run it against
+scripts/site/fixtures/release.json.
 
   apply_release.py --release-json F --repo OWNER/NAME --site DIR --out DIR
   apply_release.py --no-release     --repo OWNER/NAME --site DIR --out DIR
@@ -61,8 +62,8 @@ PRODUCT = "Coverly ROMs"
 # Every download the landing offers: marker name -> pattern of the asset
 # name, {v} being the version. The app bundles keep Tauri's names with the
 # product name made safe for GitHub ("Coverly ROMs" -> "Coverly.ROMs"; see
-# the staging step of release.yml), so they are matched like
-# scripts/release/release_tools.py build_artifacts() does: any safe prefix,
+# the staging step of the app repository's release.yml), so they are matched
+# like its scripts/release/release_tools.py build_artifacts() does: any safe prefix,
 # exactly one file per pattern.
 APP = r"[A-Za-z0-9._-]+_{v}_"
 DOWNLOADS = {

@@ -1,4 +1,4 @@
-/* The showcase choreography (docs/07-build-and-release/landing-showcase-spec.md).
+/* The showcase choreography (docs/landing-showcase-spec.md).
    Runs after motion.js, only when it set html.motion. It toggles classes;
    CSS moves. Each module's stop() leaves the finished HTML frame, so
    halt() (motion.js "cr-halt", or reduced motion mid-visit) = finish. */
