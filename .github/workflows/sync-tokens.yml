@@ -1,0 +1,56 @@
+name: Sync tokens
+
+# design/tokens.json is a copy of the app's (MAECLY/coverly-roms, the source
+# of truth for the brand). Weekly, or by hand, fetch the app's main copy,
+# regenerate site/assets/tokens.css and open (or update) a pull request when
+# anything changed. Needs "Allow GitHub Actions to create and approve pull
+# requests" (Settings → Actions → General) for GITHUB_TOKEN to open it.
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-tokens
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync design tokens from the app
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BRANCH: chore/sync-tokens
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Fetch and regenerate
+        run: make sync-tokens
+      - name: Gate the result
+        run: make check
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- design/tokens.json site/assets/tokens.css; then
+            echo "Tokens already match MAECLY/coverly-roms@main."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C "$BRANCH"
+          git add design/tokens.json site/assets/tokens.css
+          git commit -m 'chore(tokens): sync design tokens from the app'
+          git push --force origin "$BRANCH"
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --base main --head "$BRANCH" \
+              --title 'chore(tokens): sync design tokens from the app' \
+              --body 'design/tokens.json fetched from MAECLY/coverly-roms@main and site/assets/tokens.css regenerated (make sync-tokens). Every gate (make check) passed in the sync run. A pull request opened with GITHUB_TOKEN does not start the Check workflow: close and reopen it, or run Check on the branch, before merging.'
+          fi

@@ -1,0 +1,39 @@
+name: Check
+
+# Every gate of the landing (make check): the generated tokens and cover
+# sprite are not stale, release.js behaves against both filled pages, and
+# check_site.py passes on the release and no-release builds. Vercel deploys
+# main on its own (vercel.json); this only reports.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  check:
+    name: Landing gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Design tokens
+        run: node scripts/brand/build_tokens.mjs --check
+      - name: Cover sprite
+        run: node scripts/site/gen_covers.mjs --check
+      - name: release.js tests
+        run: node --test scripts/site/*.test.mjs
+      - name: Site gates (release and no-release)
+        run: python3 -I scripts/site/check_site.py
