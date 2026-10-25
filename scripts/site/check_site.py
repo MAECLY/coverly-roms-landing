@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the landing page before it ships. Standard library only.
 
-  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release]
+  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics]
 
 Fills site/ twice into a temporary folder with apply_release.py (once with
 scripts/site/fixtures/release.json, once with --no-release) and runs every
@@ -35,6 +35,11 @@ browser.
             by file name), the notes, version and date are marked, the
             "out now" note of the unpublished page starts hidden, and
             release.js asks only this repository's latest release
+  metrics   the public-reach layer: both pages load metrics.js once,
+            deferred, each data-metric slot (downloads, stars) is empty and
+            hidden in site/ (apply_metrics.py fills it at build time only
+            when the number is known and above zero), and metrics.js asks
+            only this repository
 
 Exit status 1 when any gate fails; every failure is printed.
 """
@@ -68,7 +73,7 @@ REQUIRED = [
     "index.html", "en/index.html", "404.html", "robots.txt",
     "sitemap.xml", "llms.txt", "agents.txt", "site.webmanifest",
     "en/site.webmanifest", "favicon.ico", "assets/site.css", "assets/theme.js",
-    "assets/motion.js", "assets/release.js", "assets/favicon.svg", "assets/icon-192.png",
+    "assets/motion.js", "assets/release.js", "assets/metrics.js", "assets/favicon.svg", "assets/icon-192.png",
     "assets/icon-512.png", "assets/apple-touch-icon.png", "assets/og.png",
     "assets/og-en.png", "assets/tokens.css", "assets/shelf.js",
     "assets/art/covers.svg", "assets/art/kit.svg", "assets/art/grain.svg",
@@ -111,8 +116,9 @@ BUDGET = {
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
-    # 23,000 / 7,800 for its installer offer before the first release.
-    "scripts": (23_000, 7_800),
+    # 23,000 / 7,800 for its installer offer before the first release, then
+    # to 26,000 / 8,400 for metrics.js (see METRICS_JS).
+    "scripts": (26_000, 8_400),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
@@ -132,6 +138,11 @@ SHELF_JS = 5_000
 # the page built before the first release: the wording swap and the one
 # installer for the visitor's system.
 RELEASE_JS = 6_500
+# metrics.js alone (raw bytes): downloads and stars read in the browser
+# (paged fetch, cache, the localized label). Kept out of release.js so that
+# file keeps its cap.
+METRICS_JS = 3_400
+METRICS = ("downloads", "stars")
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000
 # Versorium keeps 680; this page carries a comparison, a layout table and
@@ -850,10 +861,39 @@ def gate_release(site: Path, r: Report) -> None:
         r.note("release", "node not found: release.test.mjs skipped")
 
 
+def gate_metrics(site: Path, r: Report) -> None:
+    # apply_metrics.py fills a slot only after this check, at build time,
+    # and only with a known number above zero; until then every slot must
+    # be empty and hidden, so an unknown number shows nothing.
+    js_path = site / "assets/metrics.js"
+    js = js_path.read_text(encoding="utf-8") if js_path.is_file() else ""
+    n = len(js.encode())
+    r.note("metrics", f"metrics.js: {n} B raw")
+    if n > METRICS_JS:
+        r.fail("metrics", f"metrics.js is {n} B, over {METRICS_JS}")
+    for need in (f'"https://api.github.com/repos/{REPO}"', "sessionStorage", "abort()", "n > 0"):
+        if need not in js:
+            r.fail("metrics", f"metrics.js lacks {need!r}")
+    for rel in PAGES.values():
+        doc = parse(site / rel)
+        src = [a.get("src", "") for t, a in doc.tags if t == "script" and a.get("src", "").endswith("assets/metrics.js")]
+        if len(src) != 1 or not any(t == "script" and a.get("src") == src[0] and "defer" in a for t, a in doc.tags):
+            r.fail("metrics", f"{rel}: does not load assets/metrics.js once, deferred")
+        text = (site / rel).read_text(encoding="utf-8")
+        found = re.findall(r'<(\w+)\b([^>]*)\sdata-metric="([^"]*)"([^>]*)>(.*?)</\1>', text, re.S)
+        names = sorted(m[2] for m in found)
+        if names != sorted(METRICS):
+            r.fail("metrics", f"{rel}: data-metric slots {names}, expected one each of {sorted(METRICS)}")
+        for tag, before, name, after, inner in found:
+            if not re.search(r"\shidden$", after) or inner:
+                r.fail("metrics", f"{rel}: data-metric={name} must be empty and end in ' hidden>'")
+
+
 GATES = {
     "files": gate_files, "links": gate_links, "parity": gate_parity,
     "head": gate_head, "budget": gate_budget, "contrast": gate_contrast,
     "motion": gate_motion, "art": gate_art, "release": gate_release,
+    "metrics": gate_metrics,
 }
 
 

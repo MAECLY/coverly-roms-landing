@@ -6,7 +6,8 @@
 # The latest release comes from the public GitHub API. GITHUB_TOKEN, when the
 # Vercel project defines it, only raises the rate limit. A 404 (no release
 # yet) ships the not-published-yet state; any other API error fails the
-# build, so a deploy never links a file that is not there.
+# build, so a deploy never links a file that is not there. Then the public
+# reach (fetch_metrics.py, apply_metrics.py), which never fails it.
 set -euo pipefail
 
 REPO="MAECLY/coverly-roms"
@@ -41,3 +42,8 @@ case "$status" in
     exit 1
     ;;
 esac
+
+# Public reach (downloads of every release asset, GitHub stars). Unlike the
+# release, an unknown number never fails the build: its slot stays hidden.
+python3 -I scripts/site/fetch_metrics.py --repo "$REPO" --out "$TMP/metrics.json"
+python3 -I scripts/site/apply_metrics.py --metrics-json "$TMP/metrics.json" --out "$OUT"
