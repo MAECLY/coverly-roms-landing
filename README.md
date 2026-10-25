@@ -1,5 +1,7 @@
 # Coverly ROMs landing
 
+[![Stars](https://img.shields.io/github/stars/MAECLY/coverly-roms-landing?style=flat-square)](https://github.com/MAECLY/coverly-roms-landing/stargazers) [![Views](https://hits.sh/github.com/MAECLY/coverly-roms-landing.svg?label=views&style=flat-square)](https://hits.sh/github.com/MAECLY/coverly-roms-landing/) [![Last commit](https://img.shields.io/github/last-commit/MAECLY/coverly-roms-landing?style=flat-square)](https://github.com/MAECLY/coverly-roms-landing/commits/main)
+
 [Español](README.es.md)
 
 The website of [Coverly ROMs](https://github.com/MAECLY/coverly-roms), live at
