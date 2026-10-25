@@ -5,14 +5,15 @@ The public page at **https://coverly-roms.maecly.com** is the static site in
 [`MAECLY/coverly-roms`](https://github.com/MAECLY/coverly-roms). Spanish at
 `/` (also `x-default`), English at `/en/`, plus `404.html`, `robots.txt`,
 `sitemap.xml`, `llms.txt`, `agents.txt` and the web manifests. Plain HTML,
-one stylesheet, four small scripts (`theme.js` for the colour mode and OS
+one stylesheet, five small scripts (`theme.js` for the colour mode and OS
 hint, `motion.js` for the reveals, step clips, terminal and the third-party
 request counter, `shelf.js` for the showcase choreography, `release.js` for
-the latest release and the copy buttons) and the decorative art under
+the latest release and the copy buttons, `metrics.js` for the public
+reach) and the decorative art under
 `site/assets/art/`. No framework and no dependencies: the build is a Python
 script that fills the release markers. The only other server the page talks
-to is `api.github.com`, for the latest release (the CSP allows nothing
-else).
+to is `api.github.com`, for the latest release and the public reach (the
+CSP allows nothing else).
 
 It follows the conventions of the Pluryprint and Versorium landings: the same
 section order, bilingual setup, SEO and agent files, and release-filled
@@ -62,6 +63,27 @@ fails, `site/assets/release.js` reads the same API record in the browser and
 swaps the version, date, notes link and every `a[data-asset]` download for
 the newer release (only when every file exists in it; any error leaves the
 built page alone). `release.test.mjs` runs it against both filled pages.
+
+## Public reach
+
+The hero's facts line shows the total downloads ("43 descargas" / "43
+downloads": the `download_count` of every asset of every release of
+`MAECLY/coverly-roms`), and the footer's "Código fuente" link is followed by
+the GitHub stars. Both are public numbers from the GitHub API; repository
+views are not (they need an admin token) and are never shown.
+
+In `site/` each one is an empty, hidden slot (`data-metric="downloads"`,
+`data-metric="stars"`). After `apply_release.py`, `vercel_build.sh` runs
+`scripts/site/fetch_metrics.py` (every page of releases, plus the repository
+record) and `scripts/site/apply_metrics.py`, which writes the label in the
+page's language (`1.234 descargas`, `1,234 downloads`, `1 estrella`) and
+unhides the slot only for a number that is known and above zero. An API
+error, a rate limit or a 0 leaves the slot hidden, and never fails the
+build. In the browser, `site/assets/metrics.js` asks the same API (cached
+for the tab for 10 minutes, like `release.js`) and refreshes the numbers;
+any error leaves the built page alone. `metrics.test.mjs` covers both, and
+the `metrics` gate of `check_site.py` keeps every slot empty and hidden in
+`site/`.
 
 ## Brand tokens
 

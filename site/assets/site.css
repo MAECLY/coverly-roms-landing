@@ -399,8 +399,16 @@ pre {
 /* release.js swaps these once a release is out (see its header). */
 [data-rel-new][hidden],
 [data-rel-old][hidden],
-[data-rel-file][hidden] {
+[data-rel-file][hidden],
+[data-metric][hidden] {
   display: none;
+}
+.metric-stars {
+  margin-left: 0.4em;
+  color: var(--cr-text-secondary);
+}
+.metric-stars::before {
+  content: '·\00a0';
 }
 .pill {
   display: inline-flex;

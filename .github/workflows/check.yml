@@ -33,7 +33,7 @@ jobs:
         run: node scripts/brand/build_tokens.mjs --check
       - name: Cover sprite
         run: node scripts/site/gen_covers.mjs --check
-      - name: release.js tests
+      - name: release.js and metrics tests
         run: node --test scripts/site/*.test.mjs
       - name: Site gates (release and no-release)
         run: python3 -I scripts/site/check_site.py
