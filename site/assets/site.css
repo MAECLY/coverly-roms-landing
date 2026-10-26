@@ -606,15 +606,18 @@ html.motion .replay[aria-disabled='true'] {
   color: var(--cr-text);
   font-variant-numeric: tabular-nums;
 }
-.step h3 {
+.step h3,
+.feat h3 {
   font: var(--cr-type-landing-h3);
   font-stretch: 75%;
   margin-bottom: 10px;
 }
-.step p {
+.step p,
+.feat p {
   color: var(--cr-text-secondary);
 }
-.step p + p {
+.step p + p,
+.feat p + p {
   margin-top: 10px;
 }
 
@@ -667,12 +670,33 @@ html.motion .replay[aria-disabled='true'] {
   color: var(--cr-text-secondary);
 }
 
+/* More than covers: text beside its shot, sides alternating. */
+.feats {
+  display: grid;
+  gap: clamp(56px, 8vw, 96px);
+}
+.feat {
+  display: grid;
+  gap: 24px;
+}
+@media (min-width: 960px) {
+  .feat {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .feat:nth-child(even) > figure {
+    order: -1;
+  }
+}
+
 /* Layout profiles. */
 .split {
   display: grid;
   gap: clamp(40px, 5vw, 64px);
 }
 .split > *,
+.feat > *,
 .safe > *,
 .step > *,
 .hero-grid > * {

@@ -206,16 +206,16 @@ Budgets (raw / gzip bytes):
 
 | What | Budget |
 | --- | --- |
-| Each page (`index.html`, `en/index.html`) | 62,000 / 14,500 |
-| Stylesheets (`tokens.css` + `site.css`) | 83,000 / 18,700 |
-| All scripts under `assets/` (recursive) | 23,000 / 7,800 |
+| Each page (`index.html`, `en/index.html`) | 66,500 / 15,600 |
+| Stylesheets (`tokens.css` + `site.css`) | 83,500 / 18,800 |
+| All scripts under `assets/` (recursive) | 26,000 / 8,400 |
 | `motion.js` alone | 9,500 |
 | `shelf.js` alone | 5,000 |
 | `release.js` alone | 6,500 |
 | Art (`assets/art/*.svg`) | 24,000 / 7,000 |
 | `covers.svg` alone | 18,000 |
 | Fonts | 128,000 |
-| Visible words, each locale | 1,500 |
+| Visible words, each locale | 1,850 |
 
 **Before merging a motion change, check it in a browser** (Chrome DevTools,
 the release-filled copy on a local port):

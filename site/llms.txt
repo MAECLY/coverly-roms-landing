@@ -43,8 +43,10 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - Sources: libretro-thumbnails (default, no account); SteamGridDB (optional, your own API key, kept in the OS keychain).
 - Choosing the image: by the ROM's region (default order rom, world, usa, europe, japan), by source priority, or by popularity (SteamGridDB votes, then agreement between sources). Each choice says why.
 - Safety: dry run by default; only missing art by default; existing art replaced only if you choose overwrite-with-backup; nothing written outside the library folder; atomic writes; backups and job journals in the app data folder, not on the card; undo of the last job; uncertain matches go to a keyboard-driven review queue; jobs pause, resume and cancel; one failing item never stops a job; offline or rate-limited jobs pause; file names safe for FAT/exFAT; macOS ._ files ignored.
-- App: library browser (folders, systems, date, all), virtualised grid and table with filters and search, a detail panel per game (change, search, from file, remove), fill wizard, connected drives on the start screen, English and Spanish, light/dark/system themes.
-- CLI: coverly audit, fill (dry run unless --apply; --auto-only skips review items), profiles, systems, undo, update.
+- Organise: sorts a folder of loose ROMs into system folders for any layout profile, moving or copying, never overwriting, with a dry run, resume and undo (`coverly organize`). Archives are recognised by their contents: zip, 7z, tar, gzip, bzip2, xz, zstd, lz4 and single compressed ROMs; RAR through a program already installed (unrar, 7-Zip or bsdtar). Disc games inside archives are identified from the disc (PlayStation, Sega Saturn, Dreamcast, Sega CD, PC Engine CD, Neo Geo CD) and extracted on apply, each file verified by size and CRC.
+- Duplicates: finds the same game stored more than once in a system by its contents, never its name (exact copies, the same disc in another format, and other versions only with "One ROM per game"). One copy stays, picked by rules you can reorder; the others are set aside in `_Duplicados/` inside the library, with their saves, states and art, or sent to the Trash. Copies with different saves are never touched. Dry run first, resume and undo; nothing is deleted (`coverly dedupe`, dry run unless --apply).
+- App: library browser (folders, systems, date, all) with six views on Cmd/Ctrl+1-6 (Covers, Details, Columns, Gallery, Art slots, Shelves), an icon beside every system name, filters and search, a detail panel per game (change, search, from file, remove), fill wizard, connected drives on the start screen, English and Spanish, light/dark/system themes.
+- CLI: coverly audit, fill (dry run unless --apply; --auto-only skips review items), organize, dedupe, profiles, systems, undo, update.
 - Privacy: no telemetry. Network requests only to the art sources and the optional update check. Images are decoded and re-encoded, which strips metadata.
 - Updates: in-app, from GitHub Releases, verified with minisign; stable and beta channels; never restarts during a job.
 
@@ -54,5 +56,6 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - TheGamesDB; mixed/composite images, videos, marquees, wheels.
 - Editing gamelist metadata, renaming or verifying ROMs.
 - Running on the handheld itself.
+- PlayStation 2 and 3DO discs inside archives are named as not supported yet.
 - It bundles no ROMs, BIOS files or game art. Game art belongs to its owners.
 - Not yet tested on real handhelds; the maximum image sizes some firmware accepts are not confirmed.
