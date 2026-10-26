@@ -5,11 +5,11 @@ The public page at **https://coverly-roms.maecly.com** is the static site in
 [`MAECLY/coverly-roms`](https://github.com/MAECLY/coverly-roms). Spanish at
 `/` (also `x-default`), English at `/en/`, plus `404.html`, `robots.txt`,
 `sitemap.xml`, `llms.txt`, `agents.txt` and the web manifests. Plain HTML,
-one stylesheet, five small scripts (`theme.js` for the colour mode and OS
+one stylesheet, six small scripts (`theme.js` for the colour mode and OS
 hint, `motion.js` for the reveals, step clips, terminal and the third-party
-request counter, `shelf.js` for the showcase choreography, `release.js` for
-the latest release and the copy buttons, `metrics.js` for the public
-reach) and the decorative art under
+request counter, `shelf.js` for the showcase choreography, `views.js` for
+the six-views window, `release.js` for the latest release and the copy
+buttons, `metrics.js` for the public reach) and the decorative art under
 `site/assets/art/`. No framework and no dependencies: the build is a Python
 script that fills the release markers. The only other server the page talks
 to is `api.github.com`, for the latest release and the public reach (the
@@ -172,6 +172,7 @@ What moves:
 | FAQ | The marker is a mini slot: dashed closed, solid Buckram open | Open |
 | Closing | A shelf across the viewport (25 slots, 7 on phones) with the hero's cover at its centre, leaning. The covers wipe on left to right, their spines just after; two slots (one on phones) stay dashed and pulse once, with `152` over them (Coverly never guesses); the leaning cover tips upright into its slot, its Manila tab drops and the CTA's Buckram spine draws under the button. | Scroll (CSS, pixel ranges on the shelf's own view timeline so the end is reached on any viewport); without scroll timelines `.landed` at 50% of the section, 1.6 s |
 | Footer | The "requests to other servers" count sits in a dashed mini slot that stays empty | Static |
+| #ordenar, the six views | A drawn app window walks through Covers, Details, Columns, Gallery, Art slots and Shelves: the same eight tiles (sprite covers and two missing slots) ease into each layout (`--cr-ease-ink`, 800 ms, 30 ms apart) while that view's lines and slots swap in. The pressed view button's Buckram spine fills for 3 s and its `animationend` steps on. The buttons switch at once and also work under reduced motion, which shows Covers and never steps by itself. On phones Columns keeps its panes and picked rows only. Markup from `scripts/site/gen_views.py`, which prints the layout table `views.js` carries. | In view (40%); paused on hover or focus, off screen, in a hidden tab, and for `cr-halt` |
 | Colour mode, ES/EN | The new mode spreads from the click; ES/EN cross-fade, the hero shelf rule held still (`view-transition-name: shelf`) | Click or key |
 
 The art: `assets/art/covers.svg` (40 generative covers and a 7-glyph stroke
@@ -206,12 +207,13 @@ Budgets (raw / gzip bytes):
 
 | What | Budget |
 | --- | --- |
-| Each page (`index.html`, `en/index.html`) | 66,500 / 15,600 |
-| Stylesheets (`tokens.css` + `site.css`) | 83,500 / 18,800 |
-| All scripts under `assets/` (recursive) | 26,000 / 8,400 |
+| Each page (`index.html`, `en/index.html`) | 74,000 / 17,500 |
+| Stylesheets (`tokens.css` + `site.css`) | 86,000 / 19,400 |
+| All scripts under `assets/` (recursive) | 29,000 / 9,100 |
 | `motion.js` alone | 9,500 |
 | `shelf.js` alone | 5,000 |
 | `release.js` alone | 6,500 |
+| `views.js` alone | 3,000 |
 | Art (`assets/art/*.svg`) | 24,000 / 7,000 |
 | `covers.svg` alone | 18,000 |
 | Fonts | 128,000 |

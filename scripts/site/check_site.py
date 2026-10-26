@@ -26,7 +26,7 @@ browser.
             keyframe or transition on layout properties, scroll-linked
             effects only inside @supports, motion never hides text or
             images, no autoplaying video, motion.js and shelf.js sizes,
-            shelf.js joins halt() through the cr-halt event
+            shelf.js and views.js join halt() through the cr-halt event
   art       decorative SVG (inline svg.art and assets/art/*.svg): hidden
             from assistive tech, sized, no <text>, raster, script or
             foreignObject, and the cover sprite under its cap
@@ -75,7 +75,7 @@ REQUIRED = [
     "en/site.webmanifest", "favicon.ico", "assets/site.css", "assets/theme.js",
     "assets/motion.js", "assets/release.js", "assets/metrics.js", "assets/favicon.svg", "assets/icon-192.png",
     "assets/icon-512.png", "assets/apple-touch-icon.png", "assets/og.png",
-    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js",
+    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/views.js",
     "assets/art/covers.svg", "assets/art/kit.svg", "assets/art/grain.svg",
     "assets/art/weave.svg",
     "assets/fonts/archivo-variable.woff2",
@@ -103,7 +103,11 @@ BUDGET = {
     # (organise with archives and disc games, duplicates, the six views:
     # three light/dark <picture>s and their copy), its FAQ entry and the
     # not-yet line, about 3.5 KB raw / 0.8 KB gz.
-    "page": (66_500, 15_600),
+    # Raised to 74,000 / 17,500 for the six-views window that replaces
+    # that section's Shelves screenshot (scripts/site/gen_views.py: window
+    # chrome, eight tiles, each view's lines and slots, six view buttons),
+    # about 6.5 KB raw / 1.6 KB gz.
+    "page": (74_000, 17_500),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
     # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
@@ -117,13 +121,16 @@ BUDGET = {
     # fallback and the CTA spine, minus the retired closing mark).
     # Raised to 83,000 / 18,700 for the first-open command block (.cmd).
     # Raised to 83,500 / 18,800 for the alternating .feat rows of v0.2.0.
-    "css": (83_500, 18_800),
+    # Raised to 86,000 / 19,400 for the six-views window (its fills, the
+    # per-view swaps, the tile easing and the button spine).
+    "css": (86_000, 19_400),
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
     # 23,000 / 7,800 for its installer offer before the first release, then
-    # to 26,000 / 8,400 for metrics.js (see METRICS_JS).
-    "scripts": (26_000, 8_400),
+    # to 26,000 / 8,400 for metrics.js (see METRICS_JS), then to
+    # 29,000 / 9,100 for views.js (see VIEWS_JS).
+    "scripts": (29_000, 9_100),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
@@ -147,6 +154,10 @@ RELEASE_JS = 6_500
 # (paged fetch, cache, the localized label). Kept out of release.js so that
 # file keeps its cap.
 METRICS_JS = 3_400
+# views.js alone (raw bytes): the six-views window (buttons, the layout
+# table of its eight tiles, the paused-when-unseen clock). Kept out of
+# shelf.js so that file keeps its cap.
+VIEWS_JS = 3_000
 METRICS = ("downloads", "stars")
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000
@@ -675,6 +686,17 @@ def gate_motion(site: Path, r: Report) -> None:
         ):
             if need not in text:
                 r.fail("motion", f"{where} lacks {need!r}")
+    # views.js steps on its own only under html.motion, and stops for
+    # cr-halt and reduced motion; its buttons work without either.
+    views = (site / "assets/views.js").read_text(encoding="utf-8")
+    n = len(views.encode())
+    r.note("motion", f"views.js: {n} B raw")
+    if n > VIEWS_JS:
+        r.fail("motion", f"views.js is {n} B, over {VIEWS_JS}")
+    for need in ('"cr-halt"', 'classList.contains("motion")', 'matchMedia("(prefers-reduced-motion: reduce)")',
+                 '"visibilitychange"', "IntersectionObserver"):
+        if need not in views:
+            r.fail("motion", f"views.js lacks {need!r}")
     # The gates: html.anim only without reduced motion or Save-Data; any
     # error or a mid-visit switch to reduced motion runs halt().
     for need, where, text in (
