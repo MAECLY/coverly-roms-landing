@@ -99,7 +99,11 @@ BUDGET = {
     # Raised to 62,000 / 14,500 for the first-open warning (the quarantine
     # command and its copy button, mirroring Versorium and Pluryprint) and
     # the data-rel/data-asset hooks of release.js, about 1.4 KB raw.
-    "page": (62_000, 14_500),
+    # Raised to 66,500 / 15,600 for v0.2.0's "More than covers" section
+    # (organise with archives and disc games, duplicates, the six views:
+    # three light/dark <picture>s and their copy), its FAQ entry and the
+    # not-yet line, about 3.5 KB raw / 0.8 KB gz.
+    "page": (66_500, 15_600),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
     # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
@@ -112,7 +116,8 @@ BUDGET = {
     # Raised to 82,000 / 18,500 for WP6 (closing shelf scrub, its .landed
     # fallback and the CTA spine, minus the retired closing mark).
     # Raised to 83,000 / 18,700 for the first-open command block (.cmd).
-    "css": (83_000, 18_700),
+    # Raised to 83,500 / 18,800 for the alternating .feat rows of v0.2.0.
+    "css": (83_500, 18_800),
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
@@ -149,7 +154,9 @@ COVERS_SVG = 18_000
 # a download matrix, so it gets more room, and the gate keeps it from growing.
 # Raised from 1,450 for the first-open warning (macOS quarantine, SmartScreen,
 # Linux packages), which Versorium and Pluryprint also carry.
-MAX_WORDS = 1_500
+# Raised to 1,850 for v0.2.0: the "More than covers" section (organise,
+# duplicates, views), a FAQ entry on duplicates and a not-yet line.
+MAX_WORDS = 1_850
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)

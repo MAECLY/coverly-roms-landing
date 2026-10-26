@@ -52,7 +52,7 @@
 {"@type":"WebSite","@id":"https://coverly-roms.maecly.com/#website","url":"https://coverly-roms.maecly.com/","name":"Coverly ROMs","inLanguage":["es","en"],"publisher":{"@id":"https://www.maecly.com/#org"}},
 {"@type":"Organization","@id":"https://www.maecly.com/#org","name":"MAECLY","url":"https://www.maecly.com/"},
 {"@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","name":"Coverly ROMs","description":"Programa de escritorio gratuito (AGPL-3.0) para Windows, macOS y Linux que audita una biblioteca de ROMs, enseña qué juegos no tienen portada, captura o pantalla de título y los rellena desde libretro-thumbnails o SteamGridDB, con simulación previa, copias de seguridad y deshacer. Escribe en los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI, muOS, ES-DE, Batocera y RetroArch. Incluye la línea de comandos coverly. Sin cuenta ni telemetría.","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11, macOS 11 o posterior, Linux x64, Linux ARM64","inLanguage":["es","en"],"license":"https://www.gnu.org/licenses/agpl-3.0.html","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Miguel Esparza"},"publisher":{"@id":"https://www.maecly.com/#org"},"image":"https://coverly-roms.maecly.com/assets/icon-512.png","screenshot":"https://coverly-roms.maecly.com/assets/shots/es/library-light.webp","url":"https://coverly-roms.maecly.com/"},
-{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/#preguntas","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No cuesta nada, no pide cuenta y no tiene versión de pago. El código es AGPL-3.0."}},{"@type":"Question","name":"¿Trae ROMs o portadas?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs no incluye ROMs, BIOS ni arte de juegos. Las imágenes se descargan de libretro-thumbnails y, si pones tu propia clave, de SteamGridDB. Cada imagen es de sus dueños."}},{"@type":"Question","name":"¿Va a sobrescribir mis portadas?","acceptedAnswer":{"@type":"Answer","text":"No, salvo que lo pidas. Por defecto solo rellena lo que falta. Si eliges sustituir, antes guarda una copia en la carpeta de datos de la app, no en la tarjeta, y Deshacer la devuelve."}},{"@type":"Question","name":"¿Necesito una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema."}},{"@type":"Question","name":"¿Con qué consolas funciona?","acceptedAnswer":{"@type":"Answer","text":"Con las que usan los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales."}},{"@type":"Question","name":"¿Por qué avisan Gatekeeper y SmartScreen?","acceptedAnswer":{"@type":"Answer","text":"Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto."}},{"@type":"Question","name":"¿Envía datos a algún sitio?","acceptedAnswer":{"@type":"Answer","text":"No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. Las imágenes se recodifican, así que no llevan metadatos."}},{"@type":"Question","name":"¿Cómo se actualiza?","acceptedAnswer":{"@type":"Answer","text":"Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update."}}]}
+{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/#preguntas","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No cuesta nada, no pide cuenta y no tiene versión de pago. El código es AGPL-3.0."}},{"@type":"Question","name":"¿Trae ROMs o portadas?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs no incluye ROMs, BIOS ni arte de juegos. Las imágenes se descargan de libretro-thumbnails y, si pones tu propia clave, de SteamGridDB. Cada imagen es de sus dueños."}},{"@type":"Question","name":"¿Va a sobrescribir mis portadas?","acceptedAnswer":{"@type":"Answer","text":"No, salvo que lo pidas. Por defecto solo rellena lo que falta. Si eliges sustituir, antes guarda una copia en la carpeta de datos de la app, no en la tarjeta, y Deshacer la devuelve."}},{"@type":"Question","name":"¿Necesito una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema."}},{"@type":"Question","name":"¿Con qué consolas funciona?","acceptedAnswer":{"@type":"Answer","text":"Con las que usan los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales."}},{"@type":"Question","name":"¿Por qué avisan Gatekeeper y SmartScreen?","acceptedAnswer":{"@type":"Answer","text":"Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto."}},{"@type":"Question","name":"¿Borra los juegos repetidos?","acceptedAnswer":{"@type":"Answer","text":"No. Los aparta en _Duplicados/, dentro de la biblioteca, o los manda a la Papelera si lo eliges, y Deshacer los devuelve. Si dos copias tienen partidas distintas, no toca ninguna."}},{"@type":"Question","name":"¿Envía datos a algún sitio?","acceptedAnswer":{"@type":"Answer","text":"No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. Las imágenes se recodifican, así que no llevan metadatos."}},{"@type":"Question","name":"¿Cómo se actualiza?","acceptedAnswer":{"@type":"Answer","text":"Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update."}}]}
 ]
 }
 </script>
@@ -215,6 +215,58 @@
 </div>
 </section>
 
+<section class="section" id="ordenar" aria-labelledby="ordenar-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="ordenar-t">Más que portadas.</h2>
+<p>Coverly ROMs también ordena una carpeta de descargas por sistema, aparta los juegos que tienes repetidos y te deja ver la biblioteca de seis formas. Ordenar y apartar se simulan primero y se pueden deshacer.</p>
+</div>
+<div class="feats">
+<div class="feat">
+<div class="feat-text">
+<h3>Ordena los archivos comprimidos por lo que llevan dentro.</h3>
+<p>Abre zip, 7z, tar, gz, bz2, xz, zst y lz4, y reconoce cada uno por su contenido, no por la extensión. Los RAR, con un programa que ya tengas: unrar, 7-Zip o bsdtar, que viene con macOS.</p>
+<p>Dentro de los archivos encuentra juegos de disco de PlayStation, Saturn, Dreamcast, Sega CD, PC Engine CD y Neo Geo CD. Al aplicar, los extrae a la carpeta de su sistema y comprueba el tamaño y el CRC de cada archivo. Si se corta, lo reanudas; si no te convence, lo deshaces.</p>
+</div>
+<figure>
+<div class="shot"><picture>
+<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/shots/es/organise-dark@1x.webp 1280w, assets/shots/es/organise-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
+<img src="assets/shots/es/organise-light@1x.webp" srcset="assets/shots/es/organise-light@1x.webp 1280w, assets/shots/es/organise-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="El plan de Organizar por sistema para una carpeta de descargas: 19 ROMs en 7 sistemas y tres juegos de disco de Dreamcast, PlayStation y Sega Saturn que se extraen de archivos .zip, cada uno con su número de serie, sus archivos y su tamaño.">
+</picture></div>
+<figcaption class="shot-cap">La simulación: tres juegos de disco que se extraen. Todavía no se ha movido nada.</figcaption>
+</figure>
+</div>
+<div class="feat">
+<div class="feat-text">
+<h3>Aparta las copias repetidas sin borrar nada.</h3>
+<p>Busca el mismo juego guardado más de una vez en un sistema por su contenido, nunca por el nombre. Se queda una copia, elegida con reglas que puedes ordenar, y te dice por qué.</p>
+<p>Las demás van a <code>_Duplicados/</code> dentro de la biblioteca, con sus partidas y su arte, o a la Papelera si lo eliges. Si dos copias tienen partidas distintas, no toca ninguna. Deshacer lo devuelve todo.</p>
+</div>
+<figure>
+<div class="shot"><picture>
+<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/shots/es/duplicates-dark@1x.webp 1280w, assets/shots/es/duplicates-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
+<img src="assets/shots/es/duplicates-light@1x.webp" srcset="assets/shots/es/duplicates-light@1x.webp 1280w, assets/shots/es/duplicates-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="La pantalla Duplicados: 89 copias de más en 88 juegos, un aviso de que el juego con partidas distintas no se tocará y, debajo, la copia de GB Game 01 que se queda sobre la que va a _Duplicados/.">
+</picture></div>
+<figcaption class="shot-cap">Arriba, la copia que se queda; debajo, las que se apartan y adónde van.</figcaption>
+</figure>
+</div>
+<div class="feat">
+<div class="feat-text">
+<h3>Seis vistas, y un icono para cada sistema.</h3>
+<p>Portadas, Detalles, Columnas, Galería, Huecos de arte y Estantes, con ⌘/Ctrl+1 a ⌘/Ctrl+6. Cada biblioteca recuerda su vista, y cada sistema lleva su icono en la barra lateral, los filtros y los informes.</p>
+</div>
+<figure>
+<div class="shot"><picture>
+<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/shots/es/views-dark@1x.webp 1280w, assets/shots/es/views-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
+<img src="assets/shots/es/views-light@1x.webp" srcset="assets/shots/es/views-light@1x.webp 1280w, assets/shots/es/views-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="La biblioteca en la vista Estantes: a la izquierda, los sistemas con su icono; a la derecha, una fila de portadas por sistema, con los huecos sin portada en línea discontinua.">
+</picture></div>
+<figcaption class="shot-cap">La vista Estantes: una fila por sistema.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
 <section class="section" id="formatos" aria-labelledby="formatos-t">
 <div class="wrap">
 <div class="section-head">
@@ -360,6 +412,7 @@ O pulsa «Abrir igualmente» en Ajustes del Sistema › Privacidad y seguridad. 
 <li>Vídeos, mezclas de imágenes, marquesinas o logos.</li>
 <li>Editar metadatos, renombrar o verificar ROMs.</li>
 <li>Funcionar en la propia consola.</li>
+<li>Reconocer discos de PlayStation 2 o 3DO dentro de archivos.</li>
 <li>Aún no se ha probado en consolas reales.</li>
 </ul>
 </div>
@@ -379,6 +432,7 @@ O pulsa «Abrir igualmente» en Ajustes del Sistema › Privacidad y seguridad. 
 <details><summary>¿Necesito una cuenta?</summary><p>No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema.</p></details>
 <details><summary>¿Con qué consolas funciona?</summary><p>Con las que usan los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales.</p></details>
 <details><summary>¿Por qué avisan Gatekeeper y SmartScreen?</summary><p>Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto.</p></details>
+<details><summary>¿Borra los juegos repetidos?</summary><p>No. Los aparta en _Duplicados/, dentro de la biblioteca, o los manda a la Papelera si lo eliges, y Deshacer los devuelve. Si dos copias tienen partidas distintas, no toca ninguna.</p></details>
 <details><summary>¿Envía datos a algún sitio?</summary><p>No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. Las imágenes se recodifican, así que no llevan metadatos.</p></details>
 <details><summary>¿Cómo se actualiza?</summary><p>Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update.</p></details>
 </div>
