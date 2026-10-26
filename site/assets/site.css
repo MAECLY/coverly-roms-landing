@@ -689,6 +689,127 @@ html.motion .replay[aria-disabled='true'] {
     order: -1;
   }
 }
+/* The six views: a drawn window (views.js sets data-v). The same eight
+   tiles move between layouts; each view's lines and slots swap under
+   them. The pressed button's spine is the clock. */
+.vw-box {
+  margin-bottom: 16px;
+  padding: clamp(10px, 2vw, 18px);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-xl);
+  background: var(--cr-surface);
+}
+.vw-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.vw .fr,
+.vw .gd {
+  fill: var(--lp-paper);
+  stroke: var(--cr-border-strong);
+}
+.vw .gd {
+  stroke-width: 0.35;
+}
+.vw .ch {
+  fill: var(--cr-surface);
+}
+.vw :is(.rl, .fld) {
+  fill: none;
+  stroke: var(--cr-border);
+}
+.vw .fo {
+  fill: none;
+  stroke: var(--cr-border-strong);
+}
+.vw :is(.ln, .ic) {
+  fill: var(--cr-border-strong);
+}
+.vw .ic {
+  opacity: 0.6;
+}
+.vw :is(.hl, .vb) {
+  fill: var(--cr-primary-subtle);
+}
+.vw .pr,
+.vw[data-v='0'] .b0,
+.vw[data-v='1'] .b1,
+.vw[data-v='2'] .b2,
+.vw[data-v='3'] .b3,
+.vw[data-v='4'] .b4,
+.vw[data-v='5'] .b5 {
+  fill: var(--cr-primary);
+}
+.vw .ap {
+  fill: var(--cr-slot-applied-run);
+}
+.vw .tint {
+  fill: currentColor;
+  fill-opacity: 0.5;
+}
+.vw .dsh {
+  fill: none;
+  stroke: var(--cr-slot-missing);
+  stroke-dasharray: 2 1.5;
+}
+.vw .gm {
+  color: var(--cr-slot-missing);
+}
+.vw .sel {
+  fill: none;
+  stroke: var(--cr-primary);
+  stroke-width: 1.5;
+}
+.vw .rule {
+  stroke: var(--cr-border-strong);
+}
+.vw .cap {
+  stroke: var(--cr-slot-applied);
+  stroke-width: 3;
+}
+.vw .vd {
+  opacity: 0;
+}
+.vw[data-v='0'] .v0,
+.vw[data-v='1'] .v1,
+.vw[data-v='2'] .v2,
+.vw[data-v='3'] .v3,
+.vw[data-v='4'] .v4,
+.vw[data-v='5'] .v5 {
+  opacity: 1;
+}
+.vw-ctl button {
+  position: relative;
+}
+/* Phones: Columns keeps its panes and picked rows, not their lists. */
+@media (max-width: 599px) {
+  .vw .v2f {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .vw .vt {
+    transition: transform 800ms var(--cr-ease-ink);
+  }
+  html.motion .vw .vd {
+    transition: opacity var(--cr-duration-slow) var(--cr-ease-standard);
+  }
+  html.motion .vw.play [aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 4px;
+    height: 2px;
+    background: var(--cr-slot-applied);
+    transform-origin: 0 50%;
+    animation: rl-spine 3s linear both;
+  }
+  html.motion .vw:is(:hover, :focus-within) [aria-pressed='true']::after {
+    animation-play-state: paused;
+  }
+}
 
 /* Layout profiles. */
 .split {
