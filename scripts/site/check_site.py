@@ -164,8 +164,9 @@ SHELF_JS = 5_000
 # release.js alone (raw bytes): the latest release read in the browser
 # (fetch, cache, file-by-file swap) and the copy buttons. Raised to 6,500 for
 # the page built before the first release: the wording swap and the one
-# installer for the visitor's system.
-RELEASE_JS = 6_500
+# installer for the visitor's system. Raised to 6,800 for that installer's
+# two names: the release name and the one releases up to 0.2.0 used.
+RELEASE_JS = 6_800
 # metrics.js alone (raw bytes): downloads and stars read in the browser
 # (paged fetch, cache, the localized label). Kept out of release.js so that
 # file keeps its cap.
