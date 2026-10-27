@@ -59,7 +59,7 @@
 </script>
 <!-- release:begin -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","softwareVersion":"{{release.version}}","datePublished":"{{release.date}}","releaseNotes":"{{release.notes_url}}","downloadUrl":["{{release.macos_universal.url}}","{{release.windows_x64.url}}","{{release.linux_x64_appimage.url}}","{{release.linux_arm64_appimage.url}}"]}
+{"@context":"https://schema.org","@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","softwareVersion":"{{release.version}}","datePublished":"{{release.date}}","releaseNotes":"{{release.notes_url}}","downloadUrl":["{{release.macos_arm.url}}","{{release.windows_x64.url}}","{{release.linux_x64_appimage.url}}","{{release.linux_arm64_appimage.url}}"]}
 </script>
 <!-- release:end -->
 </head>
@@ -352,8 +352,8 @@
 <p>Version <span data-rel="version">{{release.version}}</span>, released <span data-rel="date">{{release.date_en}}</span>. Free, for good.</p>
 </div>
 <div class="dl-grid" data-reveal>
-<div class="dl-card" data-os="mac"><span class="mine">Your computer</span><h3>macOS</h3><p class="req">macOS 11 or later, Apple silicon and Intel</p><a class="btn btn-primary" data-asset href="{{release.macos_universal.url}}">Download .dmg ({{release.macos_universal.mib_en}}&nbsp;MiB)</a></div>
-<div class="dl-card" data-os="win"><span class="mine">Your computer</span><h3>Windows</h3><p class="req">Windows 10 and 11, x64</p><a class="btn btn-primary" data-asset href="{{release.windows_x64.url}}">Download installer ({{release.windows_x64.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.windows_x64_msi.url}}">Or the .msi ({{release.windows_x64_msi.mib_en}}&nbsp;MiB)</a></div>
+<div class="dl-card" data-os="mac"><span class="mine">Your computer</span><h3>macOS</h3><!-- noasset:macos_intel:begin --><p class="req">macOS 11 or later, Apple silicon and Intel</p><a class="btn btn-primary" data-asset href="{{release.macos_arm.url}}">Download .dmg ({{release.macos_arm.mib_en}}&nbsp;MiB)</a><!-- noasset:macos_intel:end --><!-- asset:macos_intel:begin --><p class="req">macOS 11 or later</p><a class="btn btn-primary" data-asset href="{{release.macos_arm.url}}">Download for Apple silicon (.dmg, {{release.macos_arm.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.macos_intel.url}}">Or for an Intel Mac (.dmg, {{release.macos_intel.mib_en}}&nbsp;MiB)</a><!-- asset:macos_intel:end --></div>
+<div class="dl-card" data-os="win"><span class="mine">Your computer</span><h3>Windows</h3><!-- noasset:windows_arm:begin --><p class="req">Windows 10 and 11, x64</p><a class="btn btn-primary" data-asset href="{{release.windows_x64.url}}">Download installer ({{release.windows_x64.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.windows_x64_msi.url}}">Or the .msi ({{release.windows_x64_msi.mib_en}}&nbsp;MiB)</a><!-- noasset:windows_arm:end --><!-- asset:windows_arm:begin --><p class="req">Windows 10 and 11 (x64), Windows 11 (ARM64)</p><a class="btn btn-primary" data-asset href="{{release.windows_x64.url}}">Download installer (x64, {{release.windows_x64.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.windows_x64_msi.url}}">Or the .msi (x64, {{release.windows_x64_msi.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.windows_arm.url}}">Or the ARM64 installer ({{release.windows_arm.mib_en}}&nbsp;MiB)</a><!-- asset:windows_arm:end --><!-- asset:windows_arm_msi:begin --><a class="alt" data-asset href="{{release.windows_arm_msi.url}}">Or the ARM64 .msi ({{release.windows_arm_msi.mib_en}}&nbsp;MiB)</a><!-- asset:windows_arm_msi:end --></div>
 <div class="dl-card" data-os="linux"><span class="mine">Your computer</span><h3>Linux x64</h3><p class="req">AppImage or .deb package</p><a class="btn btn-primary" data-asset href="{{release.linux_x64_appimage.url}}">Download AppImage ({{release.linux_x64_appimage.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.linux_x64_deb.url}}">Or the .deb ({{release.linux_x64_deb.mib_en}}&nbsp;MiB)</a></div>
 <div class="dl-card" data-os="linux"><span class="mine">Your computer</span><h3>Linux ARM64</h3><p class="req">AppImage or .deb package</p><a class="btn btn-primary" data-asset href="{{release.linux_arm64_appimage.url}}">Download AppImage ({{release.linux_arm64_appimage.mib_en}}&nbsp;MiB)</a><a class="alt" data-asset href="{{release.linux_arm64_deb.url}}">Or the .deb ({{release.linux_arm64_deb.mib_en}}&nbsp;MiB)</a></div>
 </div>
@@ -363,6 +363,7 @@
 <li><a data-asset href="{{release.cli_macos_arm64.url}}">macOS Apple silicon</a></li>
 <li><a data-asset href="{{release.cli_macos_x64.url}}">macOS Intel</a></li>
 <li><a data-asset href="{{release.cli_windows_x64.url}}">Windows x64</a></li>
+<!-- asset:cli_windows_arm64:begin --><li><a data-asset href="{{release.cli_windows_arm64.url}}">Windows ARM64</a></li><!-- asset:cli_windows_arm64:end -->
 <li><a data-asset href="{{release.cli_linux_x64.url}}">Linux x64</a></li>
 <li><a data-asset href="{{release.cli_linux_arm64.url}}">Linux ARM64</a></li>
 </ul>
