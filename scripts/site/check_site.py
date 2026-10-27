@@ -929,7 +929,7 @@ def gate_card_rows(site: Path, r: Report) -> None:
     # cannot add more: a card with more items than that stacks the extra
     # ones on its last row (the Windows card with the ARM64 links did).
     css = re.sub(r"/\*.*?\*/", "", (site / "assets/site.css").read_text(encoding="utf-8"), flags=re.S)
-    m = re.search(r"@supports \(grid-template-rows: subgrid\) \{\s*\.dl-card \{[^}]*grid-row: span (\d+);", css)
+    m = re.search(r"@supports \(grid-template-rows: subgrid\) \{[^@]*?\.dl-card \{[^}]*grid-row: span (\d+);", css)
     if not m:
         r.fail("release", "site.css: no subgrid .dl-card rule with grid-row: span N")
         return
