@@ -104,13 +104,13 @@ opens a pull request when anything changed.
 ## Local preview and checks
 
 ```bash
-make site                                            # before the first release
-make site RELEASE=scripts/site/fixtures/release.json # with a (fake) release, names up to v0.2.0
+make site                                                       # before the first release
+make site RELEASE=scripts/site/fixtures/release.json            # with a (fake) release, names up to v0.2.0
 make site RELEASE=scripts/site/fixtures/release-new.json        # release names, Intel and ARM64
 make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # release names, no Windows ARM64
-make site SITE_PORT=8111                             # another port (default 8080)
-make build                                           # what Vercel builds, into target/site
-make check                                           # every gate, both states
+make site SITE_PORT=8111                                        # another port (default 8080)
+make build                                                      # what Vercel builds, into target/site
+make check                                                      # every gate, on the four builds
 ```
 
 `make check` runs `build_tokens.mjs --check`, `gen_covers.mjs --check`,
