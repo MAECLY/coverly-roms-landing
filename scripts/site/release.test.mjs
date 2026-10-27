@@ -1,7 +1,7 @@
 // Tests for site/assets/release.js, the latest release read in the browser.
 // Node's own runner, no dependencies: `node --test scripts/site/`.
 //
-// Each test fills site/ with apply_release.py (the fixture release v9.8.7, or
+// Each test fills site/ with apply_release.py (a fixture release v9.8.7, or
 // none), lifts the elements release.js touches out of the filled page into a
 // small stand-in DOM, runs release.js in a VM with a fake fetch and
 // sessionStorage, and looks at what it changed.
@@ -16,17 +16,24 @@ import vm from 'node:vm';
 
 const ROOT = new URL('../../', import.meta.url).pathname;
 const JS = readFileSync(join(ROOT, 'site/assets/release.js'), 'utf8');
-const FIXTURE = JSON.parse(readFileSync(join(ROOT, 'scripts/site/fixtures/release.json'), 'utf8'));
+// The fixture releases: the names releases up to v0.2.0 used ('release'),
+// the release names stage-builds publishes ('release-new'), and the same
+// without the optional Windows ARM64 files ('release-new-no-arm').
+const FIXTURES = Object.fromEntries(['release', 'release-new', 'release-new-no-arm'].map((name) =>
+  [name, JSON.parse(readFileSync(join(ROOT, `scripts/site/fixtures/${name}.json`), 'utf8'))]));
+const FIXTURE = FIXTURES.release;
 const BASE = 'https://github.com/MAECLY/coverly-roms/releases/';
 const PYTHON = process.env.PYTHON || 'python3';
 
 const pages = {};
-function filled(release, lang) {
-  const key = `${release}-${lang}`;
+// The page in `lang` filled with the fixture `fixture` (a FIXTURES name), or
+// with --no-release when it is null.
+function filled(fixture, lang) {
+  const key = `${fixture}-${lang}`;
   if (pages[key]) return pages[key];
   const out = mkdtempSync(join(tmpdir(), 'cr-release-js-'));
   rmSync(out, { recursive: true });
-  const src = release ? ['--release-json', join(ROOT, 'scripts/site/fixtures/release.json')] : ['--no-release'];
+  const src = fixture ? ['--release-json', join(ROOT, `scripts/site/fixtures/${fixture}.json`)] : ['--no-release'];
   execFileSync(PYTHON, ['-I', join(ROOT, 'scripts/site/apply_release.py'), ...src,
     '--repo', 'MAECLY/coverly-roms', '--site', join(ROOT, 'site'), '--out', out], { stdio: 'pipe' });
   pages[key] = readFileSync(join(out, lang === 'es' ? 'index.html' : 'en/index.html'), 'utf8');
@@ -68,10 +75,10 @@ function dom(html, os = 'other') {
   };
 }
 
-// A release `version` made from the fixture, every file renamed and 1 MiB
-// bigger, optionally edited by `edit`.
-function release(version, edit = (r) => r) {
-  const r = JSON.parse(JSON.stringify(FIXTURE).replaceAll('9.8.7', version));
+// A release `version` made from the fixture `fixture`, every file renamed and
+// 1 MiB bigger, optionally edited by `edit`.
+function release(version, edit = (r) => r, fixture = 'release') {
+  const r = JSON.parse(JSON.stringify(FIXTURES[fixture]).replaceAll('9.8.7', version));
   r.published_at = '2027-06-09T10:00:00Z';
   for (const a of r.assets) a.size += 1048576;
   return edit(r);
@@ -109,7 +116,7 @@ async function run(html, answer, store = {}, os = 'other', userAgent = '') {
 
 for (const lang of ['es', 'en']) {
   test(`${lang}: a newer release replaces every download, size, version and date`, async () => {
-    const html = filled(true, lang);
+    const html = filled('release', lang);
     const { links, rel, calls } = await run(html, { status: 200, body: release('9.9.0') });
     assert.equal(calls.length, 1);
     assert.equal(calls[0][0], 'https://api.github.com/repos/MAECLY/coverly-roms/releases/latest');
@@ -130,8 +137,43 @@ for (const lang of ['es', 'en']) {
   });
 }
 
+for (const lang of ['es', 'en']) {
+  test(`${lang}: a new-name page upgrades to a newer new-name release`, async () => {
+    const html = filled('release-new', lang);
+    const { links } = await run(html, { status: 200, body: release('9.9.0', (r) => r, 'release-new') });
+    const hrefs = links.map((a) => a.attrs.href);
+    assert.ok(hrefs.includes(`${BASE}download/v9.9.0/Coverly-ROMs_9.9.0_mac_arm.dmg`));
+    assert.ok(hrefs.includes(`${BASE}download/v9.9.0/Coverly-ROMs_9.9.0_mac_intel.dmg`));
+    assert.ok(hrefs.includes(`${BASE}download/v9.9.0/Coverly-ROMs_9.9.0_windows_arm-setup.exe`));
+    assert.ok(hrefs.includes(`${BASE}download/v9.9.0/Coverly-ROMs_9.9.0_windows_arm.msi`));
+    assert.ok(hrefs.includes(`${BASE}download/v9.9.0/coverly_9.9.0_windows_arm.exe`));
+    for (const h of hrefs) assert.ok(!h.includes('9.8.7'), h);
+  });
+
+  test(`${lang}: an old-name page is left alone by a new-name release`, async () => {
+    const html = filled('release', lang);
+    const before = dom(html).els.map((e) => [e.attrs.href, e.textContent]);
+    const { page } = await run(html, { status: 200, body: release('9.9.0', (r) => r, 'release-new') });
+    assert.deepEqual(page.els.map((e) => [e.attrs.href, e.textContent]), before);
+  });
+
+  test(`${lang}: the new layout drops only the ARM64 links when they are missing`, async () => {
+    const html = filled('release-new-no-arm', lang);
+    assert.ok(html.includes('_mac_intel.dmg'));
+    assert.ok(!html.includes('_windows_arm'));
+    assert.ok(!html.includes('asset:'));
+  });
+
+  test(`${lang}: the legacy layout renders today's macOS and Windows cards`, async () => {
+    const html = filled('release', lang);
+    assert.ok(html.includes('_universal.dmg'));
+    assert.ok(!html.includes('_mac_intel') && !html.includes('_windows_arm') && !html.includes('asset:'));
+    assert.ok(html.includes(lang === 'es' ? 'Apple silicon e Intel' : 'Apple silicon and Intel'));
+  });
+}
+
 test('the same, an older or a malformed release changes nothing', async () => {
-  const html = filled(true, 'en');
+  const html = filled('release', 'en');
   const before = dom(html).els.map((e) => [e.attrs.href, e.textContent]);
   const cases = [
     FIXTURE,
@@ -149,7 +191,7 @@ test('the same, an older or a malformed release changes nothing', async () => {
 });
 
 test('one file missing, empty, not uploaded or elsewhere changes nothing at all', async () => {
-  const html = filled(true, 'es');
+  const html = filled('release', 'es');
   const before = dom(html).els.map((e) => [e.attrs.href, e.textContent]);
   const edits = [
     (a) => a.name.endsWith('arm64.deb') ? null : a,
@@ -163,10 +205,16 @@ test('one file missing, empty, not uploaded or elsewhere changes nothing at all'
     const { page } = await run(html, { status: 200, body });
     assert.deepEqual(page.els.map((e) => [e.attrs.href, e.textContent]), before);
   }
+  // The same with the release names: a new-name page needs its ARM64 files.
+  const fresh = filled('release-new', 'es');
+  const was = dom(fresh).els.map((e) => [e.attrs.href, e.textContent]);
+  const noArm = release('9.9.0', (r) => ({ ...r, assets: r.assets.filter((a) => !a.name.endsWith('_windows_arm-setup.exe')) }), 'release-new');
+  const { page } = await run(fresh, { status: 200, body: noArm });
+  assert.deepEqual(page.els.map((e) => [e.attrs.href, e.textContent]), was);
 });
 
 test('an API error, a rate limit or no network leaves the built page', async () => {
-  const html = filled(true, 'es');
+  const html = filled('release', 'es');
   const before = dom(html).els.map((e) => [e.attrs.href, e.textContent]);
   for (const answer of [{ status: 403 }, { status: 500 }, new TypeError('offline')]) {
     const { page, store } = await run(html, answer);
@@ -177,7 +225,7 @@ test('an API error, a rate limit or no network leaves the built page', async () 
 
 test('before the first release, a published one shows the hidden note', async () => {
   for (const lang of ['es', 'en']) {
-    const html = filled(false, lang);
+    const html = filled(null, lang);
     const quiet = await run(html, { status: 404 });
     assert.ok(quiet.page.els.find((e) => 'data-rel-new' in e.attrs).hidden, 'still hidden on 404');
     const { page, rel } = await run(html, { status: 200, body: release('0.1.0') });
@@ -195,16 +243,26 @@ test('before the first release, a published one shows the hidden note', async ()
 });
 
 test('before the first release, the installer for this system is offered', async () => {
-  const cases = [
-    ['mac', '', 'Coverly.ROMs_0.1.0_universal.dmg', 'macOS', ['19,1', '19.1']],
-    ['win', '', 'Coverly.ROMs_0.1.0_x64-setup.exe', 'Windows', ['10,1', '10.1']],
-    ['linux', 'X11; Linux x86_64', 'Coverly.ROMs_0.1.0_amd64.AppImage', 'Linux x64', ['82,0', '82.0']],
-    ['linux', 'X11; Linux aarch64', 'Coverly.ROMs_0.1.0_aarch64.AppImage', 'Linux ARM64', ['81,0', '81.0']],
-  ];
+  // fixture -> [os, user agent, file, label, MiB es/en]: the names releases
+  // up to v0.2.0 used, then the release names (same sizes).
+  const schemes = {
+    release: [
+      ['mac', '', 'Coverly.ROMs_0.1.0_universal.dmg', 'macOS', ['19,1', '19.1']],
+      ['win', '', 'Coverly.ROMs_0.1.0_x64-setup.exe', 'Windows', ['10,1', '10.1']],
+      ['linux', 'X11; Linux x86_64', 'Coverly.ROMs_0.1.0_amd64.AppImage', 'Linux x64', ['82,0', '82.0']],
+      ['linux', 'X11; Linux aarch64', 'Coverly.ROMs_0.1.0_aarch64.AppImage', 'Linux ARM64', ['81,0', '81.0']],
+    ],
+    'release-new': [
+      ['mac', '', 'Coverly-ROMs_0.1.0_mac_arm.dmg', 'macOS', ['19,1', '19.1']],
+      ['win', '', 'Coverly-ROMs_0.1.0_windows_x64-setup.exe', 'Windows', ['10,1', '10.1']],
+      ['linux', 'X11; Linux x86_64', 'Coverly-ROMs_0.1.0_linux_x64.AppImage', 'Linux x64', ['82,0', '82.0']],
+      ['linux', 'X11; Linux aarch64', 'Coverly-ROMs_0.1.0_linux_arm.AppImage', 'Linux ARM64', ['81,0', '81.0']],
+    ],
+  };
   for (const lang of ['es', 'en']) {
-    const html = filled(false, lang);
-    for (const [os, ua, file, label, mib] of cases) {
-      const { page, rel } = await run(html, { status: 200, body: release('0.1.0') }, {}, os, ua);
+    const html = filled(null, lang);
+    for (const [fixture, cases] of Object.entries(schemes)) for (const [os, ua, file, label, mib] of cases) {
+      const { page, rel } = await run(html, { status: 200, body: release('0.1.0', (r) => r, fixture) }, {}, os, ua);
       const offer = page.els.find((e) => 'data-rel-file' in e.attrs);
       assert.equal(offer.hidden, false, `${lang} ${os} ${ua}`);
       assert.equal(offer.attrs.href, `${BASE}download/v0.1.0/${file}`);
@@ -219,7 +277,7 @@ test('before the first release, the installer for this system is offered', async
 });
 
 test('the answer is cached for the tab, trimmed to what the page reads', async () => {
-  const html = filled(true, 'en');
+  const html = filled('release', 'en');
   const first = await run(html, { status: 200, body: release('9.9.0') });
   const cached = JSON.parse(first.store['cr-release']);
   assert.equal(cached.r.tag_name, 'v9.9.0');

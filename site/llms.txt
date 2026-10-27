@@ -15,7 +15,7 @@ Version {{release.version}}, published {{release.date}}. Release notes: {{releas
 Checksums: {{release.sha256sums_url}}
 
 Downloads:
-- macOS 11 or later, universal (Apple silicon and Intel): {{release.macos_universal.url}} (about {{release.macos_universal.mib_en}} MiB)
+- macOS 11 or later, Apple silicon (newest release) or universal (releases up to 0.2.0): {{release.macos_arm.url}} (about {{release.macos_arm.mib_en}} MiB). Intel Mac and Windows ARM64 downloads, when the release has them, are listed on the release page: {{release.notes_url}}
 - Windows 10 and 11 x64, installer: {{release.windows_x64.url}} (about {{release.windows_x64.mib_en}} MiB)
 - Windows 10 and 11 x64, .msi: {{release.windows_x64_msi.url}} (about {{release.windows_x64_msi.mib_en}} MiB)
 - Linux x64 AppImage: {{release.linux_x64_appimage.url}} (about {{release.linux_x64_appimage.mib_en}} MiB)

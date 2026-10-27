@@ -15,17 +15,19 @@ itself, its releases and its issues live in
 You need `python3` and `node` (24 or newer); there is nothing to install.
 
 ```bash
-make site                                            # http://localhost:8080, before the first release
-make site SITE_PORT=8111                             # another port
-make site RELEASE=scripts/site/fixtures/release.json # preview a (fake) release
-make check                                           # every gate, as CI runs it
-make help                                            # all targets
+make site                                                       # http://localhost:8080, before the first release
+make site SITE_PORT=8111                                        # another port
+make site RELEASE=scripts/site/fixtures/release.json            # a (fake) release with the names used up to v0.2.0
+make site RELEASE=scripts/site/fixtures/release-new.json        # the release names, with the Intel and ARM64 files
+make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # the release names, without Windows ARM64
+make check                                                      # every gate, as CI runs it
+make help                                                       # all targets
 ```
 
 `make check` runs the token and cover-sprite staleness checks, the
 `release.js` tests and `scripts/site/check_site.py` (links, ES/EN parity, head
-tags and CSP, budgets, contrast, motion, art, release markers) on both the
-release and the no-release build.
+tags and CSP, budgets, contrast, motion, art, release markers) on four builds:
+the three fixtures above and the no-release state.
 
 ## How it deploys
 
@@ -40,6 +42,30 @@ release and the no-release build.
 - **At runtime,** `site/assets/release.js` reads the latest release in the
   browser and updates the version and the download links if the page was
   built before it.
+
+## Release file names
+
+The landing reads both naming schemes of the app's release files:
+
+- **Release names**, from the release after v0.2.0 on:
+  `Coverly-ROMs_<v>_mac_arm.dmg`, `Coverly-ROMs_<v>_mac_intel.dmg`,
+  `Coverly-ROMs_<v>_windows_x64-setup.exe`, `Coverly-ROMs_<v>_linux_x64.AppImage`,
+  `coverly_<v>_windows_arm.exe`, and so on.
+- **The names releases up to v0.2.0 used**: `Coverly.ROMs_<v>_universal.dmg`,
+  `Coverly.ROMs_<v>_x64-setup.exe`, `Coverly.ROMs_<v>_amd64.AppImage`, ...
+
+`apply_release.py` tries the release name of each download first and the old
+name second, and refuses a release that has both names for the same
+download. The Intel Mac and Windows
+ARM64 links appear only when the release has those files (`asset`/`noasset`
+blocks), so a v0.2.0 build renders the same cards as before. `release.js`
+never mixes the two schemes in the browser: it upgrades a page only to a
+release with the same names, and the deploy hook rebuilds the page for the
+rest.
+
+**Merge order:** merge any change to the expected names here before the app
+publishes a release that uses them. Otherwise the Vercel build fails on the
+unknown files and keeps serving the previous deployment.
 
 ## Brand tokens
 

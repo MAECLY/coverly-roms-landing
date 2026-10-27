@@ -3,9 +3,11 @@
 
   check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics]
 
-Fills site/ twice into a temporary folder with apply_release.py (once with
-scripts/site/fixtures/release.json, once with --no-release) and runs every
-gate on both copies, the way Vercel would publish them (vercel.json →
+Fills site/ four times into a temporary folder with apply_release.py (once
+per fixture in scripts/site/fixtures/: release.json with the names releases
+up to v0.2.0 used, release-new.json with the release names, and
+release-new-no-arm.json without the optional Windows ARM64 files; once with
+--no-release) and runs every gate on each copy, the way Vercel would publish them (vercel.json →
 scripts/site/vercel_build.sh). Ported, in spirit,
 from the Versorium landing checks (tests/landing): the gates that need no
 browser.
@@ -33,8 +35,12 @@ browser.
   release   the live-release layer: both pages load release.js, every
             download link is marked data-asset (release.js swaps only those,
             by file name), the notes, version and date are marked, the
-            "out now" note of the unpublished page starts hidden, and
-            release.js asks only this repository's latest release
+            "out now" note of the unpublished page starts hidden,
+            release.js asks only this repository's latest release, each
+            fixture renders its layout (universal macOS card for the old
+            names; Apple silicon and Intel, plus Windows ARM64 when the
+            release has it, for the new ones) with no asset block comment
+            left over, and a release with both name schemes is refused
   metrics   the public-reach layer: both pages load metrics.js once,
             deferred, each data-metric slot (downloads, stars) is empty and
             hidden in site/ (apply_metrics.py fills it at build time only
@@ -60,7 +66,17 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
 APPLY = ROOT / "scripts/site/apply_release.py"
-FIXTURE = ROOT / "scripts/site/fixtures/release.json"
+# The release fixtures check_site.py builds, besides --no-release: the
+# names releases up to v0.2.0 used (today's cards), the release names
+# stage-builds publishes (split macOS card, Windows ARM64 links), and the
+# release names without the optional Windows ARM64 files.
+FIXTURES = {
+    "release": ROOT / "scripts/site/fixtures/release.json",
+    "release-new": ROOT / "scripts/site/fixtures/release-new.json",
+    "release-new-no-arm": ROOT / "scripts/site/fixtures/release-new-no-arm.json",
+}
+# The variant being checked (a FIXTURES key or "no-release"); main() sets it.
+VARIANT = "release"
 REPO = "MAECLY/coverly-roms"
 HOST = "coverly-roms.maecly.com"
 CSP = (
@@ -148,8 +164,9 @@ SHELF_JS = 5_000
 # release.js alone (raw bytes): the latest release read in the browser
 # (fetch, cache, file-by-file swap) and the copy buttons. Raised to 6,500 for
 # the page built before the first release: the wording swap and the one
-# installer for the visitor's system.
-RELEASE_JS = 6_500
+# installer for the visitor's system. Raised to 6,800 for that installer's
+# two names: the release name and the one releases up to 0.2.0 used.
+RELEASE_JS = 6_800
 # metrics.js alone (raw bytes): downloads and stars read in the browser
 # (paged fetch, cache, the localized label). Kept out of release.js so that
 # file keeps its cap.
@@ -167,7 +184,9 @@ COVERS_SVG = 18_000
 # Linux packages), which Versorium and Pluryprint also carry.
 # Raised to 1,850 for v0.2.0: the "More than covers" section (organise,
 # duplicates, views), a FAQ entry on duplicates and a not-yet line.
-MAX_WORDS = 1_850
+# Raised to 1,900 for the per-chip downloads: the Intel Mac link and the
+# Windows ARM64 installer, .msi and CLI links of the release names.
+MAX_WORDS = 1_900
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)
@@ -840,6 +859,14 @@ def gate_release(site: Path, r: Report) -> None:
     released = any((site / rel).read_text(encoding="utf-8").count("/releases/download/")
                    for rel in PAGES.values())
     for rel in PAGES.values():
+        text = (site / rel).read_text(encoding="utf-8")
+        if "asset:" in text:
+            r.fail("release", f"{rel}: an asset/noasset block comment is left over")
+        intel, arm, universal = "_mac_intel.dmg" in text, "_windows_arm-setup.exe" in text, "_universal.dmg" in text
+        expect = {"release": (False, False, True), "release-new": (True, True, False),
+                  "release-new-no-arm": (True, False, False)}.get(VARIANT)
+        if expect and (intel, arm, universal) != expect:
+            r.fail("release", f"{rel}: layout for {VARIANT} is intel={intel} arm={arm} universal={universal}, expected {expect}")
         doc = parse(site / rel)
         src = [a.get("src", "") for a, _ in doc.scripts if "src" in a]
         js_src = [s for s in src if s.endswith("assets/release.js")]
@@ -880,14 +907,88 @@ def gate_release(site: Path, r: Report) -> None:
             if "data-copy" in a and (t != "button" or a.get("type") != "button" or "hidden" not in a):
                 r.fail("release", f"{rel}: [data-copy] must be a hidden <button type=button>")
     # The behaviour itself: scripts/site/release.test.mjs runs release.js
-    # against both filled pages (once, with the release build).
+    # against the filled pages (once, with the legacy release build; it
+    # fills every fixture itself).
     node = shutil.which("node")
-    if released and node and RELEASE_TEST.is_file():
+    if VARIANT != "release":
+        pass
+    elif released and node and RELEASE_TEST.is_file():
         run = subprocess.run([node, "--test", str(RELEASE_TEST)], capture_output=True, text=True)
         if run.returncode != 0:
             r.fail("release", f"release.test.mjs:\n{run.stdout[-2000:]}{run.stderr[-1000:]}")
     elif released:
         r.note("release", "node not found: release.test.mjs skipped")
+    if VARIANT == "release":
+        gate_ambiguous(r)
+        gate_asset_blocks(r)
+
+
+def gate_asset_blocks(r: Report) -> None:
+    # apply_release.py's asset/noasset blocks: kept or dropped by slot, and
+    # every misuse refused, so a typo can never show both layouts at once.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("apply_release", APPLY)
+    ar = importlib.util.module_from_spec(spec)
+    sys.dont_write_bytecode = True  # no __pycache__ in the working tree
+    spec.loader.exec_module(ar)
+    intel = {"macos_intel.url": "x"}
+    a, n = "<!-- asset:macos_intel:{} -->", "<!-- noasset:macos_intel:{} -->"
+    both = f"<{a.format('begin')}I{a.format('end')}{n.format('begin')}U{n.format('end')}>"
+    for vals, want in ((intel, "<I>"), ({}, "<U>")):
+        try:
+            got = ar.asset_blocks(both, vals, "t.html")
+        except ar.ReleaseError as e:
+            got = f"error: {e}"
+        if got != want:
+            r.fail("release", f"asset blocks with {sorted(vals)} render {got!r}, expected {want!r}")
+    bad = {
+        "a required slot": "<!-- asset:macos_arm:begin -->x<!-- asset:macos_arm:end -->",
+        "an unknown slot": "<!-- asset:macos_m9:begin -->x<!-- asset:macos_m9:end -->",
+        "nested blocks": a.format("begin") + "<!-- asset:windows_arm:begin -->x"
+        "<!-- asset:windows_arm:end -->" + a.format("end"),
+        "a mismatched end": a.format("begin") + "x" + n.format("end"),
+        "an unclosed begin": a.format("begin") + "x",
+        "a stray end": "x" + a.format("end"),
+        "a malformed comment": "<!-- asset:MACOS_INTEL:begin -->x<!-- asset:MACOS_INTEL:end -->",
+        "a misspelt edge": "<!-- noasset:macos_intel:start -->x<!-- noasset:macos_intel:stop -->",
+    }
+    for what, text in bad.items():
+        try:
+            ar.asset_blocks(text, intel, "t.html")
+        except ar.ReleaseError:
+            continue
+        r.fail("release", f"asset blocks accept {what}: {text!r}")
+    # Outside .html (llms.txt, JSON) no block is allowed, even a malformed one.
+    for text in (a.format("begin") + "x" + a.format("end"), "<!-- asset:Macos:begin -->"):
+        with tempfile.TemporaryDirectory() as tmp:
+            site = Path(tmp) / "site"
+            site.mkdir()
+            (site / "llms.txt").write_text(text, encoding="utf-8")
+            try:
+                ar.apply(None, REPO, site, Path(tmp) / "out")
+            except ar.ReleaseError:
+                continue
+        r.fail("release", f"an asset block in llms.txt is accepted: {text!r}")
+
+
+def gate_ambiguous(r: Report) -> None:
+    # One release with both naming schemes for a download is ambiguous:
+    # apply_release.py must refuse it rather than pick one.
+    rel = json.loads(FIXTURES["release-new"].read_text(encoding="utf-8"))
+    name = "Coverly.ROMs_9.8.7_universal.dmg"
+    rel["assets"].append({
+        "name": name, "state": "uploaded", "size": 18_934_784,
+        "browser_download_url": f"{DOWNLOAD}9.8.7/{name}",
+    })
+    with tempfile.TemporaryDirectory() as tmp:
+        fixture = Path(tmp) / "both.json"
+        fixture.write_text(json.dumps(rel), encoding="utf-8")
+        run = subprocess.run(
+            [sys.executable, "-I", str(APPLY), "--repo", REPO, "--site", str(ROOT / "site"),
+             "--out", str(Path(tmp) / "out"), "--release-json", str(fixture)],
+            capture_output=True, text=True)
+    if run.returncode != 1 or "several assets for macos_arm" not in run.stderr:
+        r.fail("release", f"a release with both name schemes is not refused: exit {run.returncode}, {run.stderr.strip()!r}")
 
 
 def gate_metrics(site: Path, r: Report) -> None:
@@ -926,9 +1027,9 @@ GATES = {
 }
 
 
-def build(site: Path, out: Path, release: bool) -> None:
+def build(site: Path, out: Path, fixture: Path | None) -> None:
     args = [sys.executable, "-I", str(APPLY), "--repo", REPO, "--site", str(site), "--out", str(out)]
-    args += ["--release-json", str(FIXTURE)] if release else ["--no-release"]
+    args += ["--release-json", str(fixture)] if fixture is not None else ["--no-release"]
     subprocess.run(args, check=True, stdout=subprocess.DEVNULL)
 
 
@@ -942,11 +1043,19 @@ def main(argv: list[str]) -> int:
     unknown = [g for g in only if g not in GATES]
     if unknown:
         p.error(f"unknown gate(s): {', '.join(unknown)}")
+    global VARIANT
     failed = 0
+    variants: list[tuple[str, Path | None]] = [*FIXTURES.items(), ("no-release", None)]
     with tempfile.TemporaryDirectory() as tmp:
-        for variant, release in (("release", True), ("no-release", False)):
+        for variant, fixture in variants:
+            VARIANT = variant
             out = Path(tmp) / variant
-            build(a.site, out, release)
+            try:
+                build(a.site, out, fixture)
+            except subprocess.CalledProcessError:
+                print(f"FAIL {variant} apply_release.py refused the build")
+                failed += 1
+                continue
             r = Report()
             for g in only:
                 GATES[g](out, r)

@@ -31,9 +31,15 @@ the "not published yet" state.
 - with `--release-json` (the `GET /repos/MAECLY/coverly-roms/releases/latest`
   record), keeps the release blocks and fills every marker; it refuses a
   draft or pre-release, a tag that is not `v<SemVer>`, and any missing,
-  ambiguous, empty or misplaced download (the app bundles are matched by
-  pattern, like the app repository's `release_tools.py build_artifacts()`, so the
-  `Coverly.ROMs_<v>_…` prefix that `release.yml` stages is not hardcoded);
+  ambiguous, empty or misplaced download. Each download slot has a list of
+  patterns: the release name first (`Coverly-ROMs_<v>_mac_arm.dmg`,
+  `coverly_<v>_linux_x64`, …, the names `release.yml` stages after v0.2.0)
+  and the name releases up to v0.2.0 used second (`Coverly.ROMs_<v>_universal.dmg`,
+  …); a release with both names for the same download is refused. The optional slots
+  (Intel Mac, Windows ARM64) fill `asset:<slot>` blocks only when the release
+  has the file, and `noasset:<slot>` blocks keep the v0.2.0 layout otherwise.
+  Merge any change to these names before the app publishes a release that
+  uses them, or the Vercel build fails and keeps the previous deployment;
 - with `--no-release`, keeps the norelease blocks and drops every marker.
 
 ## How it deploys
@@ -99,7 +105,9 @@ opens a pull request when anything changed.
 
 ```bash
 make site                                            # before the first release
-make site RELEASE=scripts/site/fixtures/release.json # with a (fake) release
+make site RELEASE=scripts/site/fixtures/release.json # with a (fake) release, names up to v0.2.0
+make site RELEASE=scripts/site/fixtures/release-new.json        # release names, Intel and ARM64
+make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # release names, no Windows ARM64
 make site SITE_PORT=8111                             # another port (default 8080)
 make build                                           # what Vercel builds, into target/site
 make check                                           # every gate, both states
@@ -107,7 +115,7 @@ make check                                           # every gate, both states
 
 `make check` runs `build_tokens.mjs --check`, `gen_covers.mjs --check`,
 `node --test` on `scripts/site/*.test.mjs` and `check_site.py`, which builds
-both states and checks: required files, `tokens.css` against a fresh build of
+four variants (the three fixtures and the no-release state) and checks: required files, `tokens.css` against a fresh build of
 `design/tokens.json`, `vercel.json` (output folder, build command, security
 headers), action pins in this repository's workflows, internal links and
 `#fragments`, Spanish/English structural parity, FAQ JSON-LD against the

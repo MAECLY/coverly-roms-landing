@@ -57,18 +57,20 @@
   }
 
   /* Built before the first release: the one installer for this system, by
-     its exact name. A phone, an unknown system or a missing file keeps the
+     its exact name, the release name first and the name releases up to 0.2.0
+     used second. A phone, an unknown system or a missing file keeps the
      link to the release page beside it. */
   function offer(files, tag, v) {
     var os = document.documentElement.getAttribute("data-os");
     var arm = /aarch64|arm64/i.test(navigator.userAgent || "");
-    var end = { mac: "_universal.dmg", win: "_x64-setup.exe",
-      linux: arm ? "_aarch64.AppImage" : "_amd64.AppImage" }[os];
-    var name = "Coverly.ROMs_" + v + end, f = end && files[name];
+    var ends = { mac: ["_mac_arm.dmg", "_universal.dmg"], win: ["_windows_x64-setup.exe", "_x64-setup.exe"],
+      linux: arm ? ["_linux_arm.AppImage", "_aarch64.AppImage"] : ["_linux_x64.AppImage", "_amd64.AppImage"] }[os];
+    var prefix = ["Coverly-ROMs_", "Coverly.ROMs_"], name, f, i;
+    for (i = 0; ends && i < 2 && !f; i++) { name = prefix[i] + v + ends[i]; f = files[name]; }
     var url = BASE + "download/" + tag + "/" + name;
     if (!f || f.state !== "uploaded" || !(f.size > 0) || f.browser_download_url !== url) return;
     var mib = (f.size / 1048576).toFixed(1), say = { mac: "macOS", win: "Windows", linux: "Linux" }[os];
-    var btn = all("a[data-rel-file]"), part, i;
+    var btn = all("a[data-rel-file]"), part;
     for (i = 0; i < btn.length; i++) btn[i].setAttribute("href", url);
     part = all('[data-rel="os"]');
     for (i = 0; i < part.length; i++) part[i].textContent = say + (os === "linux" ? (arm ? " ARM64" : " x64") : "");
