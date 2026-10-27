@@ -918,9 +918,28 @@ def gate_release(site: Path, r: Report) -> None:
             r.fail("release", f"release.test.mjs:\n{run.stdout[-2000:]}{run.stderr[-1000:]}")
     elif released:
         r.note("release", "node not found: release.test.mjs skipped")
+    gate_card_rows(site, r)
     if VARIANT == "release":
         gate_ambiguous(r)
         gate_asset_blocks(r)
+
+
+def gate_card_rows(site: Path, r: Report) -> None:
+    # With subgrid each .dl-card spans a fixed number of the grid's rows and
+    # cannot add more: a card with more items than that stacks the extra
+    # ones on its last row (the Windows card with the ARM64 links did).
+    css = re.sub(r"/\*.*?\*/", "", (site / "assets/site.css").read_text(encoding="utf-8"), flags=re.S)
+    m = re.search(r"@supports \(grid-template-rows: subgrid\) \{[^@]*?\.dl-card \{[^}]*grid-row: span (\d+);", css)
+    if not m:
+        r.fail("release", "site.css: no subgrid .dl-card rule with grid-row: span N")
+        return
+    span = int(m.group(1))
+    for rel in PAGES.values():
+        text = (site / rel).read_text(encoding="utf-8")
+        for card in re.findall(r'<div class="dl-card"[^>]*>(.*?)</div>', text, flags=re.S):
+            items = len(re.findall(r"<(?:h3|p|a)\b", card))
+            if items > span:
+                r.fail("release", f"{rel}: a .dl-card has {items} grid items, its subgrid spans {span} rows")
 
 
 def gate_asset_blocks(r: Report) -> None:

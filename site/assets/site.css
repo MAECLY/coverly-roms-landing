@@ -996,16 +996,30 @@ tbody th {
 /* Equal cards, actions on one line: the requirement line takes the slack,
    so the button and the alternative sit at the bottom of every card. With
    subgrid the four cards share their rows, so the buttons also match in
-   height when one label wraps. */
+   height when one label wraps. A subgrid cannot add rows: span the fullest
+   card (Windows, 6 items). Spacing is in margins, not gaps (a gap would
+   stay between a card's unused rows), so those rows collapse. */
 .dl-card .req {
   flex-grow: 1;
 }
 @supports (grid-template-rows: subgrid) {
+  .dl-grid {
+    row-gap: 0;
+    margin-bottom: -14px;
+  }
   .dl-card {
     display: grid;
-    grid-row: span 4;
+    grid-row: span 6;
     grid-template-rows: subgrid;
-    row-gap: 6px;
+    row-gap: 0;
+    margin-bottom: 14px;
+  }
+  .dl-card .req,
+  .dl-card .alt {
+    margin-top: 6px;
+  }
+  .dl-card .btn {
+    margin-top: 10px;
   }
   .dl-card .alt {
     justify-self: start;
