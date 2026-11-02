@@ -10,7 +10,9 @@
   var html = document.documentElement;
   var stops = [];
 
-  /* Off-origin http(s) requests seen by resource timing. */
+  /* Off-origin requests, minus the page's own fetches to OWN_HOSTS
+     (CSP connect-src; check_site.py keeps both equal). */
+  var OWN_HOSTS = ["api.github.com"];
   function counter() {
     var out = document.querySelector(".req-count"), ext = document.querySelector(".proof-ext");
     if (!out || !window.PerformanceObserver || !performance.getEntriesByType) return;
@@ -19,7 +21,8 @@
       list.forEach(function (e) {
         try {
           var u = new URL(e.name);
-          if (/^https?:$/.test(u.protocol) && u.origin !== location.origin && !seen[e.name]) seen[e.name] = ++n;
+          var own = OWN_HOSTS.indexOf(u.hostname) > -1 && /^(fetch|xmlhttprequest)$/.test(e.initiatorType);
+          if (/^https?:$/.test(u.protocol) && u.origin !== location.origin && !own && !seen[e.name]) seen[e.name] = ++n;
         } catch (x) {}
       });
       out.textContent = n;
