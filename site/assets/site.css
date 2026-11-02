@@ -689,7 +689,7 @@ html.motion .replay[aria-disabled='true'] {
     order: -1;
   }
 }
-/* The six views: a drawn window (views.js sets data-v). The same eight
+/* The six views: a drawn window (deck.js sets data-v). The same eight
    tiles move between layouts; each view's lines and slots swap under
    them. The pressed button's spine is the clock. */
 .vw-box {
@@ -795,7 +795,7 @@ html.motion .replay[aria-disabled='true'] {
   html.motion .vw .vd {
     transition: opacity var(--cr-duration-slow) var(--cr-ease-standard);
   }
-  html.motion .vw.play [aria-pressed='true']::after {
+  html.motion [data-deck].play [data-deck-ctl] [aria-pressed='true']::after {
     content: '';
     position: absolute;
     left: 10px;
@@ -804,9 +804,9 @@ html.motion .replay[aria-disabled='true'] {
     height: 2px;
     background: var(--cr-slot-applied);
     transform-origin: 0 50%;
-    animation: rl-spine 3s linear both;
+    animation: rl-spine var(--deck-ms, 3s) linear both;
   }
-  html.motion .vw:is(:hover, :focus-within) [aria-pressed='true']::after {
+  html.motion [data-deck]:is(:hover, :focus-within) [aria-pressed='true']::after {
     animation-play-state: paused;
   }
 }

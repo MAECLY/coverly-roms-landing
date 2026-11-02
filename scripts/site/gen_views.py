@@ -3,13 +3,13 @@
 
   gen_views.py [--site site]
 
-Rewrites <figure class="vw"> in site/index.html and site/en/index.html:
+Rewrites <figure class="vw"> in both homes and both /features pages:
 a drawn app window (toolbar, sidebar with system glyphs) whose eight
 tiles (covers from assets/art/covers.svg, two missing slots from kit.svg)
 sit in the Covers layout, plus each view's lines and slots, and the view
 buttons with the app's view names (locales/{es,en}/ui.json, layouts.*).
-It prints the tile layout table that site/assets/views.js carries in L;
-paste it there when the numbers change.
+The tile layout table goes in the figure's data-deck-tiles, which
+site/assets/deck.js reads.
 """
 
 import sys, re
@@ -123,7 +123,7 @@ def svg(pre):
             + deco() + tiles(pre) + '</svg>')
 
 TXT = {
- "es": dict(pre="", group="Vistas de la biblioteca",
+ "es": dict(group="Vistas de la biblioteca",
    label="Ilustración: una ventana de Coverly ROMs con los sistemas a la izquierda. Las mismas portadas cambian de sitio al pasar por las seis vistas.",
    views=[("Portadas", "Portadas: una cuadrícula, con un hueco discontinuo donde falta la portada."),
           ("Detalles", "Detalles: una tabla con las columnas que eliges y el arte que tiene cada juego."),
@@ -132,7 +132,7 @@ TXT = {
           ("Huecos de arte", "Huecos de arte: portada, pantalla de título y captura, una al lado de otra."),
           ("Estantes", "Estantes: una fila por sistema.")],
 ),
- "en": dict(pre="../", group="Library views",
+ "en": dict(group="Library views",
    label="Illustration: a Coverly ROMs window with the systems on the left. The same covers move into place as it steps through the six views.",
    views=[("Covers", "Covers: a grid, with a dashed slot where a cover is missing."),
           ("Details", "Details: a table with the columns you pick and the art each game has."),
@@ -143,24 +143,30 @@ TXT = {
 ),
 }
 
-def figure(d):
+def table():
+    return ";".join(",".join(f"{g(x)} {g(y)} {g(s)}".replace("0.", ".") for x, y, s in v) for v in L)
+
+def figure(d, pre):
+    d = dict(d, pre=pre)
     bs = "".join(f'<button class="btn btn-small" type="button" aria-pressed="{"true" if k == 0 else "false"}" data-say="{say}" hidden>{name}</button>'
                  for k, (name, say) in enumerate(d["views"]))
-    return (f'<figure class="vw" data-v="0">\n<div class="vw-box" role="img" aria-label="{d["label"]}">{svg(d["pre"])}</div>\n'
-            f'<div class="dm-ctl vw-ctl" role="group" aria-label="{d["group"]}">{bs}</div>\n'
-            f'<figcaption class="demo-status vw-say">{d["views"][0][1]}</figcaption>\n</figure>')
+    return (f'<figure class="vw" data-v="0" data-deck data-deck-tiles="{table()}">\n<div class="vw-box" role="img" aria-label="{d["label"]}">{svg(d["pre"])}</div>\n'
+            f'<div class="dm-ctl vw-ctl" data-deck-ctl role="group" aria-label="{d["group"]}">{bs}</div>\n'
+            f'<figcaption class="demo-status vw-say" data-deck-say>{d["views"][0][1]}</figcaption>\n</figure>')
 
 def main(argv: list[str]) -> int:
     site = Path(argv[argv.index("--site") + 1]) if "--site" in argv else Path("site")
-    for lang, rel in (("es", "index.html"), ("en", "en/index.html")):
+    for lang, rel, pre in (("es", "index.html", ""), ("en", "en/index.html", "../"),
+                           ("es", "features/index.html", "../"), ("en", "en/features/index.html", "../../")):
         p = site / rel
+        if not p.is_file() and "features" in rel:
+            continue
         s = p.read_text(encoding="utf-8")
         m = re.search(r'<figure class="vw".*?</figure>', s, re.S)
         if not m:
             print(f"gen_views: no <figure class=\"vw\"> in {p}", file=sys.stderr)
             return 1
-        p.write_text(s[:m.start()] + figure(TXT[lang]) + s[m.end():], encoding="utf-8")
-    print(";".join(",".join(f"{g(x)} {g(y)} {g(s)}".replace("0.", ".") for x, y, s in v) for v in L))
+        p.write_text(s[:m.start()] + figure(TXT[lang], pre) + s[m.end():], encoding="utf-8")
     return 0
 
 

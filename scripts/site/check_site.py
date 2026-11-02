@@ -28,7 +28,7 @@ browser.
             keyframe or transition on layout properties, scroll-linked
             effects only inside @supports, motion never hides text or
             images, no autoplaying video, motion.js and shelf.js sizes,
-            shelf.js and views.js join halt() through the cr-halt event
+            shelf.js and deck.js join halt() through the cr-halt event
   art       decorative SVG (inline svg.art and assets/art/*.svg): hidden
             from assistive tech, sized, no <text>, raster, script or
             foreignObject, and the cover sprite under its cap
@@ -91,7 +91,7 @@ REQUIRED = [
     "en/site.webmanifest", "favicon.ico", "assets/site.css", "assets/theme.js",
     "assets/motion.js", "assets/release.js", "assets/metrics.js", "assets/favicon.svg", "assets/icon-192.png",
     "assets/icon-512.png", "assets/apple-touch-icon.png", "assets/og.png",
-    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/views.js",
+    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/deck.js",
     "assets/art/covers.svg", "assets/art/kit.svg", "assets/art/grain.svg",
     "assets/art/weave.svg",
     "assets/fonts/archivo-variable.woff2",
@@ -123,7 +123,11 @@ BUDGET = {
     # that section's Shelves screenshot (scripts/site/gen_views.py: window
     # chrome, eight tiles, each view's lines and slots, six view buttons),
     # about 6.5 KB raw / 1.6 KB gz.
-    "page": (74_000, 17_500),
+    # Raised to 78,000 / 18,600 for the redesign (docs/landing-redesign-plan.md
+    # §7): the six views' layout table moves into data-deck-tiles, and the
+    # home gains #terminal, the source cascade, the archive that opens, five
+    # comparison rows and #siguiente, minus the pinned four-step desk.
+    "page": (78_000, 18_600),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
     # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
@@ -145,8 +149,11 @@ BUDGET = {
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
     # 23,000 / 7,800 for its installer offer before the first release, then
     # to 26,000 / 8,400 for metrics.js (see METRICS_JS), then to
-    # 29,000 / 9,100 for views.js (see VIEWS_JS).
-    "scripts": (29_000, 9_100),
+    # 29,000 / 9,100 for views.js (now deck.js, see DECK_JS), then to
+    # 31,500 / 9,900 for the redesign (docs/landing-redesign-plan.md §7):
+    # deck.js drives the steps and terminal too, toc.js for /features, and
+    # motion.js types the terminal scene by scene.
+    "scripts": (31_500, 9_900),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
@@ -171,10 +178,11 @@ RELEASE_JS = 6_800
 # (paged fetch, cache, the localized label). Kept out of release.js so that
 # file keeps its cap.
 METRICS_JS = 3_400
-# views.js alone (raw bytes): the six-views window (buttons, the layout
-# table of its eight tiles, the paused-when-unseen clock). Kept out of
-# shelf.js so that file keeps its cap.
-VIEWS_JS = 3_000
+# deck.js alone (raw bytes): buttons that switch a figure (the six-views
+# window, the four steps, the terminal scenes), the tile layout read from
+# data-deck-tiles and the paused-when-unseen clock. Was views.js (3,000),
+# which carried the layout table itself.
+DECK_JS = 3_600
 METRICS = ("downloads", "stars")
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000
@@ -705,17 +713,17 @@ def gate_motion(site: Path, r: Report) -> None:
         ):
             if need not in text:
                 r.fail("motion", f"{where} lacks {need!r}")
-    # views.js steps on its own only under html.motion, and stops for
+    # deck.js steps on its own only under html.motion, and stops for
     # cr-halt and reduced motion; its buttons work without either.
-    views = (site / "assets/views.js").read_text(encoding="utf-8")
+    views = (site / "assets/deck.js").read_text(encoding="utf-8")
     n = len(views.encode())
-    r.note("motion", f"views.js: {n} B raw")
-    if n > VIEWS_JS:
-        r.fail("motion", f"views.js is {n} B, over {VIEWS_JS}")
+    r.note("motion", f"deck.js: {n} B raw")
+    if n > DECK_JS:
+        r.fail("motion", f"deck.js is {n} B, over {DECK_JS}")
     for need in ('"cr-halt"', 'classList.contains("motion")', 'matchMedia("(prefers-reduced-motion: reduce)")',
                  '"visibilitychange"', "IntersectionObserver"):
         if need not in views:
-            r.fail("motion", f"views.js lacks {need!r}")
+            r.fail("motion", f"deck.js lacks {need!r}")
     # The gates: html.anim only without reduced motion or Save-Data; any
     # error or a mid-visit switch to reduced motion runs halt().
     for need, where, text in (
