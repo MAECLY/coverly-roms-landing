@@ -242,10 +242,10 @@
   transform: rotate(-28deg);
 }
 .fgroup:is([data-beat='1'], [data-beat='2']) .dup .da {
-  transform: translate(-162px, 44px) scale(1.2);
+  transform: translate(-162px, 28px) scale(1.2);
 }
 .fgroup:is([data-beat='1'], [data-beat='2']) .dup .db {
-  transform: translate(-106px, 40px) scale(1.2);
+  transform: translate(-106px, 24px) scale(1.2);
 }
 .fgroup[data-beat='1'] .trust :is(.tr-box, .tr-zip) {
   opacity: 0.35;

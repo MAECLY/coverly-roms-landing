@@ -3944,7 +3944,8 @@ html.motion .sys:not(.is-still) .sys-row {
 
 /* Duplicates, drawn (docs/landing-round2-plan.md §2), on the home and in
    /features: a shelf with three copies of one game; a read line finds the
-   same fingerprint ("Exact copy"), the one with a cover gets its spine and
+   same fingerprint ("Exact copy", under the shelf, clear of the copies
+   as they lift), the one with a cover gets its spine and
    its reason, the two without one (dashed, as in the app) lift and drop
    into _Duplicados, tucked below the Undo tag, the Undo tab
    shows, and Undo brings them back. 7 s a turn, played 1.8 times so it
@@ -3986,8 +3987,8 @@ html.motion .sys:not(.is-still) .sys-row {
   white-space: nowrap;
 }
 .dup-exact {
-  left: 29%;
-  top: 32%;
+  left: 18%;
+  top: 89.5%;
   color: var(--cr-text-secondary);
 }
 .dup-undo {
