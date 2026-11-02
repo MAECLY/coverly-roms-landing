@@ -11,6 +11,9 @@ SITE_PORT ?= 8080
 RELEASE ?=
 # `make covers CONTACT=/tmp/sheet.html`: also write a contact sheet.
 CONTACT ?=
+# The app checkout roadmap.py compares with (TODO.md, CHANGELOG.md,
+# docs/TRACKER.md); `make check` uses it when it exists.
+APP ?= $(firstword $(wildcard $(COVERLY_APP) ../coverly-roms))
 # Where `make sync-tokens` reads the app's design tokens.
 TOKENS_URL ?= https://raw.githubusercontent.com/$(REPO)/main/design/tokens.json
 
@@ -40,7 +43,17 @@ check: ## Every gate: tokens, cover sprite, release.js and metrics tests, links,
 	node scripts/brand/build_tokens.mjs --check
 	node scripts/site/gen_covers.mjs --check
 	node --test scripts/site/*.test.mjs
+	python3 -I scripts/site/roadmap_test.py
 	python3 -I scripts/site/check_site.py
+
+.PHONY: roadmap
+roadmap: ## Sync site/data/roadmap.json with the app (APP=../coverly-roms) and regenerate its blocks.
+	@test -n "$(APP)" || { echo "APP= the app checkout (../coverly-roms not found)"; exit 2; }
+	python3 -I scripts/site/roadmap.py --update "$(APP)"
+
+.PHONY: roadmap-check
+roadmap-check: ## Check roadmap.json and its blocks, and against the app when APP is set or ../coverly-roms exists.
+	python3 -I scripts/site/roadmap.py --check $(if $(APP),--app "$(APP)")
 
 .PHONY: covers
 covers: ## Regenerate the cover sprite and inks (CONTACT=sheet.html also writes a review sheet).
