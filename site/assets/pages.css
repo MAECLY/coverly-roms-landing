@@ -264,6 +264,305 @@
   }
 }
 
+/* /roadmap, above the text (docs/landing-round2-plan.md §4): one shelf.
+   Released versions stand as covers with their Buckram spine, Today is a
+   Manila tab, then Now / Next / Later bays of 3:4 slots filled from the
+   bottom by the share of tasks done (dashed: nothing yet; a tick: all).
+   Dashed arcs over the slots: what each block waits for. From 720px it
+   is one grid, each item in its generated column (c1..c16); on a phone
+   a plain list. roadmap.py writes it from roadmap.json. */
+.rm-board {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+.rm-map {
+  position: relative;
+}
+.rm-line,
+.rm-line ol {
+  padding: 0;
+  list-style: none;
+}
+.rm-line a {
+  color: inherit;
+  text-decoration: none;
+}
+.rm-line a:hover b,
+.rm-line a:hover .rm-tag {
+  text-decoration: underline;
+}
+.rm-v a,
+.rm-slot {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  text-align: center;
+}
+.rm-cv,
+.rm-sl {
+  width: 48px;
+  height: 64px;
+}
+.rm-lean .rm-cv {
+  width: 56px;
+}
+.rm-spine {
+  color: var(--cr-slot-applied);
+}
+.rm-v .rm-tag {
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+  padding: 1px 8px;
+}
+.rm-v time,
+.rm-slot span {
+  font-size: 0.75rem;
+  color: var(--cr-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.rm-slot b {
+  font: 700 0.875rem/1.15 var(--cr-font-display);
+  font-stretch: 75%;
+}
+.rm-sl-o {
+  fill: none;
+  stroke: var(--cr-slot-missing);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.rm-sl:has(.rm-sl-f) .rm-sl-o {
+  stroke: var(--cr-border-strong);
+  stroke-dasharray: none;
+}
+.rm-sl-f {
+  fill: var(--cr-slot-filled);
+}
+.rm-sl-k {
+  color: var(--cr-success);
+}
+.rm-today span {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+}
+.rm-bay h3 {
+  font: 700 1rem/1.3 var(--cr-font-body);
+  color: var(--cr-text-secondary);
+}
+.rm-deps {
+  display: none;
+}
+.rm-map > .caption-row {
+  margin-top: 16px;
+}
+@media (max-width: 719.98px) {
+  .rm-line {
+    display: grid;
+    gap: 14px;
+    padding-left: 18px;
+    border-left: 2px solid var(--cr-border-strong);
+  }
+  .rm-v a,
+  .rm-slot {
+    grid-template-columns: 36px auto 1fr;
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+    column-gap: 12px;
+  }
+  .rm-v a > svg,
+  .rm-slot > svg {
+    grid-row: span 2;
+  }
+  .rm-cv,
+  .rm-sl {
+    width: 36px;
+    height: 48px;
+  }
+  .rm-slot span,
+  .rm-v time {
+    grid-column: 2;
+  }
+  .rm-bay h3 {
+    margin: 10px 0 8px;
+  }
+  .rm-bay ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+}
+@media (min-width: 720px) {
+  .rm-map {
+    padding-top: 40px;
+  }
+  .rm-deps {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    overflow: visible;
+  }
+  .rm-deps path {
+    fill: none;
+    stroke: var(--cr-border-strong);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+    vector-effect: non-scaling-stroke;
+  }
+  .rm-line {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: end;
+    row-gap: 12px;
+  }
+  .rm-bay,
+  .rm-bay ol {
+    display: contents;
+  }
+  .rm-line > li:not(.rm-bay),
+  .rm-bay li {
+    grid-row: 1;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--cr-border-strong);
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .rm-today {
+    position: relative;
+    border-left: 2px dashed var(--cr-slot-missing);
+  }
+  .rm-today span {
+    margin-bottom: 60px;
+  }
+  .rm-bay h3 {
+    grid-row: 2;
+    padding-top: 2px;
+    border-top: 2px solid var(--cr-border);
+    text-align: center;
+  }
+  .rm-line .c1 {
+    grid-column-start: 1;
+  }
+  .rm-line .c2 {
+    grid-column-start: 2;
+  }
+  .rm-line .c3 {
+    grid-column-start: 3;
+  }
+  .rm-line .c4 {
+    grid-column-start: 4;
+  }
+  .rm-line .c5 {
+    grid-column-start: 5;
+  }
+  .rm-line .c6 {
+    grid-column-start: 6;
+  }
+  .rm-line .c7 {
+    grid-column-start: 7;
+  }
+  .rm-line .c8 {
+    grid-column-start: 8;
+  }
+  .rm-line .c9 {
+    grid-column-start: 9;
+  }
+  .rm-line .c10 {
+    grid-column-start: 10;
+  }
+  .rm-line .c11 {
+    grid-column-start: 11;
+  }
+  .rm-line .c12 {
+    grid-column-start: 12;
+  }
+  .rm-line .c13 {
+    grid-column-start: 13;
+  }
+  .rm-line .c14 {
+    grid-column-start: 14;
+  }
+  .rm-line .c15 {
+    grid-column-start: 15;
+  }
+  .rm-line .c16 {
+    grid-column-start: 16;
+  }
+  .rm-line .w2 {
+    grid-column-end: span 2;
+  }
+  .rm-line .w3 {
+    grid-column-end: span 3;
+  }
+  .rm-line .w4 {
+    grid-column-end: span 4;
+  }
+  .rm-line .w5 {
+    grid-column-end: span 5;
+  }
+  .rm-line .w6 {
+    grid-column-end: span 6;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .rm-map :is(.rm-cv, .rm-sl-f, .rm-deps path, .rm-today span) {
+    animation: 900ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing .rm-map .rm-cv {
+    animation-name: rm-drop;
+  }
+  html.motion .is-playing .rm-map .rm-today span {
+    animation-name: rm-tab;
+    animation-delay: 600ms;
+  }
+  html.motion .is-playing .rm-map .rm-sl-f {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation-name: rm-fill;
+    animation-delay: 900ms;
+  }
+  html.motion .is-playing .rm-map .rm-deps path {
+    animation-name: rm-draw;
+    animation-delay: 1500ms;
+  }
+  html.motion .rm-map:hover *,
+  html.motion .rm-map:has([data-off]) * {
+    animation-play-state: paused;
+  }
+}
+@keyframes rm-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+@keyframes rm-tab {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) translateY(-6px);
+  }
+}
+@keyframes rm-fill {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes rm-draw {
+  from {
+    opacity: 0;
+  }
+}
+
 /* /roadmap: one shelf per version, its accession tag and date, and what
    it brought as solid slots with a Buckram spine (Coverly made them). */
 .rm-shelf {

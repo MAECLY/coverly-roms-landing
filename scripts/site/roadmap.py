@@ -60,8 +60,8 @@ STATUS = {
 PAGES = {
     "index.html": ("es", ["teaser"]),
     "en/index.html": ("en", ["teaser"]),
-    "roadmap/index.html": ("es", ["released", "upcoming"]),
-    "en/roadmap/index.html": ("en", ["released", "upcoming"]),
+    "roadmap/index.html": ("es", ["shelf", "released", "upcoming"]),
+    "en/roadmap/index.html": ("en", ["shelf", "released", "upcoming"]),
 }
 FEATURES = ["features/index.html", "en/features/index.html"]
 SLOTS = 24
@@ -74,10 +74,24 @@ MONTHS = {
 }
 WORDS = {
     "es": {"next": "Próxima versión", "unreleased": "Ya en el código, aún sin publicar.",
-           "of": "de", "tasks": "tareas", "after": "Espera a", "see": "Ver la hoja de ruta"},
+           "of": "de", "tasks": "tareas", "after": "Espera a", "see": "Ver la hoja de ruta",
+           "map": "Hoja de ruta, de lo publicado a lo que viene", "today": "Hoy",
+           "now": "Ahora", "soon": "Después", "later": "Más adelante",
+           "legend": "Lleno: hecho. Discontinuo: aún no. La altura es la parte hecha. Sin fechas hasta que haya versión.",
+           "replay": "Repetir", "replay_label": "Repetir la hoja de ruta",
+           "months": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sept", "oct", "nov", "dic"]},
     "en": {"next": "Next version", "unreleased": "Already in the code, not published yet.",
-           "of": "of", "tasks": "tasks", "after": "Waits for", "see": "See the roadmap"},
+           "of": "of", "tasks": "tasks", "after": "Waits for", "see": "See the roadmap",
+           "map": "Roadmap, from what shipped to what comes next", "today": "Today",
+           "now": "Now", "soon": "Next", "later": "Later",
+           "legend": "Filled: done. Dashed: not yet. The height is the share done. No dates until there is a release.",
+           "replay": "Replay", "replay_label": "Replay the roadmap",
+           "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
 }
+# The shelf's three bays (docs/landing-round2-plan.md §4), from each
+# block's status: confidence, not dates. "parked" stays in the text only.
+BAYS = [("now", ("verifying", "almost")), ("soon", ("research", "planned")), ("later", ("blocked",))]
+SHORT = 22  # characters of a block's short title on the shelf
 
 
 class Drift(Exception):
@@ -234,6 +248,10 @@ def validate(data: dict) -> list[str]:
         # fails here until a person writes it (and decides public).
         pair(e, f"{w} title", n.get("title"))
         pair(e, f"{w} summary", n.get("summary"))
+        pair(e, f"{w} short", n.get("short"))
+        for lang, s in (n.get("short") or {}).items():
+            if len(s) > SHORT:
+                e.append(f"{w} short.{lang} {s!r} is longer than {SHORT} characters")
         if n.get("teaser") and not n.get("public"):
             e.append(f"{w}: a teaser must be public")
     if set(data.get("shipped", [])) & set(ids):
@@ -300,16 +318,95 @@ def slots(done: int, total: int) -> str:
             f'focusable="false"><path class="rm-f" d="{d}"/><path class="rm-o" d="{o}"/></svg>')
 
 
-def item(n: dict, lang: str, names: dict[str, str], level: str) -> str:
+def anchor(nid: str) -> str:
+    return "rm-" + nid.replace(".", "-")
+
+
+def item(n: dict, lang: str, names: dict[str, str], level: str, ids: bool = False) -> str:
     w = WORDS[lang]
     p = n["progress"]
     after = ""
     if n.get("after"):
         after = f'<p class="rm-after">{w["after"]}: {esc(", ".join(names[a] for a in n["after"]))}.</p>'
-    return (f'<li class="rm-item" data-id="{n["id"]}" data-status="{n["status"]}">'
+    at = f' id="{anchor(n["id"])}"' if ids else ""
+    return (f'<li class="rm-item"{at} data-id="{n["id"]}" data-status="{n["status"]}">'
             f'<{level}>{esc(n["title"][lang])}</{level}><p>{esc(n["summary"][lang])}</p>{after}'
             f'<p class="rm-state"><span class="rm-status">{STATUS[n["status"]][lang == "en"]}</span>'
             f'{slots(p["done"], p["total"])}<span class="rm-count">{p["done"]} {w["of"]} {p["total"]} {w["tasks"]}</span></p></li>')
+
+
+def bays(data: dict) -> list[tuple[str, list[dict]]]:
+    pub = [n for n in data["next"] if n.get("public")]
+    return [(k, [n for n in pub if n["status"] in st]) for k, st in BAYS]
+
+
+def shelf(data: dict, lang: str) -> str:
+    """The visual roadmap above the text: released versions as covers
+    standing on one rule (the next version as the hero's Lean-To), a
+    Today marker, then Now / Next / Later bays of 3:4 slots filled from
+    the bottom by each block's share of done tasks, linked to its entry,
+    and dashed arcs from a block to the ones it waits for. One grid: each
+    item names its column (c1..c16) so the arcs' viewBox can use them."""
+    w = WORDS[lang]
+    art = "../assets/art/" if lang == "es" else "../../assets/art/"
+    col = 0
+    cells: list[str] = []
+    for i, r in enumerate(data["released"]):
+        col += 1
+        y, m, d = (int(x) for x in r["date"].split("-"))
+        when = f"{d} {w['months'][m - 1]} {y}"
+        cover = f"c-{(i * 7 + 3) % 40 + 1:02d}"
+        cells.append(
+            f'<li class="rm-v c{col}"><a href="#v{r["version"].replace(".", "-")}">'
+            f'<svg class="art rm-cv" viewBox="0 0 30 40" width="30" height="40" aria-hidden="true" focusable="false">'
+            f'<use class="cas-gd" href="{art}kit.svg#sf" width="30" height="40"/>'
+            f'<use class="ink-{i % 6}" href="{art}covers.svg#{cover}" width="30" height="40"/>'
+            f'<use class="rm-spine" href="{art}kit.svg#spine" y="37" width="30" height="3"/></svg>'
+            f'<span class="rm-tag">v{r["version"]}</span><time datetime="{r["date"]}">{when}</time></a></li>')
+    if data["unreleased"].get("items"):
+        col += 1
+        cells.append(
+            f'<li class="rm-v rm-lean c{col}"><a href="#v-next">'
+            f'<svg class="art rm-cv" viewBox="0 0 42 48" width="42" height="48" aria-hidden="true" focusable="false">'
+            f'<use href="{art}kit.svg#lean" width="42" height="48"/></svg>'
+            f'<span class="rm-tag">{w["next"]}</span></a></li>')
+    col += 1
+    cells.append(f'<li class="rm-today c{col}"><span>{w["today"]}</span></li>')
+    where: dict[str, int] = {}
+    for key, items in bays(data):
+        if not items:
+            continue
+        first = col + 1
+        rows = []
+        for n in items:
+            col += 1
+            where[n["id"]] = col
+            p = n["progress"]
+            h = round(38 * p["done"] / p["total"], 1) if p["total"] else 0
+            full = p["total"] and p["done"] == p["total"]
+            fill = f'<rect class="rm-sl-f" x="1" y="{39 - h:g}" width="28" height="{h:g}"/>' if h else ""
+            tick = f'<use class="rm-sl-k" href="{art}kit.svg#ck" x="7" y="12" width="16" height="16"/>' if full else ""
+            rows.append(
+                f'<li class="c{col}"><a class="rm-slot" href="#{anchor(n["id"])}">'
+                f'<svg class="art rm-sl" viewBox="0 0 30 40" width="30" height="40" aria-hidden="true" focusable="false">'
+                f'{fill}<rect class="rm-sl-o" x=".75" y=".75" width="28.5" height="38.5" rx="2"/>{tick}</svg>'
+                f'<b>{esc(n["short"][lang])}</b><span>{p["done"]} {w["of"]} {p["total"]}</span></a></li>')
+        cells.append(f'<li class="rm-bay" data-bay="{key}"><h3 class="c{first} w{len(items)}">{w[key]}</h3>'
+                     f'<ol>{"".join(rows)}</ol></li>')
+    arcs = []
+    for n in data["next"]:
+        for a in n.get("after", []):
+            if n["id"] in where and a in where:
+                x1, x2 = (where[a] - 0.5) * 10, (where[n["id"]] - 0.5) * 10
+                arcs.append(f"M{x1:g} 40C{x1:g} 6 {x2:g} 6 {x2:g} 40")
+    svg = (f'<svg class="art rm-deps" viewBox="0 0 {col * 10} 40" width="{col * 10}" height="40" '
+           f'preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+           f'<path pathLength="1" d="{"".join(arcs)}"/></svg>') if arcs else ""
+    return (f'<figure class="rm-map n{col}" data-clip data-clip-ms="2400">{svg}'
+            f'<ol class="rm-line" aria-label="{w["map"]}">\n' + "\n".join(cells) + "\n</ol>\n"
+            f'<figcaption class="caption-row"><span>{w["legend"]}</span><button class="replay clip-replay" '
+            f'type="button" aria-label="{w["replay_label"]}"><span aria-hidden="true">↻</span> {w["replay"]}</button>'
+            f'</figcaption></figure>')
 
 
 def render(data: dict, lang: str, block: str) -> str:
@@ -318,8 +415,10 @@ def render(data: dict, lang: str, block: str) -> str:
         rows = [item(n, lang, names, "h3") for n in data["next"] if n.get("teaser")]
         return '<ol class="rm-next rm-teaser">\n' + "\n".join(rows) + "\n</ol>"
     if block == "upcoming":
-        rows = [item(n, lang, names, "h3") for n in data["next"] if n.get("public")]
+        rows = [item(n, lang, names, "h3", ids=True) for n in data["next"] if n.get("public")]
         return '<ol class="rm-next">\n' + "\n".join(rows) + "\n</ol>"
+    if block == "shelf":
+        return shelf(data, lang)
     out = []
     for r in data["released"]:
         v = r["version"]
@@ -411,7 +510,8 @@ def update(data: dict, app: dict[str, str], commit: str, site: Path, today: str)
         else:
             data["next"].append({"id": tid, "public": False, "status": "planned",
                                  "progress": {"done": t["done"], "total": t["total"]}, "after": [],
-                                 "title": {"es": "", "en": ""}, "summary": {"es": "", "en": ""}})
+                                 "title": {"es": "", "en": ""}, "short": {"es": "", "en": ""},
+                                 "summary": {"es": "", "en": ""}})
             notes.append(f"new TODO block {tid} ({t['title']}): added as not public, write its copy")
     return notes
 

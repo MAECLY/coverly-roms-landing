@@ -45,9 +45,9 @@ def data_for(app: dict[str, str]) -> dict:
         "shipped": ["1"],
         "next": [
             {"id": "2", "public": True, "teaser": True, "status": "almost",
-             "progress": {"done": 2, "total": 5}, "after": [], "title": text(4), "summary": text(5)},
+             "progress": {"done": 2, "total": 5}, "after": [], "title": text(4), "short": text(40), "summary": text(5)},
             {"id": "2.1", "public": True, "status": "blocked",
-             "progress": {"done": 0, "total": 2}, "after": ["2"], "title": text(6), "summary": text(7)},
+             "progress": {"done": 0, "total": 2}, "after": ["2"], "title": text(6), "short": text(60), "summary": text(7)},
         ],
     }
 
@@ -112,8 +112,48 @@ class Validate(unittest.TestCase):
     def test_a_block_without_copy_is_refused_even_when_private(self):
         d = copy.deepcopy(self.data)
         d["next"].append({"id": "3", "public": False, "status": "planned", "progress": {"done": 0, "total": 1},
-                          "after": [], "title": {"es": "", "en": ""}, "summary": {"es": "", "en": ""}})
+                          "after": [], "title": {"es": "", "en": ""}, "short": {"es": "", "en": ""},
+                          "summary": {"es": "", "en": ""}})
         self.assertTrue(any("next 3 title" in e for e in rm.validate(d)))
+
+
+class Shelf(unittest.TestCase):
+    def setUp(self):
+        self.data = data_for(rm.read_app(APP))
+
+    def test_short_titles_are_required_and_short(self):
+        d = copy.deepcopy(self.data)
+        d["next"][0]["short"] = {"es": "x" * 23, "en": "ok"}
+        del d["next"][1]["short"]
+        errs = "\n".join(rm.validate(d))
+        self.assertIn("longer than 22", errs)
+        self.assertIn("next 2.1 short", errs)
+
+    def test_bays_come_from_status(self):
+        self.assertEqual([(k, [n["id"] for n in ns]) for k, ns in rm.bays(self.data)],
+                         [("now", ["2"]), ("soon", []), ("later", ["2.1"])])
+
+    def test_shelf_columns_links_and_arcs(self):
+        out = rm.shelf(self.data, "en")
+        # two releases, the Lean-To (unreleased items), Today, two slots
+        self.assertIn('class="rm-map n6"', out)
+        self.assertIn('<li class="rm-v rm-lean c3">', out)
+        self.assertIn('<li class="rm-today c4"><span>Today</span></li>', out)
+        self.assertIn('<a class="rm-slot" href="#rm-2-1">', out)
+        self.assertIn("<b>text 60</b><span>0 of 2</span>", out)
+        self.assertIn('d="M45 40C45 6 55 6 55 40"', out)  # 2 (column 5) -> 2.1 (column 6)
+        self.assertIn('<h3 class="c5 w1">Now</h3>', out)
+
+    def test_fill_height_and_tick(self):
+        d = copy.deepcopy(self.data)
+        d["next"][0]["progress"] = {"done": 5, "total": 5}
+        out = rm.shelf(d, "es")
+        self.assertIn('<rect class="rm-sl-f" x="1" y="1" width="28" height="38"/>', out)
+        self.assertIn("kit.svg#ck", out)
+        self.assertIn('href="../assets/art/kit.svg#sf"', out)
+
+    def test_upcoming_entries_carry_the_shelf_anchors(self):
+        self.assertIn('<li class="rm-item" id="rm-2-1"', rm.render(self.data, "es", "upcoming"))
 
 
 class Drift(unittest.TestCase):
