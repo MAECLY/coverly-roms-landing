@@ -208,8 +208,10 @@ BUDGET = {
     # motion.js types the terminal scene by scene. Raised to 39,500 / 12,000
     # for round 2 (docs/landing-round2-plan.md §6): deck.js builds the
     # steps' tablist (see DECK_JS), systems.js (see SYSTEMS_JS) and toc.js
-    # moves the /features scenes beat by beat.
-    "scripts": (39_500, 12_000),
+    # moves the /features scenes beat by beat. Raised to 40,000 / 12,100 so
+    # the footer counter in motion.js can skip the page's own fetches to
+    # api.github.com (OWN_HOSTS, see gate_analytics).
+    "scripts": (40_000, 12_100),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
@@ -1195,6 +1197,22 @@ def gate_analytics(site: Path, r: Report) -> None:
     motion = site / "assets/motion.js"
     if motion.is_file() and "u.origin !== location.origin" not in motion.read_text(encoding="utf-8"):
         r.fail("analytics", "motion.js counter no longer compares origins")
+    # The counter skips the page's own fetches: its OWN_HOSTS must be exactly
+    # the hosts CSP connect-src allows besides 'self', and every API host
+    # release.js and metrics.js fetch must be one of them.
+    if motion.is_file():
+        m = re.search(r"var OWN_HOSTS = \[([^\]]*)\];", motion.read_text(encoding="utf-8"))
+        own = sorted(re.findall(r'"([^"]+)"', m.group(1))) if m else None
+        csp = re.search(r"connect-src ([^;]*)", CSP)
+        allowed = sorted(re.sub(r"^https://", "", src) for src in csp.group(1).split() if src != "'self'")
+        if own != allowed:
+            r.fail("analytics", f"motion.js OWN_HOSTS {own} differ from CSP connect-src hosts {allowed}")
+        for js in ("release.js", "metrics.js"):
+            path = site / "assets" / js
+            if path.is_file():
+                for host in sorted(set(re.findall(r'var API = "https://([^/"]+)', path.read_text(encoding="utf-8")))):
+                    if own is None or host not in own:
+                        r.fail("analytics", f"{js} calls {host}, missing from motion.js OWN_HOSTS")
     for lang, rel in (("es", "index.html"), ("en", "en/index.html"),
                       ("es", "features/index.html"), ("en", "en/features/index.html"),
                       ("es", "roadmap/index.html"), ("en", "en/roadmap/index.html")):
