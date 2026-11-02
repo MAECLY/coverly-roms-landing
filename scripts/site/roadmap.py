@@ -414,7 +414,26 @@ def update(data: dict, app: dict[str, str], commit: str, site: Path, today: str)
 
 
 def dump(data: dict) -> str:
-    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+    """The file's own layout, so --update only touches what changed: two-space
+    indent, lists of scalars on one line, and a dict of scalars (or scalar
+    lists) on one line when it sits in a list or two levels down."""
+    def j(v): return json.dumps(v, ensure_ascii=False)
+    def scalar(v): return not isinstance(v, (dict, list))
+    def flat(vs): return all(scalar(x) or (isinstance(x, list) and all(map(scalar, x))) for x in vs)
+
+    def enc(v, ind: int = 0, in_list: bool = False) -> str:
+        pad = "  " * ind
+        if isinstance(v, dict):
+            if flat(v.values()) and (in_list or ind >= 2):
+                return "{ " + ", ".join(f"{j(k)}: {enc(x)}" for k, x in v.items()) + " }"
+            body = ",\n".join(f"{pad}  {j(k)}: {enc(x, ind + 1)}" for k, x in v.items())
+            return "{\n" + body + "\n" + pad + "}"
+        if isinstance(v, list):
+            if all(map(scalar, v)):
+                return "[" + ", ".join(map(j, v)) + "]"
+            return "[\n" + ",\n".join(f"{pad}  {enc(x, ind + 1, True)}" for x in v) + "\n" + pad + "]"
+        return j(v)
+    return enc(data) + "\n"
 
 
 def main(argv: list[str]) -> int:

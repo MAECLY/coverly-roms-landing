@@ -225,6 +225,12 @@ class Pages(unittest.TestCase):
         # The new block has no copy yet: --check refuses it until a person writes it.
         self.assertTrue(rm.validate(self.data))
 
+    def test_dump_keeps_the_committed_layout(self):
+        # --update rewrites the file with dump(): it must not reflow every line.
+        real = (HERE.parent.parent / "site/data/roadmap.json").read_text(encoding="utf-8")
+        self.assertEqual(rm.dump(json.loads(real)), real)
+        self.assertEqual(json.loads(rm.dump(self.data)), self.data)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)
