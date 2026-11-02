@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "source": {
+    "app_repo": "MAECLY/coverly-roms",
+    "app_commit": "98dc427",
+    "todo_sha256": "e305c9ca6601a11a3c5a0eafefe48b1538c26c383ca2c7247da7cc7a4c10de0a",
+    "changelog_sha256": "8b29c48bf94e148a485e8185b33afcf3e472a50a654d2057029275b5eb5ab06e",
+    "tracker_sha256": "7d8015261b066ff0f7e226453c6d5c0a6f78ec15daa836eb50231fac3eb6c276",
+    "synced": "2026-11-02"
+  },
+  "released": [
+    {
+      "version": "0.1.0",
+      "date": "2026-10-17",
+      "items": [
+        { "es": "Auditoría: lo que le falta a cada sistema, exportable a CSV o JSON", "en": "Audit: what each system is missing, exportable to CSV or JSON" },
+        { "es": "Rellenar portadas, capturas y pantallas de título, con simulación y deshacer", "en": "Fill covers, screenshots and title screens, with a dry run and undo" },
+        { "es": "Identificación por CRC32, MD5 o SHA1, y cola de revisión de las dudosas", "en": "Identification by CRC32, MD5 or SHA1, and a review queue for doubtful matches" },
+        { "es": "Ocho formatos de consola y frontend, y formatos propios", "en": "Eight handheld and frontend layouts, and your own" },
+        { "es": "Explorador de la biblioteca y ficha de cada juego", "en": "Library browser and a panel for each game" },
+        { "es": "SteamGridDB con tu propia clave", "en": "SteamGridDB with your own key" },
+        { "es": "Ordenar una carpeta de descargas por sistema", "en": "Sorting a downloads folder by system" },
+        { "es": "Actualizaciones firmadas, con canal estable y beta", "en": "Signed updates, with stable and beta channels" },
+        { "es": "La línea de comandos coverly", "en": "The coverly command line" }
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-10-25",
+      "items": [
+        { "es": "Seis vistas de la biblioteca y un icono para cada sistema", "en": "Six library views and an icon for each system" },
+        { "es": "Ordenar con comprimidos de todo tipo, también RAR", "en": "Sorting with archives of every kind, RAR too" },
+        { "es": "Juegos de disco extraídos de los comprimidos, comprobando cada pista", "en": "Disc games extracted from archives, each track checked" },
+        { "es": "Duplicados apartados en _Duplicados/ o en la Papelera, con deshacer", "en": "Duplicates set aside in _Duplicados/ or the Trash, with undo" },
+        { "es": "coverly dedupe en la terminal", "en": "coverly dedupe in the terminal" }
+      ]
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-11-02",
+      "items": [
+        { "es": "131 sistemas, antes 54", "en": "131 systems, up from 54" },
+        { "es": "PS4, PS5, Xbox One, Switch y 3DS reconocidos sin claves", "en": "PS4, PS5, Xbox One, Switch and 3DS recognised without keys" },
+        { "es": "Nombres de Switch desde un catálogo público, si lo activas", "en": "Switch names from a public catalogue, if you turn it on" },
+        { "es": "La portada que lleva el propio juego, cuando ninguna fuente la tiene", "en": "The cover a game carries, when no source has one" },
+        { "es": "Juegos que son una carpeta, también dentro de zip y 7z", "en": "Games that are a folder, inside zip and 7z too" },
+        { "es": "Pregunta antes de escribir un juego de 10 GB o más", "en": "Asks before writing a game of 10 GB or more" },
+        { "es": "Multidisco sueltos agrupados con su .m3u", "en": "Loose multi-disc games grouped with their .m3u" },
+        { "es": "Duplicados por title ID y versión; en Wii U, el .wua se queda frente a su carpeta", "en": "Duplicates by title ID and version; on Wii U, the .wua stays over its folder" },
+        { "es": "RetroArch encuentra las portadas de títulos con «&» o «:»", "en": "RetroArch finds the covers of titles with “&” or “:”" },
+        { "es": "Agradecimientos: 62 fuentes y bibliotecas con su licencia", "en": "Credits: 62 sources and libraries with their licences" },
+        { "es": "Descargas con el nombre de su sistema y chip, y Windows ARM64", "en": "Downloads named by system and chip, and Windows ARM64" },
+        { "es": "Pantallas de Organizar y Duplicados rehechas, con sus propios ajustes", "en": "Organise and Duplicates screens redone, with their own settings" }
+      ]
+    }
+  ],
+  "unreleased": {
+    "after_pr": 37,
+    "prs": [],
+    "items": []
+  },
+  "shipped": ["1", "1.5", "1.6"],
+  "next": [
+    {
+      "id": "0",
+      "public": true,
+      "status": "verifying",
+      "progress": { "done": 3, "total": 5 },
+      "after": [],
+      "title": { "es": "Windows ARM64, probado en un equipo real", "en": "Windows ARM64, tested on real hardware" },
+      "short": { "es": "Windows ARM64", "en": "Windows ARM64" },
+      "summary": { "es": "Los instaladores para ARM64 ya se generan. Falta probarlos en un equipo real, y probar una actualización desde la 0.2.0.", "en": "The ARM64 installers are already built. They still need a test on real hardware, and so does an update from 0.2.0." }
+    },
+    {
+      "id": "2",
+      "public": true,
+      "status": "almost",
+      "progress": { "done": 65, "total": 69 },
+      "after": [],
+      "title": { "es": "Los últimos sistemas", "en": "The last systems" },
+      "short": { "es": "Últimos sistemas", "en": "Last systems" },
+      "summary": { "es": "Los 131 sistemas ya están en el código. Quedan por decidir dos placas de arcade y algunos nombres de carpeta.", "en": "All 131 systems are in the code. Two arcade boards and a few folder names are still to be decided." }
+    },
+    {
+      "id": "2.1",
+      "public": true,
+      "teaser": true,
+      "status": "research",
+      "progress": { "done": 0, "total": 15 },
+      "after": [],
+      "title": { "es": "Actualizaciones y DLC dentro de su juego", "en": "Updates and DLC inside their game" },
+      "short": { "es": "Actualizaciones y DLC", "en": "Updates and DLC" },
+      "summary": { "es": "Cada juego en su carpeta, con sus actualizaciones, DLC, demos y revisiones, y su portada en las seis vistas.", "en": "Each game in its own folder, with its updates, DLC, demos and revisions, and its cover in all six views." }
+    },
+    {
+      "id": "3",
+      "public": true,
+      "teaser": true,
+      "status": "blocked",
+      "progress": { "done": 0, "total": 32 },
+      "after": ["2.1"],
+      "title": { "es": "Tu biblioteca", "en": "Your library" },
+      "short": { "es": "Tu biblioteca", "en": "Your library" },
+      "summary": { "es": "Una biblioteca que vive en tu ordenador, no solo la carpeta abierta: colecciones, ficha de cada juego y arte guardado por juego.", "en": "A library that lives on your computer, not just the folder you opened: collections, a page for each game and art kept per game." }
+    },
+    {
+      "id": "3.1",
+      "public": true,
+      "teaser": true,
+      "status": "research",
+      "progress": { "done": 1, "total": 28 },
+      "after": [],
+      "title": { "es": "Nombres y arte por title ID", "en": "Names and art by title ID" },
+      "short": { "es": "Arte por title ID", "en": "Art by title ID" },
+      "summary": { "es": "Fuentes públicas para los juegos que las bases de portadas no tienen: el nombre y el arte, buscados por su title ID.", "en": "Public sources for the games cover databases lack: the name and the art, looked up by title ID." }
+    },
+    {
+      "id": "4",
+      "public": true,
+      "status": "blocked",
+      "progress": { "done": 0, "total": 20 },
+      "after": ["2.1", "3"],
+      "title": { "es": "Sincronizar con tus consolas", "en": "Sync with your handhelds" },
+      "short": { "es": "Sincronizar consolas", "en": "Sync with consoles" },
+      "summary": { "es": "Saber qué juegos están en la biblioteca, cuáles en cada consola y cuáles solo en una de las dos, y llevarlos de un lado a otro.", "en": "See which games are in the library, which are on each handheld and which only on one of them, and move them across." }
+    },
+    {
+      "id": "5",
+      "public": true,
+      "status": "blocked",
+      "progress": { "done": 0, "total": 17 },
+      "after": ["2.1", "3"],
+      "title": { "es": "Partidas guardadas", "en": "Saved games" },
+      "short": { "es": "Partidas guardadas", "en": "Save files" },
+      "summary": { "es": "Encontrar, ordenar y respaldar tus partidas, cada una junto a su juego.", "en": "Find, sort and back up your saves, each one next to its game." }
+    },
+    {
+      "id": "6",
+      "public": true,
+      "status": "planned",
+      "progress": { "done": 1, "total": 18 },
+      "after": [],
+      "title": { "es": "Más frontends", "en": "More frontends" },
+      "short": { "es": "Más frontends", "en": "More frontends" },
+      "summary": { "es": "Ordenar y exportar la biblioteca para los frontends de Windows, Linux, macOS, Android e iOS, con su arte donde cada uno lo busca.", "en": "Sort and export the library for frontends on Windows, Linux, macOS, Android and iOS, with art where each one looks for it." }
+    },
+    {
+      "id": "7",
+      "public": true,
+      "status": "almost",
+      "progress": { "done": 7, "total": 8 },
+      "after": [],
+      "title": { "es": "Agradecimientos", "en": "Credits" },
+      "short": { "es": "Agradecimientos", "en": "Credits" },
+      "summary": { "es": "La pestaña que da crédito a cada fuente, base de datos y biblioteca ya está hecha. Faltan los créditos de las fuentes que vienen con los nombres y el arte por title ID.", "en": "The tab that credits every source, database and library is done. The credits of the sources that come with names and art by title ID are still to add." }
+    }
+  ]
+}

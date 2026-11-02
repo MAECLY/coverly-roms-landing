@@ -1,0 +1,634 @@
+/* /features and /roadmap only (the homes never load this file). Tokens,
+   type and the slot grammar come from tokens.css and site.css. */
+
+/* Page head: the H1 on its shelf rule, the lede under it. */
+.page-head > .wrap {
+  padding-top: clamp(48px, 8vw, 104px);
+  padding-bottom: clamp(32px, 5vw, 56px);
+}
+.page-head h1 {
+  max-width: 14em;
+  font: var(--cr-type-landing-h1);
+  font-stretch: 75%;
+  font-size: clamp(2.75rem, 5vw + 1rem, 5rem);
+}
+.lede {
+  max-width: 40em;
+  margin-top: 20px;
+  color: var(--cr-text-secondary);
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+.page-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+/* The version tag: the Manila accession label of #descargar, set in
+   Archivo at width 75. It says when a feature arrived. */
+.vtag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+  white-space: nowrap;
+}
+.vtag[data-since='next'] {
+  --dash-ink: var(--cr-manila-fg);
+  background: transparent;
+  color: var(--cr-text);
+  outline: 1.5px dashed var(--cr-slot-missing);
+  outline-offset: -1.5px;
+}
+
+/* /features: an index of spines beside the groups (sticky from 1024px;
+   a scrolling row of links on a phone), then one shelf per group. */
+.features {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  padding-bottom: clamp(64px, 9vw, 120px);
+}
+.toc ol {
+  display: flex;
+  gap: 6px 18px;
+  overflow-x: auto;
+  padding: 0 0 8px;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+.toc a {
+  display: block;
+  position: relative;
+  padding: 6px 0 6px 18px;
+  color: var(--cr-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.toc a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 9px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 1px;
+  outline: 1.5px dashed var(--cr-slot-missing);
+  outline-offset: -1.5px;
+}
+.toc a:hover,
+.toc a[aria-current] {
+  color: var(--cr-text);
+}
+.toc a[aria-current]::before {
+  outline-color: transparent;
+  background: linear-gradient(var(--cr-slot-applied), var(--cr-slot-applied)) 0 100% / 100% 3px no-repeat,
+    var(--cr-slot-filled);
+}
+@media (min-width: 1024px) {
+  .features {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 56px;
+  }
+  .toc ol {
+    position: sticky;
+    top: calc(var(--header) + 32px);
+    display: grid;
+    overflow: visible;
+  }
+}
+.fgroups {
+  min-width: 0;
+}
+.fgroup {
+  display: grid;
+  gap: 24px;
+  padding: clamp(40px, 6vw, 72px) 0 0;
+  scroll-margin-top: calc(var(--header) + 16px);
+  background:
+    linear-gradient(var(--cr-primary), var(--cr-primary)) 0 0 / 48px var(--cr-border-width-spine) no-repeat,
+    linear-gradient(var(--cr-border), var(--cr-border)) 0 0 / 100% 1px no-repeat;
+}
+.fgroup:first-child {
+  padding-top: 32px;
+}
+.fgroup-head h2 {
+  font-size: clamp(1.875rem, 2.4vw + 1rem, 2.75rem);
+}
+.fgroup-head p {
+  margin-top: 8px;
+  color: var(--cr-text-secondary);
+  font-size: 1.0625rem;
+}
+@media (min-width: 1200px) {
+  .fgroup {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+  .fgroup-head {
+    grid-column: 1 / -1;
+  }
+}
+.flist > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--cr-border);
+}
+.flist dt {
+  font-weight: 600;
+}
+.flist dd {
+  grid-column: 1;
+  margin: 0;
+  color: var(--cr-text-secondary);
+}
+.flist .since {
+  grid-column: 2;
+  grid-row: 1;
+}
+.term-help pre {
+  font-size: 0.8125rem;
+}
+
+/* Settings and trust, drawn. */
+.trust {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.tr-box {
+  fill: var(--cr-manila);
+}
+.tr-zip {
+  stroke: var(--cr-manila-fg);
+  stroke-width: 3;
+  stroke-dasharray: 2 2;
+}
+.tr-seal {
+  fill: var(--cr-surface);
+  stroke: var(--cr-success);
+  stroke-width: 2;
+}
+.tr-ck {
+  color: var(--cr-success);
+}
+.tr-none {
+  color: var(--cr-slot-missing);
+}
+/* /features from 1200px: each group's figure stays beside its list
+   (sticky, no pinned section, no scroll hijack) and toc.js puts the beat
+   being read on the group ([data-beat] on .fgroup): early beats draw the
+   scene's earlier states, the last one is the finished scene, which is
+   also what phones, no-JS and reduced motion see. Clips do not play
+   there; the beats replace them. */
+@media (min-width: 1200px) {
+  .fgroup > :is(figure, .term-help) {
+    position: sticky;
+    top: calc(var(--header) + 24px);
+  }
+}
+.fgroup[data-beat] .clip-replay {
+  display: none;
+}
+.fgroup .cas .sp,
+.fgroup .arc-lid {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.fgroup .arc-lid {
+  transform-origin: 0 100%;
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .cv,
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .tb,
+.fgroup[data-beat='1'] .cas :is(.s2, .s3),
+.fgroup[data-beat='2'] .cas .s3,
+.fgroup[data-beat='1'] .gal .g-cv :is(.q4, .q5, .q6, .q7, .q8),
+.fgroup[data-beat='2'] .gal .g-cv :is(.q7, .q8),
+.fgroup[data-beat='1'] .arc .trk,
+.fgroup[data-beat='2'] .arc :is(.t-f, .t-k),
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup-box :is(.dup-tag, .dup-undo),
+.fgroup[data-beat='1'] .dup-why,
+.fgroup[data-beat='1'] .trust :is(.tr-seal, .tr-ck) {
+  opacity: 0;
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .mi,
+.fgroup[data-beat='2'] .arc .t-o {
+  opacity: 1;
+}
+.fgroup[data-beat='1'] .cas .s1 {
+  opacity: 0.35;
+}
+.fgroup[data-beat='2'] .cas .s1,
+.fgroup[data-beat='3'] .cas .s2 {
+  transform: translateX(-28px);
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .sp,
+.fgroup[data-beat='1'] .dup .dup-sp {
+  transform: scaleX(0);
+}
+.fgroup[data-beat='1'] .arc .trk {
+  transform: translateX(-80px) scale(0.6);
+}
+.fgroup[data-beat='2'] .arc-lid {
+  transform: rotate(-28deg);
+}
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup .da {
+  transform: translate(-162px, 28px) scale(1.2);
+}
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup .db {
+  transform: translate(-106px, 24px) scale(1.2);
+}
+.fgroup[data-beat='1'] .trust :is(.tr-box, .tr-zip) {
+  opacity: 0.35;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .fgroup[data-beat] :is(.cas, .gal, .arc, .dup-box, .trust) * {
+    animation: none;
+    transition: opacity 420ms var(--cr-ease-standard), transform 600ms var(--cr-ease-ink);
+  }
+  html.motion .fgroup[data-beat] .dup-box .dup-why {
+    animation: none;
+    transition: opacity 420ms var(--cr-ease-standard);
+  }
+  html.motion .fgroup[data-beat] [data-deck].play :is([aria-pressed='true'], [aria-selected='true'])::after {
+    animation: none;
+  }
+}
+
+/* /roadmap, above the text (docs/landing-round2-plan.md §4): one shelf.
+   Released versions stand as covers with their Buckram spine, Today is a
+   Manila tab, then Now / Next / Later bays of 3:4 slots filled from the
+   bottom by the share of tasks done (dashed: nothing yet; a tick: all).
+   Dashed arcs over the slots: what each block waits for. From 720px it
+   is one grid, each item in its generated column (c1..c16); on a phone
+   a plain list. roadmap.py writes it from roadmap.json. */
+.rm-board {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+.rm-map {
+  position: relative;
+}
+.rm-line,
+.rm-line ol {
+  padding: 0;
+  list-style: none;
+}
+.rm-line a {
+  color: inherit;
+  text-decoration: none;
+}
+.rm-line a:hover b,
+.rm-line a:hover .rm-tag {
+  text-decoration: underline;
+}
+.rm-v a,
+.rm-slot {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  text-align: center;
+}
+.rm-cv,
+.rm-sl {
+  width: 48px;
+  height: 64px;
+}
+.rm-lean .rm-cv {
+  width: 56px;
+}
+.rm-spine {
+  color: var(--cr-slot-applied);
+}
+.rm-v .rm-tag {
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+  padding: 1px 8px;
+}
+.rm-v time,
+.rm-slot span {
+  font-size: 0.75rem;
+  color: var(--cr-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.rm-slot b {
+  font: 700 0.875rem/1.15 var(--cr-font-display);
+  font-stretch: 75%;
+}
+.rm-sl-o {
+  fill: none;
+  stroke: var(--cr-slot-missing);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.rm-sl:has(.rm-sl-f) .rm-sl-o {
+  stroke: var(--cr-border-strong);
+  stroke-dasharray: none;
+}
+.rm-sl-f {
+  fill: var(--cr-slot-filled);
+}
+.rm-sl-k {
+  color: var(--cr-success);
+}
+.rm-today span {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+}
+.rm-bay h3 {
+  font: 700 1rem/1.3 var(--cr-font-body);
+  color: var(--cr-text-secondary);
+}
+.rm-deps {
+  display: none;
+}
+.rm-map > .caption-row {
+  margin-top: 16px;
+}
+@media (max-width: 719.98px) {
+  .rm-line {
+    display: grid;
+    gap: 14px;
+    padding-left: 18px;
+    border-left: 2px solid var(--cr-border-strong);
+  }
+  .rm-v a,
+  .rm-slot {
+    grid-template-columns: 36px auto 1fr;
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+    column-gap: 12px;
+  }
+  .rm-v a > svg,
+  .rm-slot > svg {
+    grid-row: span 2;
+  }
+  .rm-cv,
+  .rm-sl {
+    width: 36px;
+    height: 48px;
+  }
+  .rm-slot span,
+  .rm-v time {
+    grid-column: 2;
+  }
+  .rm-bay h3 {
+    margin: 10px 0 8px;
+  }
+  .rm-bay ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+}
+@media (min-width: 720px) {
+  .rm-map {
+    padding-top: 40px;
+  }
+  .rm-deps {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    overflow: visible;
+  }
+  .rm-deps path {
+    fill: none;
+    stroke: var(--cr-border-strong);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+    vector-effect: non-scaling-stroke;
+  }
+  .rm-line {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: end;
+    row-gap: 12px;
+  }
+  .rm-bay,
+  .rm-bay ol {
+    display: contents;
+  }
+  .rm-line > li:not(.rm-bay),
+  .rm-bay li {
+    grid-row: 1;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--cr-border-strong);
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .rm-today {
+    position: relative;
+    border-left: 2px dashed var(--cr-slot-missing);
+  }
+  .rm-today span {
+    margin-bottom: 60px;
+  }
+  .rm-slot b {
+    min-height: 2.3em;
+    display: flex;
+    align-items: flex-end;
+  }
+  .rm-bay h3 {
+    grid-row: 2;
+    padding-top: 2px;
+    border-top: 2px solid var(--cr-border);
+    text-align: center;
+  }
+  .rm-line .c1 {
+    grid-column-start: 1;
+  }
+  .rm-line .c2 {
+    grid-column-start: 2;
+  }
+  .rm-line .c3 {
+    grid-column-start: 3;
+  }
+  .rm-line .c4 {
+    grid-column-start: 4;
+  }
+  .rm-line .c5 {
+    grid-column-start: 5;
+  }
+  .rm-line .c6 {
+    grid-column-start: 6;
+  }
+  .rm-line .c7 {
+    grid-column-start: 7;
+  }
+  .rm-line .c8 {
+    grid-column-start: 8;
+  }
+  .rm-line .c9 {
+    grid-column-start: 9;
+  }
+  .rm-line .c10 {
+    grid-column-start: 10;
+  }
+  .rm-line .c11 {
+    grid-column-start: 11;
+  }
+  .rm-line .c12 {
+    grid-column-start: 12;
+  }
+  .rm-line .c13 {
+    grid-column-start: 13;
+  }
+  .rm-line .c14 {
+    grid-column-start: 14;
+  }
+  .rm-line .c15 {
+    grid-column-start: 15;
+  }
+  .rm-line .c16 {
+    grid-column-start: 16;
+  }
+  .rm-line .w2 {
+    grid-column-end: span 2;
+  }
+  .rm-line .w3 {
+    grid-column-end: span 3;
+  }
+  .rm-line .w4 {
+    grid-column-end: span 4;
+  }
+  .rm-line .w5 {
+    grid-column-end: span 5;
+  }
+  .rm-line .w6 {
+    grid-column-end: span 6;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .rm-map :is(.rm-cv, .rm-sl-f, .rm-deps path, .rm-today span) {
+    animation: 900ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing .rm-map .rm-cv {
+    animation-name: rm-drop;
+  }
+  html.motion .is-playing .rm-map .rm-today span {
+    animation-name: rm-tab;
+    animation-delay: 600ms;
+  }
+  html.motion .is-playing .rm-map .rm-sl-f {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation-name: rm-fill;
+    animation-delay: 900ms;
+  }
+  html.motion .is-playing .rm-map .rm-deps path {
+    animation-name: rm-draw;
+    animation-delay: 1500ms;
+  }
+  html.motion .rm-map:hover *,
+  html.motion .rm-map:has([data-off]) * {
+    animation-play-state: paused;
+  }
+}
+@keyframes rm-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+@keyframes rm-tab {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) translateY(-6px);
+  }
+}
+@keyframes rm-fill {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes rm-draw {
+  from {
+    opacity: 0;
+  }
+}
+
+/* /roadmap: one shelf per version, its accession tag and date, and what
+   it brought as solid slots with a Buckram spine (Coverly made them). */
+.rm-shelf {
+  display: grid;
+  gap: clamp(28px, 4vw, 40px);
+}
+.rm-rel h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cr-border-strong);
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+}
+.rm-tag {
+  padding: 2px 10px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+}
+.rm-rel time {
+  font: 500 1rem/1.4 var(--cr-font-body);
+  color: var(--cr-text-secondary);
+}
+.rm-unrel > p {
+  margin-top: 10px;
+  color: var(--cr-text-secondary);
+}
+.rm-done {
+  display: grid;
+  gap: 4px 32px;
+  margin-top: 14px;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 900px) {
+  .rm-done {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.rm-done li {
+  position: relative;
+  padding: 6px 0 6px 26px;
+}
+.rm-done li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 12px;
+  height: 16px;
+  border-radius: 1px;
+  background:
+    linear-gradient(var(--cr-slot-applied), var(--cr-slot-applied)) 0 100% / 100% 3px no-repeat,
+    var(--cr-slot-filled);
+}
+
+/* The topbar link of the page you are on. */
+.topnav [aria-current='page'] {
+  color: var(--cr-text);
+  box-shadow: inset 0 -3px 0 var(--cr-slot-applied);
+}

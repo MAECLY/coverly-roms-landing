@@ -1,0 +1,12 @@
+# a comment naming [[system]] is not a system
+# fixture: family defaults to console
+[[system]]
+id = "nes"
+
+[[system]]
+id = "gb"
+family = "handheld"
+
+[[system]]
+id = "mame"
+family = "arcade"

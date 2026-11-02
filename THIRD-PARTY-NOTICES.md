@@ -31,3 +31,20 @@ Extended-A, hinting is removed, and they are converted to WOFF2. They keep
 their original family names, which the OFL allows because none of these
 fonts declares a Reserved Font Name. Each licence file sits next to the font
 files.
+
+## System icons
+
+`site/assets/art/systems.svg` (the system silhouettes in #formatos on both
+homes) is adapted from **RetroArch Assets**, XMB "Monochrome" theme,
+© libretro contributors, licensed under Creative Commons Attribution 4.0
+International (https://creativecommons.org/licenses/by/4.0/). Source:
+https://github.com/libretro/retroarch-assets/tree/d9f969054dc7fbb6fa89519036d2b971e0855b51/src/xmb/monochrome/
+
+Changes: in Coverly ROMs (`src/assets/system-icons/README.md`, which audits
+each of the 89 icons for maker marks) they are recoloured to `currentColor`,
+optimised with SVGO and their viewBoxes cropped; here
+`scripts/site/systems.py` rounds their path data to one decimal and joins
+them into one sprite. The CC licence grants no trademark rights: the
+drawings are simplified hardware silhouettes shown beside the system's name
+only to say what Coverly works with, and the page says that Coverly is not
+affiliated with or endorsed by any maker.

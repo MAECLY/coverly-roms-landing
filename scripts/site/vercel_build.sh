@@ -16,6 +16,9 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 python3 -I scripts/site/check_site.py
+# The roadmap against the app's main (TODO.md, CHANGELOG.md, TRACKER.md):
+# drift only warns here; `make check` with the app checked out fails on it.
+python3 -I scripts/site/roadmap.py --remote || true
 
 auth=()
 if [ -n "${GITHUB_TOKEN:-}" ]; then

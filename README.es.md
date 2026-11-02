@@ -5,10 +5,34 @@
 [English](README.md)
 
 La web de [Coverly ROMs](https://github.com/MAECLY/coverly-roms), publicada
-en **https://coverly-roms.maecly.com**: una página estática y bilingüe
+en **https://coverly-roms.maecly.com**: una web estática y bilingüe
 (español en `/`, inglés en `/en/`), sin framework, sin dependencias y sin
 rastreadores. La app, sus releases y sus incidencias están en
 [MAECLY/coverly-roms](https://github.com/MAECLY/coverly-roms).
+
+## Qué hay
+
+- **La portada** ([es](https://coverly-roms.maecly.com/), [en](https://coverly-roms.maecly.com/en/)):
+  primero las portadas (el hero, los cuatro pasos en un solo escritorio y
+  «Tu tarjeta vuelve como estaba», con cómo se elige cada portada), y
+  después lo que ha crecido alrededor: ordenar comprimidos y discos,
+  consolas actuales sin claves, duplicados y las seis vistas, los formatos y
+  cada uno de los 131 sistemas (una balda lenta con sus iconos y una lista
+  con buscador), la línea de comandos en su propia sección,
+  la comparativa con Skraper, Skyscraper, ARRM y Mini Scraper, lo siguiente,
+  las descargas y las preguntas.
+- **[Funciones](https://coverly-roms.maecly.com/features/)** (`/features/`,
+  `/en/features/`): todas las funciones en siete grupos, cada una con la
+  versión en que llegó y un dibujo hecho con las piezas de la propia web,
+  que se queda al lado de la lista y avanza a medida que lees.
+- **[Hoja de ruta](https://coverly-roms.maecly.com/roadmap/)** (`/roadmap/`,
+  `/en/roadmap/`): una balda visual (las versiones publicadas, Hoy y los
+  huecos de Ahora, Después y Más adelante, llenos según su avance) encima
+  de cada versión con su fecha y de lo que viene con su estado.
+
+Todas las animaciones son dibujadas (nada de carruseles de capturas), se
+reproducen una vez o con un botón, se paran fuera de pantalla y con el
+ratón encima, y con movimiento reducido son un fotograma fijo.
 
 ## En local
 
@@ -21,8 +45,29 @@ make site RELEASE=scripts/site/fixtures/release.json            # release de pru
 make site RELEASE=scripts/site/fixtures/release-new.json        # nombres nuevos, con Intel y ARM64
 make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # nombres nuevos, sin Windows ARM64
 make check                                                      # todas las comprobaciones, como en CI
+make roadmap                                                    # sincroniza site/data/roadmap.json con ../coverly-roms
+make systems                                                    # regenera la lista de sistemas y sus iconos desde ../coverly-roms
 make help                                                       # todos los objetivos
 ```
+
+`make check` también pasa los tests de `roadmap.py` y `systems.py` y, con
+la app clonada al lado (`../coverly-roms`, o `APP=`/`COVERLY_APP=`), falla
+si la hoja de ruta, las cifras o los sistemas se desfasan de la app.
+
+## Hoja de ruta y cifras
+
+- `site/data/roadmap.json` es el único archivo detrás de `/roadmap/` y de
+  «Lo siguiente» en la portada. `scripts/site/roadmap.py` escribe los
+  bloques en las páginas (`<!-- roadmap:…:begin -->`), los comprueba y
+  compara el archivo con `TODO.md`, `CHANGELOG.md` y `docs/TRACKER.md` de la
+  app. `make roadmap` rellena lo que es de máquina (avance, versiones,
+  fechas, huellas); el texto, el estado y lo que se publica se escriben a
+  mano. Cuando la app publica una versión, `make roadmap` pasa «Próxima
+  versión» a su número, también en `/features/`. En Vercel solo avisa.
+- `site/data/facts.json` guarda las cifras que imprimen las páginas (131
+  sistemas, 8 formatos, 62 créditos, sistemas por familia). Cada número
+  marcado con `data-fact` tiene que coincidir, y frases como «más de 50
+  sistemas» no pasan.
 
 ## Despliegue
 
@@ -53,3 +98,12 @@ Los tokens de marca (`design/tokens.json`) son una copia de los de la app:
 
 Más detalle en [docs/landing.md](docs/landing.md) (en inglés). Licencia
 [AGPL-3.0](LICENSE).
+
+## Créditos
+
+Diseño y desarrollo de Miguel Esparza ([MAECLY](https://www.maecly.com)).
+Tipografías: Archivo y Atkinson Hyperlegible Next y Mono (SIL OFL 1.1). Las
+portadas de la web son formas generadas, no arte de juegos. Los créditos de
+la app (fuentes de portadas, bases de datos, bibliotecas) están en su
+pestaña Ajustes → Agradecimientos y en su
+[THIRD-PARTY-NOTICES.md](https://github.com/MAECLY/coverly-roms/blob/main/THIRD-PARTY-NOTICES.md).

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Coverly ROMs · Las portadas que faltan en tus ROMs | MAECLY</title>
-<meta name="description" content="Coverly ROMs revisa la tarjeta SD de tu consola portátil, te enseña qué juegos no tienen portada y las añade de una vez, con simulación previa y deshacer. Gratis y AGPL-3.0 para Windows, macOS y Linux.">
+<meta name="description" content="Gratis y sin cuenta: Coverly ROMs añade las portadas que faltan en tu consola portátil, ordena 131 sistemas y aparta duplicados. Con deshacer.">
 <meta name="author" content="Miguel Esparza · MAECLY">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="color-scheme" content="light dark">
@@ -26,7 +26,8 @@
 <script src="assets/theme.js"></script>
 <script src="assets/motion.js" defer></script>
 <script src="assets/shelf.js" defer></script>
-<script src="assets/views.js" defer></script>
+<script src="assets/deck.js" defer></script>
+<script src="assets/systems.js" defer></script>
 <script src="assets/release.js" defer></script>
 <script src="assets/metrics.js" defer></script>
 <meta property="og:type" content="website">
@@ -52,8 +53,8 @@
 "@graph": [
 {"@type":"WebSite","@id":"https://coverly-roms.maecly.com/#website","url":"https://coverly-roms.maecly.com/","name":"Coverly ROMs","inLanguage":["es","en"],"publisher":{"@id":"https://www.maecly.com/#org"}},
 {"@type":"Organization","@id":"https://www.maecly.com/#org","name":"MAECLY","url":"https://www.maecly.com/"},
-{"@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","name":"Coverly ROMs","description":"Programa de escritorio gratuito (AGPL-3.0) para Windows, macOS y Linux que audita una biblioteca de ROMs, enseña qué juegos no tienen portada, captura o pantalla de título y los rellena desde libretro-thumbnails o SteamGridDB, con simulación previa, copias de seguridad y deshacer. Escribe en los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI, muOS, ES-DE, Batocera y RetroArch. También ordena las ROMs por sistema, con archivos comprimidos y juegos de disco, y aparta los duplicados con deshacer. Incluye la línea de comandos coverly. Sin cuenta ni telemetría.","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11, macOS 11 o posterior, Linux x64, Linux ARM64","inLanguage":["es","en"],"license":"https://www.gnu.org/licenses/agpl-3.0.html","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Miguel Esparza"},"publisher":{"@id":"https://www.maecly.com/#org"},"image":"https://coverly-roms.maecly.com/assets/icon-512.png","screenshot":"https://coverly-roms.maecly.com/assets/shots/es/library-light.webp","url":"https://coverly-roms.maecly.com/"},
-{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/#preguntas","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No cuesta nada, no pide cuenta y no tiene versión de pago. El código es AGPL-3.0."}},{"@type":"Question","name":"¿Trae ROMs o portadas?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs no incluye ROMs, BIOS ni arte de juegos. Las imágenes se descargan de libretro-thumbnails y, si pones tu propia clave, de SteamGridDB. Cada imagen es de sus dueños."}},{"@type":"Question","name":"¿Va a sobrescribir mis portadas?","acceptedAnswer":{"@type":"Answer","text":"No, salvo que lo pidas. Por defecto solo rellena lo que falta. Si eliges sustituir, antes guarda una copia en la carpeta de datos de la app, no en la tarjeta, y Deshacer la devuelve."}},{"@type":"Question","name":"¿Necesito una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema."}},{"@type":"Question","name":"¿Con qué consolas funciona?","acceptedAnswer":{"@type":"Answer","text":"Con las que usan los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales."}},{"@type":"Question","name":"¿Por qué avisan Gatekeeper y SmartScreen?","acceptedAnswer":{"@type":"Answer","text":"Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto."}},{"@type":"Question","name":"¿Borra los juegos repetidos?","acceptedAnswer":{"@type":"Answer","text":"No. Los aparta en _Duplicados/, dentro de la biblioteca, o los manda a la Papelera si lo eliges, y Deshacer los devuelve. Si dos copias tienen partidas distintas, no toca ninguna."}},{"@type":"Question","name":"¿Envía datos a algún sitio?","acceptedAnswer":{"@type":"Answer","text":"No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. Las imágenes se recodifican, así que no llevan metadatos."}},{"@type":"Question","name":"¿Cómo se actualiza?","acceptedAnswer":{"@type":"Answer","text":"Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update."}}]}
+{"@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","name":"Coverly ROMs","description":"Programa de escritorio gratuito (AGPL-3.0) para Windows, macOS y Linux que añade las portadas que faltan en una biblioteca de ROMs: audita qué juegos no tienen portada, captura o pantalla de título y los rellena desde libretro-thumbnails, SteamGridDB o el icono que lleva el propio juego, con simulación previa, copias de seguridad y deshacer. Escribe en los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI, muOS, ES-DE, Batocera y RetroArch. Alrededor de las portadas, ordena las ROMs en 131 sistemas, con archivos comprimidos, juegos de disco y juegos que son una carpeta, reconoce las consolas actuales sin claves y aparta los duplicados, todo con deshacer. Incluye la línea de comandos coverly. Sin cuenta ni telemetría.","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11, Windows 11 ARM64, macOS 11 o posterior (Apple silicon e Intel), Linux x64, Linux ARM64","inLanguage":["es","en"],"license":"https://www.gnu.org/licenses/agpl-3.0.html","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Miguel Esparza"},"publisher":{"@id":"https://www.maecly.com/#org"},"image":"https://coverly-roms.maecly.com/assets/icon-512.png","screenshot":"https://coverly-roms.maecly.com/assets/shots/es/library-light.webp","url":"https://coverly-roms.maecly.com/"},
+{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/#preguntas","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. No cuesta nada, no pide cuenta y no tiene versión de pago. El código es AGPL-3.0."}},{"@type":"Question","name":"¿Trae ROMs o portadas?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs no incluye ROMs, BIOS ni arte de juegos. Las imágenes se descargan de libretro-thumbnails y, si pones tu propia clave, de SteamGridDB. Cada imagen es de sus dueños."}},{"@type":"Question","name":"¿Va a sobrescribir mis portadas?","acceptedAnswer":{"@type":"Answer","text":"No, salvo que lo pidas. Por defecto solo rellena lo que falta. Si eliges sustituir, antes guarda una copia en la carpeta de datos de la app, no en la tarjeta, y Deshacer la devuelve."}},{"@type":"Question","name":"¿Necesito una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema."}},{"@type":"Question","name":"¿Necesito claves para Switch o PS4?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs nunca lee ni pide claves. Reconoce lo que puede con lo que va en claro, y lo que no puede leer queda como «Cifrado»."}},{"@type":"Question","name":"¿Con qué consolas funciona?","acceptedAnswer":{"@type":"Answer","text":"Reconoce 131 sistemas y escribe en los formatos de los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales."}},{"@type":"Question","name":"¿Por qué avisan Gatekeeper y SmartScreen?","acceptedAnswer":{"@type":"Answer","text":"Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto."}},{"@type":"Question","name":"¿Borra los juegos repetidos?","acceptedAnswer":{"@type":"Answer","text":"No. Los aparta en _Duplicados/, dentro de la biblioteca, o los manda a la Papelera si lo eliges, y Deshacer los devuelve. Si dos copias tienen partidas distintas, no toca ninguna."}},{"@type":"Question","name":"¿Envía datos a algún sitio?","acceptedAnswer":{"@type":"Answer","text":"No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. El catálogo de nombres de Switch es opcional y viene apagado. Las imágenes se recodifican, así que no llevan metadatos."}},{"@type":"Question","name":"¿Cómo se actualiza?","acceptedAnswer":{"@type":"Answer","text":"Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update."}}]}
 ]
 }
 </script>
@@ -72,16 +73,20 @@
 <svg class="art progress-slots" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><defs><rect id="ms" x=".5" y=".5" width="5" height="7" rx=".75"/><g id="msr"><use href="#ms"/><use href="#ms" x="9"/><use href="#ms" x="18"/><use href="#ms" x="27"/><use href="#ms" x="36"/><use href="#ms" x="45"/><use href="#ms" x="54"/><use href="#ms" x="63"/><use href="#ms" x="72"/><use href="#ms" x="81"/><use href="#ms" x="90"/><use href="#ms" x="99"/><use href="#ms" x="108"/><use href="#ms" x="117"/><use href="#ms" x="126"/><use href="#ms" x="135"/><use href="#ms" x="144"/><use href="#ms" x="153"/><use href="#ms" x="162"/><use href="#ms" x="171"/><use href="#ms" x="180"/><use href="#ms" x="189"/><use href="#ms" x="198"/><use href="#ms" x="207"/></g></defs><use class="ps-dash" href="#msr"/><use class="ps-fill" href="#msr"/></svg>
 <nav class="topnav" aria-label="Secciones">
 <a href="#como">Cómo funciona</a>
-<a href="#seguro">Seguridad</a>
 <a href="#formatos">Consolas</a>
+<a href="#terminal">Terminal</a>
 <a href="#comparar">Comparar</a>
-<a href="#preguntas">Preguntas</a>
+<a href="features/">Funciones</a>
+<a href="roadmap/">Hoja de ruta</a>
 </nav>
 <details class="navmenu"><summary><span class="sr-only">Secciones</span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></summary><nav aria-label="Secciones">
 <a href="#como">Cómo funciona</a>
 <a href="#seguro">Seguridad</a>
 <a href="#formatos">Consolas</a>
+<a href="#terminal">Terminal</a>
 <a href="#comparar">Comparar</a>
+<a href="features/">Funciones</a>
+<a href="roadmap/">Hoja de ruta</a>
 <a href="#preguntas">Preguntas</a>
 <!-- release:begin --><a href="#descargar">Descargar</a><!-- release:end -->
 <!-- norelease:begin --><a href="#descargar"><span data-rel-old>Cuándo sale</span><span data-rel-new hidden>Descargar</span></a><!-- norelease:end -->
@@ -108,10 +113,12 @@
 <!-- norelease:begin --><a class="btn btn-primary" href="#como">Ver cómo funciona</a>
 <a class="btn" href="#descargar"><span data-rel-old>Cuándo sale</span><span data-rel-new hidden>Descargar</span></a><!-- norelease:end -->
 </div>
+<p class="sub-more">Y ya que está, ordena tus descargas en <span data-fact="systems">131</span> sistemas y aparta los juegos que tienes repetidos.</p>
 <ul class="facts" aria-label="En resumen">
 <li>Gratis</li>
 <li>Sin cuenta</li>
 <li>Sin telemetría</li>
+<li><span data-fact="systems">131</span> sistemas</li>
 <li>Windows, macOS y Linux</li>
 <li data-metric="downloads" hidden></li>
 </ul>
@@ -131,13 +138,11 @@
 <div class="section-head">
 <h2 id="como-t">Cuatro pasos. Los dos primeros no escriben nada.</h2>
 </div>
-<ol class="steps">
-<li class="step">
-<svg class="art rail" viewBox="0 0 20 150" width="20" height="150" aria-hidden="true" focusable="false"><g class="rl r1"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r2" transform="translate(0 40)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r3" transform="translate(0 80)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r4" transform="translate(0 120)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g></svg>
+<ol class="steps" data-deck data-deck-tabs data-deck-mq="(min-width: 1024px)" data-deck-seen="0.3">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">1</span>
-<h3>Abre la carpeta o la tarjeta SD.</h3>
-<p>Coverly reconoce el formato de tu firmware o frontend y te enseña cada sistema con lo que le falta: portada, captura o pantalla de título. También con bibliotecas de más de 10.000 juegos.</p>
+<h3><span class="step-num" aria-hidden="true">1</span>Abre la tarjeta.</h3>
+<p>Coverly reconoce tu firmware y cuenta lo que le falta a cada sistema: portada, captura o pantalla de título.</p>
 </div>
 <figure>
 <div class="shot"><div class="cam cam-1"><picture>
@@ -145,12 +150,10 @@
 </picture><svg class="annot" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><ellipse class="annot-mark" pathLength="1" cx="183" cy="786" rx="58" ry="10" transform="rotate(-2 183 786)"/></svg></div><svg class="annot call" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M214 768C238 714 288 692 330 690"/></svg><span class="callout co-1" aria-hidden="true">lo que falta, contado</span></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">2</span>
-<h3>Prueba el trabajo antes de hacerlo.</h3>
-<p>Cada ROM se identifica por su huella (CRC32, MD5 o SHA1) y, si no, por su nombre. El asistente elige la imagen según la región de la ROM, tus fuentes o los votos, y te enseña el plan entero.</p>
-<p>Hasta que pulsas Ejecutar, no se escribe nada.</p>
+<h3><span class="step-num" aria-hidden="true">2</span>Simula.</h3>
+<p>Identifica cada ROM por su huella y te enseña el plan entero. Todavía no escribe nada.</p>
 </div>
 <figure>
 <div class="shot"><div class="cam cam-2"><picture>
@@ -158,11 +161,10 @@
 </picture><svg class="annot" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><ellipse class="annot-mark" pathLength="1" cx="443" cy="98" rx="96" ry="15" transform="rotate(-2 443 98)"/><g class="stamp"><g id="sta"><circle cx="836" cy="76" r="28"/><circle cx="836" cy="76" r="22"/><rect class="st-slot" x="828.5" y="66" width="15" height="20" rx="1.5"/></g><use class="st-b" href="#sta" x="2.5" y="-2"/></g></svg></div></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">3</span>
-<h3>Decide solo las dudosas.</h3>
-<p>Las coincidencias seguras van solas. Las dudosas esperan en una cola que recorres con el teclado, y la elegida dice por qué.</p>
+<h3><span class="step-num" aria-hidden="true">3</span>Decide las dudosas.</h3>
+<p>Las seguras van solas; las dudosas esperan en una cola que recorres con el teclado, y cada una dice por qué.</p>
 <button class="replay clip-replay" type="button" aria-label="Repetir la animación del paso 3"><span aria-hidden="true">↻</span> Repetir</button>
 </div>
 <figure class="clip" data-clip data-clip-ms="3600">
@@ -171,11 +173,10 @@
 </picture><svg class="annot clip-fx" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="fx-hide" x="438.5" y="263.5" width="127" height="291" rx="8"/><rect class="fx-press" x="831" y="596" width="86" height="37" rx="7"/><g class="fx-ring"><rect x="438.5" y="263.5" width="127" height="291" rx="8"/><g class="fx-key k1"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">→</text></g><g class="fx-key k2"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">→</text></g><g class="fx-key k3"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">↵</text></g></g></svg></div><svg class="annot call" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M548 540C588 556 612 628 640 640"/></svg><span class="callout co-3" aria-hidden="true">y dice por qué</span></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">4</span>
-<h3>Aplica, y deshaz si no te convence.</h3>
-<p>Las imágenes se escriben de una en una, sin dejar archivos a medias. Deshacer devuelve la tarjeta a como estaba. Y cualquier portada se cambia a mano desde la ficha del juego.</p>
+<h3><span class="step-num" aria-hidden="true">4</span>Aplica, o deshaz.</h3>
+<p>Las imágenes se escriben de una en una. Deshacer devuelve la tarjeta a como estaba.</p>
 <button class="replay clip-replay" type="button" aria-label="Repetir la animación del paso 4"><span aria-hidden="true">↻</span> Repetir</button>
 </div>
 <figure class="clip" data-clip data-clip-ms="3200">
@@ -213,6 +214,22 @@
 <figcaption class="shot-cap">La auditoría solo lee. Puedes exportarla a CSV o JSON.</figcaption>
 </figure>
 </div>
+<div class="pick" data-clip-box>
+<h3 class="pick-h">Y elige bien cada portada.</h3>
+<figure class="cascade" data-clip data-clip-ms="2600">
+<div class="cas-box" role="img" aria-label="Ilustración: un hueco sin portada de un juego de PS4. libretro-thumbnails y SteamGridDB no tienen nada; el propio juego trae su icono, y el hueco se rellena."><svg class="art cas" viewBox="0 20 320 140" width="320" height="140" aria-hidden="true" focusable="false"><path class="cas-rl" d="M0 140.5H320"/><path class="cas-cap" d="M0 140.5h24"/><g class="src s1"><path class="ln l1" d="M96 84 L200 46"/><rect class="sb" x="200" y="40" width="104" height="12" rx="2"/></g><g class="src s2"><path class="ln l2" d="M96 84 L200 86"/><rect class="sb" x="200" y="80" width="104" height="12" rx="2"/></g><g class="src s3"><path class="ln l3" d="M96 84 L200 126"/><rect class="sb" x="200" y="120" width="104" height="12" rx="2"/></g><g transform="translate(24 44)scale(2.4)"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="cv ink-4" href="assets/art/covers.svg#c-19" width="30" height="40"/><use class="mi" href="assets/art/kit.svg#sm" width="30" height="40"/><use class="sp" href="assets/art/kit.svg#spine" y="37" width="30" height="3"/><use class="tb" href="assets/art/kit.svg#tab" x="22" width="8" height="8"/></g></svg></div>
+<ol class="cas-src"><li>libretro-thumbnails</li><li>SteamGridDB</li><li>El propio juego</li></ol>
+<figcaption class="caption-row"><span>Ilustración: un juego de PS4.</span><button class="replay clip-replay" type="button" aria-label="Repetir la cascada de fuentes"><span aria-hidden="true">↻</span> Repetir</button></figcaption>
+</figure>
+<dl class="picks">
+<div><dt>Por su huella.</dt><dd>Reconoce cada ROM por CRC32, MD5 o SHA1, no solo por el nombre, y entiende los nombres cortos de arcade.</dd></div>
+<div><dt>En tu región.</dt><dd>Prefiere la portada de la región de la ROM, o sigue el orden de fuentes que elijas.</dd></div>
+<div><dt>Aunque nadie la tenga.</dt><dd>Si ninguna fuente tiene portada, usa el icono que lleva el propio juego en PS3, PS Vita, Wii U, 3DS y Xbox 360. En PS4, PS5, Xbox One y Xbox Series lo prueba primero.</dd></div>
+<div><dt>Con el nombre que busca RetroArch.</dt><dd>Los títulos con «&amp;» o «:» se guardan como RetroArch los busca, y entonces los encuentra.</dd></div>
+<div><dt>A mano, juego a juego.</dt><dd>Desde la ficha cambias, quitas o buscas otra imagen, o pones una tuya.</dd></div>
+<div><dt>Sabes cuánto falta.</dt><dd>Mientras rellena, ves portadas por minuto y el tiempo que queda.</dd></div>
+</dl>
+</div>
 </div>
 </section>
 
@@ -220,35 +237,34 @@
 <div class="wrap">
 <div class="section-head">
 <h2 id="ordenar-t">Más que portadas.</h2>
-<p>Coverly ROMs también ordena una carpeta de descargas por sistema, aparta los juegos que tienes repetidos y te deja ver la biblioteca de seis formas. Ordenar y apartar se simulan primero y se pueden deshacer.</p>
+<p>Alrededor de las portadas, Coverly ROMs ha aprendido a ordenar la biblioteca. Todo se simula primero y se puede deshacer.</p>
 </div>
 <div class="feats">
-<div class="feat">
+<div class="feat" data-clip-box>
 <div class="feat-text">
-<h3>Ordena los archivos comprimidos por lo que llevan dentro.</h3>
-<p>Abre zip, 7z, tar, gz, bz2, xz, zst y lz4, y reconoce cada uno por su contenido, no por la extensión. Los RAR, con un programa que ya tengas: unrar, 7-Zip o bsdtar, que viene con macOS.</p>
-<p>Dentro de los archivos encuentra juegos de disco de PlayStation, Saturn, Dreamcast, Sega CD, PC Engine CD y Neo Geo CD. Al aplicar, los extrae a la carpeta de su sistema y comprueba el tamaño y el CRC de cada archivo. Si se corta, lo reanudas; si no te convence, lo deshaces.</p>
+<h3>Ordena por sistema, también lo comprimido.</h3>
+<p>Reconoce zip, 7z, RAR y otros por lo que llevan dentro. Extrae los juegos de disco comprobando el CRC de cada pista, mueve como uno solo los juegos que son una carpeta (PS3, Vita, Wii U, PS4…) y agrupa los multidisco sueltos con su <code>.m3u</code>.</p>
 </div>
-<figure>
-<div class="shot"><picture>
-<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/shots/es/organise-dark@1x.webp 1280w, assets/shots/es/organise-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
-<img src="assets/shots/es/organise-light@1x.webp" srcset="assets/shots/es/organise-light@1x.webp 1280w, assets/shots/es/organise-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="El plan de Organizar por sistema para una carpeta de descargas: 19 ROMs en 7 sistemas y tres juegos de disco de Dreamcast, PlayStation y Sega Saturn que se extraen de archivos .zip, cada uno con su número de serie, sus archivos y su tamaño.">
-</picture></div>
-<figcaption class="shot-cap">La simulación: tres juegos de disco que se extraen. Todavía no se ha movido nada.</figcaption>
+<figure class="arcfig" data-clip data-clip-ms="3200">
+<div class="cas-box" role="img" aria-label="Ilustración: un comprimido se abre y salen las cuatro pistas de un juego de disco; cada una pasa de hueco discontinuo a sólida y recibe su marca al comprobar su CRC."><svg class="art arc" viewBox="0 0 320 110" width="320" height="110" aria-hidden="true" focusable="false"><path class="arc-rl" d="M0 96.5H320"/><path class="arc-cap" d="M0 96.5h24"/><path class="arc-route" d="M84 72H308"/><g class="arc-box"><rect class="arc-body" x="16" y="38" width="64" height="58" rx="3"/><path class="arc-zip" d="M48 40v54"/><g class="arc-lid"><rect class="arc-body" x="12" y="26" width="72" height="12" rx="2"/></g></g><g transform="translate(118 56)"><g class="trk k0"><use class="t-f" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(164 56)"><g class="trk k1"><use class="t-f" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(210 56)"><g class="trk k2"><use class="t-f" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(256 56)"><g class="trk k3"><use class="t-f" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g></svg><p class="arc-count" aria-hidden="true">Juego 2 de 4 · Pista 5 de 16</p></div>
+<figcaption class="caption-row"><span>Ilustración, con el texto de la propia app.</span><button class="replay clip-replay" type="button" aria-label="Repetir la extracción"><span aria-hidden="true">↻</span> Repetir</button></figcaption>
 </figure>
 </div>
-<div class="feat">
+<div class="feat feat-solo">
+<div class="feat-text">
+<h3>Consolas actuales, sin claves.</h3>
+<p>Switch, 3DS, PS4, PS5 y Xbox One se reconocen por lo que va en claro. Coverly nunca lee ni pide claves, y deja tus archivos de licencia donde están. Los nombres de Switch salen del propio archivo o, si lo activas, de un catálogo público.</p>
+</div>
+</div>
+<div class="feat" data-clip-box>
 <div class="feat-text">
 <h3>Aparta las copias repetidas sin borrar nada.</h3>
-<p>Busca el mismo juego guardado más de una vez en un sistema por su contenido, nunca por el nombre. Se queda una copia, elegida con reglas que puedes ordenar, y te dice por qué.</p>
+<p>Busca el mismo juego guardado más de una vez en un sistema por su contenido, nunca por el nombre. Se queda una copia, elegida con reglas que puedes ordenar, y te dice por qué. También encuentra las que comparten title ID y versión, o la misma carpeta.</p>
 <p>Las demás van a <code>_Duplicados/</code> dentro de la biblioteca, con sus partidas y su arte, o a la Papelera si lo eliges. Si dos copias tienen partidas distintas, no toca ninguna. Deshacer lo devuelve todo.</p>
 </div>
-<figure>
-<div class="shot"><picture>
-<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="assets/shots/es/duplicates-dark@1x.webp 1280w, assets/shots/es/duplicates-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
-<img src="assets/shots/es/duplicates-light@1x.webp" srcset="assets/shots/es/duplicates-light@1x.webp 1280w, assets/shots/es/duplicates-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="La pantalla Duplicados: 89 copias de más en 88 juegos, un aviso de que el juego con partidas distintas no se tocará y, debajo, la copia de GB Game 01 que se queda sobre la que va a _Duplicados/.">
-</picture></div>
-<figcaption class="shot-cap">Arriba, la copia que se queda; debajo, las que se apartan y adónde van.</figcaption>
+<figure class="dupfig" data-clip data-clip-ms="12600">
+<div class="cas-box dup-box" role="img" aria-label="Ilustración: tres copias del mismo juego en una balda. Una se queda porque tiene portada; las otras dos van a la carpeta _Duplicados y la pestaña Deshacer puede devolverlas."><div class="dup-stage"><svg class="art dup" viewBox="0 34 360 116" width="360" height="116" aria-hidden="true" focusable="false"><path class="cas-rl" d="M0 136.5H360"/><path class="cas-cap" d="M0 136.5h24"/><use class="dup-tab" href="assets/art/kit.svg#ftab" x="250" y="64" width="96" height="72"/><g transform="translate(266 60)"><g class="dc da"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="dup-o" href="assets/art/kit.svg#sm" width="30" height="40"/><path class="dup-fp" d="M3 -7h5v3h-5zM9.5 -7h5v3h-5zM16 -7h5v3h-5zM22.5 -7h5v3h-5z"/></g></g><g transform="translate(298 64)"><g class="dc db"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="dup-o" href="assets/art/kit.svg#sm" width="30" height="40"/><path class="dup-fp" d="M3 -7h5v3h-5zM9.5 -7h5v3h-5zM16 -7h5v3h-5zM22.5 -7h5v3h-5z"/></g></g><use class="dup-fold" href="assets/art/kit.svg#folder" x="250" y="64" width="96" height="72"/><g class="dup-tag"><use href="assets/art/kit.svg#tab" x="328" y="58" width="12" height="12"/></g><g transform="translate(16 88)scale(1.2)"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="ink-2" href="assets/art/covers.svg#c-07" width="30" height="40"/></g><g transform="translate(60 88)scale(1.2)"><g class="dc ds"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="ink-5" href="assets/art/covers.svg#c-23" width="30" height="40"/><path class="dup-fp" d="M3 -7h5v3h-5zM9.5 -7h5v3h-5zM16 -7h5v3h-5zM22.5 -7h5v3h-5z"/><use class="dup-sp" href="assets/art/kit.svg#spine" y="37" width="30" height="3"/></g></g><g transform="translate(148 88)scale(1.2)"><use class="cas-gd" href="assets/art/kit.svg#sf" width="30" height="40"/><use class="ink-3" href="assets/art/covers.svg#c-11" width="30" height="40"/></g><path class="dup-scan" d="M8 76h2v60h-2z"/></svg><span class="dup-l dup-exact" aria-hidden="true">Copia exacta</span><span class="dup-l dup-undo" aria-hidden="true">Deshacer</span><code class="dup-l dup-dir" aria-hidden="true">_Duplicados</code></div><p class="dup-why" aria-hidden="true"><span class="dup-mk"></span>Se queda: tiene portada; la otra no.</p></div>
+<figcaption class="caption-row"><span>Ilustración, con el texto de la propia app.</span><button class="replay clip-replay" type="button" aria-label="Repetir: las copias se apartan"><span aria-hidden="true">↻</span> Repetir</button></figcaption>
 </figure>
 </div>
 <div class="feat">
@@ -256,13 +272,14 @@
 <h3>Seis vistas, y un icono para cada sistema.</h3>
 <p>Pasa de una a otra con ⌘/Ctrl+1 a ⌘/Ctrl+6. Cada biblioteca recuerda su vista, y cada sistema lleva su icono en la barra lateral, los filtros y los informes.</p>
 </div>
-<figure class="vw" data-v="0">
+<figure class="vw" data-v="0" data-deck data-deck-tiles="160 50 1.9,258 50 1.9,356 50 1.9,454 50 1.9,160 186 1.9,258 186 1.9,356 186 1.9,454 186 1.9;156 66 .7,156 100 .7,156 134 .7,156 168 .7,156 202 .7,156 236 .7,156 270 .7,156 304 .7;312 50 .5,312 76 .5,452 56 2.8,312 128 .5,312 154 .5,312 180 .5,312 206 .5,312 232 .5;210 282 .9,246 282 .9,279 48 5,318 282 .9,354 282 .9,390 282 .9,426 282 .9,462 282 .9;156 48 .75,156 85 .75,156 122 .75,156 159 .75,156 196 .75,156 233 .75,156 270 .75,156 307 .75;160 66 1.9,236 66 1.9,312 66 1.9,388 66 1.9,160 196 1.9,236 196 1.9,312 196 1.9,388 196 1.9">
 <div class="vw-box" role="img" aria-label="Ilustración: una ventana de Coverly ROMs con los sistemas a la izquierda. Las mismas portadas cambian de sitio al pasar por las seis vistas."><svg class="art vw-art" viewBox="0 0 560 350" width="560" height="350" aria-hidden="true" focusable="false"><path class="fr" d="M8 .5h544a7.5 7.5 0 0 1 7.5 7.5v334a7.5 7.5 0 0 1-7.5 7.5H8A7.5 7.5 0 0 1 .5 342V8A7.5 7.5 0 0 1 8 .5z"/><path class="ch" d="M0 0h560v36h-560zM0 36h140v314h-140z"/><path class="hl" d="M6 44h128v26h-128z"/><path class="rl" d="M0 36.5H560M140.5 36V350"/><path class="fld" d="M150.5 9.5h96v17h-96z"/><path class="ln" d="M16 14h70v8h-70zM36 53h56v4h-56zM112 53h16v4h-16zM36 83h64v4h-64zM112 83h16v4h-16zM36 113h44v4h-44zM112 113h16v4h-16zM36 143h70v4h-70zM112 143h16v4h-16zM36 173h50v4h-50zM112 173h16v4h-16zM36 203h60v4h-60zM112 203h16v4h-16zM36 233h40v4h-40zM112 233h16v4h-16zM36 263h66v4h-66zM112 263h16v4h-16zM36 293h48v4h-48zM112 293h16v4h-16z"/><path class="ic" fill-rule="evenodd" d="M16 49h10v12h-10zm2 2v5h6v-5zM14 80h14v10h-14zm3 2v6h8v-6zM16 109h10v12h-10zm2 2v5h6v-5zM14 140h14v10h-14zm3 2v6h8v-6zM16 169h10v12h-10zm2 2v5h6v-5zM14 200h14v10h-14zm3 2v6h8v-6zM16 229h10v12h-10zm2 2v5h6v-5zM14 260h14v10h-14zm3 2v6h8v-6zM16 289h10v12h-10zm2 2v5h6v-5z"/><path class="vb b0" d="M258 9h18v18h-18z"/><path class="vb b1" d="M280 9h18v18h-18z"/><path class="vb b2" d="M302 9h18v18h-18z"/><path class="vb b3" d="M324 9h18v18h-18z"/><path class="vb b4" d="M346 9h18v18h-18z"/><path class="vb b5" d="M368 9h18v18h-18z"/><path class="pr" d="M410 9h84v18h-84z"/><path class="fld" d="M500.5 9.5h48v17h-48z"/><path class="fo" d="M8 .5h544a7.5 7.5 0 0 1 7.5 7.5v334a7.5 7.5 0 0 1-7.5 7.5H8A7.5 7.5 0 0 1 .5 342V8A7.5 7.5 0 0 1 8 .5z"/><g class="vd v0"><path class="ln" d="M160 132h44v4h-44zM160 140h26v3h-26zM258 132h44v4h-44zM258 140h26v3h-26zM356 132h44v4h-44zM356 140h26v3h-26zM454 132h44v4h-44zM454 140h26v3h-26zM160 268h44v4h-44zM160 276h26v3h-26zM258 268h44v4h-44zM258 276h26v3h-26zM356 268h44v4h-44zM356 276h26v3h-26zM454 268h44v4h-44zM454 276h26v3h-26z"/></g><g class="vd v1"><path class="rl" d="M148 62.5H560M148 96.5H560M148 130.5H560M148 164.5H560M148 198.5H560M148 232.5H560M148 266.5H560M148 300.5H560M148 334.5H560"/><path class="ln" d="M186 50h40v5h-40zM310 50h34v5h-34zM400 50h24v5h-24zM470 50h46v5h-46zM186 76h110v5h-110zM326 77h40v4h-40zM400 77h26v4h-26zM186 110h84v5h-84zM326 111h40v4h-40zM400 111h26v4h-26zM186 144h120v5h-120zM326 145h40v4h-40zM400 145h26v4h-26zM186 178h96v5h-96zM326 179h40v4h-40zM400 179h26v4h-26zM186 212h70v5h-70zM326 213h40v4h-40zM400 213h26v4h-26zM186 246h104v5h-104zM326 247h40v4h-40zM400 247h26v4h-26zM186 280h88v5h-88zM326 281h40v4h-40zM400 281h26v4h-26zM186 314h116v5h-116zM326 315h40v4h-40zM400 315h26v4h-26z"/><path class="ic" d="M310 75h11v8h-11zM310 109h11v8h-11zM310 143h11v8h-11zM310 177h11v8h-11zM310 211h11v8h-11zM310 245h11v8h-11zM310 279h11v8h-11zM310 313h11v8h-11z"/><path class="ap" d="M470 74h8v10h-8zM488 74h8v10h-8zM506 74h8v10h-8zM470 142h8v10h-8zM506 142h8v10h-8zM470 176h8v10h-8zM488 176h8v10h-8zM506 176h8v10h-8zM470 244h8v10h-8zM506 244h8v10h-8zM470 278h8v10h-8zM488 278h8v10h-8zM506 278h8v10h-8zM470 312h8v10h-8zM488 312h8v10h-8z"/><path class="dsh" d="M470.5 108.5h7v9h-7zM488.5 108.5h7v9h-7zM506.5 108.5h7v9h-7zM488.5 142.5h7v9h-7zM470.5 210.5h7v9h-7zM488.5 210.5h7v9h-7zM506.5 210.5h7v9h-7zM488.5 244.5h7v9h-7zM506.5 312.5h7v9h-7z"/></g><g class="vd v2"><path class="hl" d="M148 44h80v22h-80zM229 44h79v22h-79zM309 98h121v24h-121z"/><path class="rl" d="M228.5 36V350M308.5 36V350M430.5 36V350"/><g class="v2f"><path class="ic" d="M154 51h11v8h-11zM154 77h11v8h-11zM154 103h11v8h-11zM154 129h11v8h-11zM154 155h11v8h-11zM154 181h11v8h-11zM154 207h11v8h-11zM154 233h11v8h-11zM154 259h11v8h-11zM236 50h12v9h-12zM236 76h12v9h-12zM236 102h12v9h-12z"/><path class="ln" d="M170 53h40v4h-40zM170 79h30v4h-30zM170 105h46v4h-46zM170 131h36v4h-36zM170 157h28v4h-28zM170 183h42v4h-42zM170 209h34v4h-34zM170 235h38v4h-38zM170 261h30v4h-30zM254 53h30v4h-30zM254 79h40v4h-40zM254 105h24v4h-24z"/></g><path class="ln" d="M332 57h80v4h-80zM332 83h64v4h-64zM332 135h72v4h-72zM332 161h58v4h-58zM332 187h84v4h-84zM332 213h66v4h-66zM332 239h76v4h-76zM332 109h70v4h-70zM452 178h84v6h-84zM452 192h60v4h-60zM452 202h70v4h-70zM452 212h52v4h-52z"/></g><g class="vd v3"><path class="rl" d="M148 270.5H560"/><path class="sel" d="M279.5 279.5h32v41h-32z"/><path class="ln" d="M446 56h96v6h-96zM446 70h70v4h-70zM446 80h80v4h-80zM462 102h40v4h-40zM462 120h46v4h-46zM462 138h36v4h-36z"/><path class="ap" d="M446 98h10v12h-10zM446 116h10v12h-10zM446 134h10v12h-10z"/></g><g class="vd v4"><path class="rl" d="M148 81.5H560M148 118.5H560M148 155.5H560M148 192.5H560M148 229.5H560M148 266.5H560M148 303.5H560"/><path class="tint ink-0" d="M182 48h40v30h-40zM226 48h40v30h-40z"/><path class="tint ink-2" d="M182 122h40v30h-40z"/><path class="tint ink-3" d="M226 159h40v30h-40z"/><path class="tint ink-5" d="M182 233h40v30h-40zM226 233h40v30h-40z"/><path class="tint ink-1" d="M182 270h40v30h-40z"/><path class="tint ink-4" d="M226 307h40v30h-40z"/><path class="dsh" d="M182.5 85.5h39v29h-39zM226.5 85.5h39v29h-39zM226.5 122.5h39v29h-39zM182.5 159.5h39v29h-39zM182.5 196.5h39v29h-39zM226.5 196.5h39v29h-39zM226.5 270.5h39v29h-39zM182.5 307.5h39v29h-39z"/><path class="ln" d="M278 57h100v5h-100zM278 67h50v3h-50zM278 94h80v5h-80zM278 104h50v3h-50zM278 131h120v5h-120zM278 141h50v3h-50zM278 168h90v5h-90zM278 178h50v3h-50zM278 205h70v5h-70zM278 215h50v3h-50zM278 242h110v5h-110zM278 252h50v3h-50zM278 279h86v5h-86zM278 289h50v3h-50zM278 316h96v5h-96zM278 326h50v3h-50z"/></g><g class="vd v5"><path class="rule" d="M148 143.5H556M148 273.5H556"/><path class="cap" d="M148 143.5H172M148 273.5H172"/><path class="ic" d="M152 48h11v8h-11zM152 178h11v8h-11z"/><path class="ln" d="M168 50h60v5h-60zM168 180h44v5h-44z"/><path class="pr" d="M520 50h28v4h-28zM520 180h28v4h-28z"/></g><g class="vt" transform="translate(160 50)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-0" href="assets/art/covers.svg#c-02" width="30" height="40"/></g><g class="vt" transform="translate(258 50)scale(1.9)"><use class="gd" href="#hg"/><use class="gm" href="assets/art/kit.svg#sm" width="30" height="40"/></g><g class="vt" transform="translate(356 50)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-2" href="assets/art/covers.svg#c-12" width="30" height="40"/></g><g class="vt" transform="translate(454 50)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-3" href="assets/art/covers.svg#c-15" width="30" height="40"/></g><g class="vt" transform="translate(160 186)scale(1.9)"><use class="gd" href="#hg"/><use class="gm" href="assets/art/kit.svg#sm" width="30" height="40"/></g><g class="vt" transform="translate(258 186)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-5" href="assets/art/covers.svg#c-23" width="30" height="40"/></g><g class="vt" transform="translate(356 186)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-1" href="assets/art/covers.svg#c-31" width="30" height="40"/></g><g class="vt" transform="translate(454 186)scale(1.9)"><use class="gd" href="#hg"/><use class="ink-4" href="assets/art/covers.svg#c-38" width="30" height="40"/></g></svg></div>
-<div class="dm-ctl vw-ctl" role="group" aria-label="Vistas de la biblioteca"><button class="btn btn-small" type="button" aria-pressed="true" data-say="Portadas: una cuadrícula, con un hueco discontinuo donde falta la portada." hidden>Portadas</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Detalles: una tabla con las columnas que eliges y el arte que tiene cada juego." hidden>Detalles</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Columnas: sistema, carpeta, juego y vista previa." hidden>Columnas</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Galería: el arte en grande y una tira con los demás juegos." hidden>Galería</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Huecos de arte: portada, pantalla de título y captura, una al lado de otra." hidden>Huecos de arte</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Estantes: una fila por sistema." hidden>Estantes</button></div>
-<figcaption class="demo-status vw-say">Portadas: una cuadrícula, con un hueco discontinuo donde falta la portada.</figcaption>
+<div class="dm-ctl vw-ctl" data-deck-ctl role="group" aria-label="Vistas de la biblioteca"><button class="btn btn-small" type="button" aria-pressed="true" data-say="Portadas: una cuadrícula, con un hueco discontinuo donde falta la portada." hidden>Portadas</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Detalles: una tabla con las columnas que eliges y el arte que tiene cada juego." hidden>Detalles</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Columnas: sistema, carpeta, juego y vista previa." hidden>Columnas</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Galería: el arte en grande y una tira con los demás juegos." hidden>Galería</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Huecos de arte: portada, pantalla de título y captura, una al lado de otra." hidden>Huecos de arte</button><button class="btn btn-small" type="button" aria-pressed="false" data-say="Estantes: una fila por sistema." hidden>Estantes</button></div>
+<figcaption class="demo-status vw-say" data-deck-say>Portadas: una cuadrícula, con un hueco discontinuo donde falta la portada.</figcaption>
 </figure>
 </div>
 </div>
+<p class="feats-more">Y además: pregunta antes de mover un juego de más de 10 GB, se actualiza con versiones firmadas, y en Ajustes, Agradecimientos lista las <span data-fact="credits">62</span> fuentes y bibliotecas que usa, con su licencia. <a href="features/">Ver todas las funciones</a></p>
 </div>
 </section>
 
@@ -270,10 +287,9 @@
 <div class="wrap">
 <div class="section-head">
 <h2 id="formatos-t">Escribe donde tu consola busca.</h2>
-<p>Ocho formatos de firmware y frontend, detectados al abrir la carpeta, y más de 50 sistemas con los nombres de carpeta de cada uno.</p>
+<p>Ocho formatos de firmware y frontend, detectados al abrir la carpeta, y <span data-fact="systems">131</span> sistemas con la carpeta que usa cada uno.</p>
 </div>
-<div class="split">
-<div>
+<div class="fmt">
 <svg class="art gal" viewBox="0 0 406 60" width="406" height="60" aria-hidden="true" focusable="false" data-reveal><path class="gsh" d="M4 48.4a15 1 0 0 0 30 0zM42 48.4a15 1 0 0 0 30 0zM80 48.4a15 1 0 0 0 30 0zM118 48.4a15 1 0 0 0 30 0zM156 48.4a15 1 0 0 0 30 0zM194 48.4a15 1 0 0 0 30 0zM226 48.4a15 1 0 0 0 30 0zM264 48.4a15 1 0 0 0 30 0zM296 48.4a15 1 0 0 0 30 0zM334 48.4a15 1 0 0 0 30 0z"/><path class="rl" d="M0 48.5H406"/><path class="rl cap" d="M0 48.5h12"/><g class="g-gd"><path class="q1" d="M4 8h30v40H4z"/><path class="q2" d="M42 8h30v40H42z"/><path class="q3" d="M80 8h30v40H80z"/><path class="q4" d="M118 8h30v40H118z"/><path class="q5" d="M156 8h30v40H156z"/><path class="q6" d="M194 8h30v40H194zM226 8h30v40H226z"/><path class="q7" d="M264 8h30v40H264zM296 8h30v40H296z"/><path class="q8" d="M334 8h30v40H334z"/></g><g class="g-cv"><use class="ink-0 q1" href="assets/art/covers.svg#c-02" x="4" y="8" width="30" height="40"/><use class="ink-1 q2" href="assets/art/covers.svg#c-07" x="42" y="8" width="30" height="40"/><use class="ink-2 q3" href="assets/art/covers.svg#c-12" x="80" y="8" width="30" height="40"/><use class="ink-3 q4" href="assets/art/covers.svg#c-15" x="118" y="8" width="30" height="40"/><use class="ink-4 q5" href="assets/art/covers.svg#c-19" x="156" y="8" width="30" height="40"/><use class="ink-5 q6" href="assets/art/covers.svg#c-23" x="194" y="8" width="30" height="40"/><use class="ink-5 q6" href="assets/art/covers.svg#c-26" x="226" y="8" width="30" height="40"/><use class="ink-0 q7" href="assets/art/covers.svg#c-31" x="264" y="8" width="30" height="40"/><use class="ink-0 q7" href="assets/art/covers.svg#c-35" x="296" y="8" width="30" height="40"/><use class="ink-1 q8" href="assets/art/covers.svg#c-38" x="334" y="8" width="30" height="40"/></g><g class="g-sp"><path class="q1" d="M4 46h30v2H4z"/><path class="q2" d="M42 46h30v2H42z"/><path class="q3" d="M80 46h30v2H80z"/><path class="q4" d="M118 46h30v2H118z"/><path class="q5" d="M156 46h30v2H156z"/><path class="q6" d="M194 46h30v2H194zM226 46h30v2H226z"/><path class="q7" d="M264 46h30v2H264zM296 46h30v2H296z"/><path class="q8" d="M334 46h30v2H334z"/></g><use class="gm" href="assets/art/kit.svg#sm" x="372" y="8" width="30" height="40"/></svg>
 <div class="table-scroll" data-reveal tabindex="0" role="region" aria-labelledby="formatos-cap">
 <table class="media">
@@ -293,9 +309,79 @@
 </div>
 <p class="note">En Batocera, Knulli y EmulationStation también actualiza <code>gamelist.xml</code>, con deshacer. Para otro firmware, crea tu propio formato con vista previa.</p>
 </div>
-<div class="term" role="region" aria-label="Ejemplo de la línea de comandos">
-<div class="term-bar">La misma lógica, en la terminal: <code>coverly</code></div>
-<pre><code><span class="t-step"><span class="c"># Qué falta (solo lee)</span>
+<div class="sys" data-sprite="assets/art/systems.svg">
+<div class="sys-head"><h3><span data-fact="systems">131</span> sistemas, cada uno con su carpeta</h3><button class="btn btn-small sys-pause" type="button" data-alt="Reanudar" hidden>Pausar</button></div>
+<div class="sys-shelf" aria-hidden="true"></div>
+<details class="sys-all">
+<summary>Ver los <span data-fact="systems">131</span> sistemas</summary>
+<div class="sys-tools" hidden>
+<label for="sys-q">Buscar un sistema</label>
+<input id="sys-q" type="search" autocomplete="off" spellcheck="false" placeholder="gba, Saturn, Amiga…">
+<div class="sys-fams" role="group" aria-label="Familias"><button type="button" aria-pressed="true" data-f="">Todos <span data-fact="systems">131</span></button><button type="button" aria-pressed="false" data-f="console">Consolas <span data-fact="families.console">50</span></button><button type="button" aria-pressed="false" data-f="handheld">Portátiles <span data-fact="families.handheld">20</span></button><button type="button" aria-pressed="false" data-f="computer">Ordenadores <span data-fact="families.computer">27</span></button><button type="button" aria-pressed="false" data-f="arcade">Arcade <span data-fact="families.arcade">15</span></button><button type="button" aria-pressed="false" data-f="engine">Motores y ports <span data-fact="families.engine">19</span></button></div>
+<p class="sys-n" role="status" data-one="sistema" data-many="sistemas"></p>
+</div>
+<!-- systems:begin -->
+<section class="sys-g" data-f="console"><h4>Consolas <span class="sys-c" data-fact="families.console">50</span></h4>
+<div class="sys-m"><h5>Nintendo <span class="sys-c">10</span></h5><ul><li data-k="nes fc famicom" data-s="NES"><i data-i="nes"></i>Nintendo Entertainment System</li><li data-k="fds"><i data-i="fds"></i>Famicom Disk System</li><li data-k="n64"><i data-i="n64"></i>Nintendo 64</li><li data-k="snes sfc"><i data-i="snes"></i>Super Nintendo</li><li data-k="n64dd"><i data-i="n64dd"></i>Nintendo 64DD</li><li data-k="bsx bs-x" data-s="Satellaview"><i data-i="satellaview"></i>Nintendo Satellaview</li><li data-k="gc ngc gcn" data-s="GameCube"><i data-i="gamecube"></i>Nintendo GameCube</li><li data-s="Wii"><i data-i="wii"></i>Nintendo Wii</li><li data-k="wiiu" data-s="Wii U"><i data-i="wiiu"></i>Nintendo Wii U</li><li data-k="nsw" data-s="Switch"><i data-i="switch"></i>Nintendo Switch</li></ul></div>
+<div class="sys-m"><h5>Sega <span class="sys-c">8</span></h5><ul><li data-k="dc" data-s="Dreamcast"><i data-i="dreamcast"></i>Sega Dreamcast</li><li data-k="md" data-s="Mega Drive"><i data-i="megadrive"></i>Sega Mega Drive / Genesis</li><li data-k="segacd mdcd megacd" data-s="Sega CD"><i data-i="segacd"></i>Sega CD / Mega-CD</li><li data-s="Saturn"><i data-i="saturn"></i>Sega Saturn</li><li data-k="sega32x sega32"><i data-i="sega32x"></i>Sega 32X</li><li data-k="sms" data-s="Master System"><i data-i="mastersystem"></i>Sega Master System</li><li data-k="sg1000 sg-1000 sc3000" data-s="SG-1000"><i data-i="sg1000"></i>Sega SG-1000 / SC-3000</li><li data-k="segapico" data-s="Pico"><i data-i="pico"></i>Sega Pico</li></ul></div>
+<div class="sys-m"><h5>Atari <span class="sys-c">5</span></h5><ul><li data-k="a2600"><i data-i="a2600"></i>Atari 2600</li><li data-k="a5200"><i data-i="a5200"></i>Atari 5200</li><li data-k="a7800"><i data-i="a7800"></i>Atari 7800</li><li data-k="jaguarcd" data-s="Jaguar CD"><i data-i="jaguarcd"></i>Atari Jaguar CD</li><li data-s="Jaguar"><i data-i="jaguar"></i>Atari Jaguar</li></ul></div>
+<div class="sys-m"><h5>Sony <span class="sys-c">5</span></h5><ul><li data-k="psx ps ps1" data-s="PlayStation"><i data-i="psx"></i>Sony PlayStation</li><li data-k="ps2" data-s="PlayStation 2"><i data-i="ps2"></i>Sony PlayStation 2</li><li data-k="ps3" data-s="PlayStation 3"><i data-i="ps3"></i>Sony PlayStation 3</li><li data-k="ps4" data-s="PlayStation 4"><i data-i="ps4"></i>Sony PlayStation 4</li><li data-k="ps5" data-s="PlayStation 5"><i data-a="PS5"></i>Sony PlayStation 5</li></ul></div>
+<div class="sys-m"><h5>NEC <span class="sys-c">4</span></h5><ul><li data-k="pcengine pce tg16" data-s="PC Engine"><i data-i="pcengine"></i>PC Engine / TurboGrafx-16</li><li data-k="pcecd tgcd" data-s="PC Engine CD"><i data-i="pcenginecd"></i>PC Engine CD / TurboGrafx-CD</li><li data-k="pcfx pc-fx" data-s="PC-FX"><i data-i="pcfx"></i>NEC PC-FX</li><li data-k="sgfx" data-s="SuperGrafx"><i data-i="supergrafx"></i>PC Engine SuperGrafx</li></ul></div>
+<div class="sys-m"><h5>Microsoft <span class="sys-c">4</span></h5><ul><li data-s="Xbox"><i data-i="xbox"></i>Microsoft Xbox</li><li data-k="xbox360 x360" data-s="Xbox 360"><i data-i="xbox360"></i>Microsoft Xbox 360</li><li data-k="xboxone xb1" data-s="Xbox One"><i data-i="xboxone"></i>Microsoft Xbox One</li><li data-k="xsx" data-s="Xbox Series X|S"><i data-i="xboxseries"></i>Microsoft Xbox Series X|S</li></ul></div>
+<div class="sys-m"><h5>Commodore <span class="sys-c">2</span></h5><ul><li data-s="Amiga CD32"><i data-i="amigacd32"></i>Commodore Amiga CD32</li><li data-s="CDTV"><i data-a="CDTV"></i>Commodore CDTV</li></ul></div>
+<div class="sys-m"><h5>Otros fabricantes <span class="sys-c">12</span></h5><ul><li data-k="neocd neogeocd"><i data-i="neocd"></i>Neo Geo CD</li><li data-k="3d0" data-s="3DO"><i data-i="3do"></i>3DO Interactive Multiplayer</li><li data-k="cdi cdimono1 cd-i" data-s="CD-i"><i data-i="cdi"></i>Philips CD-i</li><li data-k="coleco"><i data-i="colecovision"></i>ColecoVision</li><li data-k="intv" data-s="Intellivision"><i data-a="INTV"></i>Mattel Intellivision</li><li data-s="Vectrex"><i data-a="VEC"></i>GCE Vectrex</li><li data-k="odyssey2 o2em" data-s="Odyssey²"><i data-i="odyssey2"></i>Magnavox Odyssey² / Videopac</li><li data-k="channelf" data-s="Channel F"><i data-a="CHF"></i>Fairchild Channel F</li><li data-s="Arcadia 2001"><i data-i="arcadia"></i>Emerson Arcadia 2001</li><li data-k="scv" data-s="Super Cassette Vision"><i data-i="scv"></i>Epoch Super Cassette Vision</li><li data-s="Sufami Turbo"><i data-i="sufami"></i>Bandai Sufami Turbo</li><li><i data-a="UZE"></i>Uzebox</li></ul></div>
+</section>
+<section class="sys-g" data-f="handheld"><h4>Portátiles <span class="sys-c" data-fact="families.handheld">20</span></h4>
+<div class="sys-m"><h5>Nintendo <span class="sys-c">8</span></h5><ul><li data-k="gb gameboy"><i data-i="gb"></i>Game Boy</li><li data-k="gba"><i data-i="gba"></i>Game Boy Advance</li><li data-k="gbc"><i data-i="gbc"></i>Game Boy Color</li><li data-k="gw"><i data-i="gw"></i>Game &amp; Watch</li><li data-k="nds dsi"><i data-i="nds"></i>Nintendo DS</li><li data-k="pokemini poke"><i data-i="pokemini"></i>Pokemon Mini</li><li data-k="vb"><i data-i="virtualboy"></i>Virtual Boy</li><li data-k="n3ds"><i data-i="3ds"></i>Nintendo 3DS</li></ul></div>
+<div class="sys-m"><h5>SNK <span class="sys-c">2</span></h5><ul><li data-k="ngp"><i data-i="ngp"></i>Neo Geo Pocket</li><li data-k="ngpc"><i data-i="ngpc"></i>Neo Geo Pocket Color</li></ul></div>
+<div class="sys-m"><h5>Sony <span class="sys-c">2</span></h5><ul><li data-s="PSP"><i data-i="psp"></i>Sony PSP</li><li data-k="psvita" data-s="PlayStation Vita"><i data-i="psvita"></i>Sony PlayStation Vita</li></ul></div>
+<div class="sys-m"><h5>Bandai <span class="sys-c">2</span></h5><ul><li data-k="ws"><i data-i="wonderswan"></i>WonderSwan</li><li data-k="wsc"><i data-i="wonderswancolor"></i>WonderSwan Color</li></ul></div>
+<div class="sys-m"><h5>Otros fabricantes <span class="sys-c">6</span></h5><ul><li data-k="gamegear gg" data-s="Game Gear"><i data-i="gamegear"></i>Sega Game Gear</li><li data-s="Lynx"><i data-i="lynx"></i>Atari Lynx</li><li data-s="Supervision"><i data-i="supervision"></i>Watara Supervision</li><li data-k="gamecom" data-s="Game.com"><i data-i="gamecom"></i>Tiger Game.com</li><li data-k="megaduck" data-s="Mega Duck"><i data-i="megaduck"></i>Mega Duck / Cougar Boy</li><li><i data-i="arduboy"></i>Arduboy</li></ul></div>
+</section>
+<section class="sys-g" data-f="computer"><h4>Ordenadores <span class="sys-c" data-fact="families.computer">27</span></h4>
+<div class="sys-m"><h5>Commodore <span class="sys-c">6</span></h5><ul><li data-s="Amiga"><i data-i="amiga"></i>Commodore Amiga</li><li data-k="c64"><i data-i="c64"></i>Commodore 64</li><li data-k="vic20 vic-20" data-s="VIC-20"><i data-i="vic20"></i>Commodore VIC-20</li><li data-k="plus4 cplus4" data-s="Plus/4"><i data-i="plus4"></i>Commodore Plus/4</li><li data-s="PET"><i data-i="pet"></i>Commodore PET</li><li data-k="c128"><i data-a="C128"></i>Commodore 128</li></ul></div>
+<div class="sys-m"><h5>Atari <span class="sys-c">3</span></h5><ul><li data-k="a800 atari800"><i data-i="a800"></i>Atari 8-bit</li><li data-k="atarist"><i data-i="atarist"></i>Atari ST</li><li data-k="atarixe" data-s="Atari XE"><i data-i="atarixe"></i>Atari XE / XEGS</li></ul></div>
+<div class="sys-m"><h5>MSX <span class="sys-c">3</span></h5><ul><li data-k="msx1"><i data-i="msx"></i>MSX</li><li><i data-i="msx2"></i>MSX2</li><li data-k="turbor"><i data-a="TR"></i>MSX turbo R</li></ul></div>
+<div class="sys-m"><h5>Sinclair <span class="sys-c">2</span></h5><ul><li data-k="zxs" data-s="ZX Spectrum"><i data-i="zxspectrum"></i>Sinclair ZX Spectrum</li><li data-s="ZX81"><i data-i="zx81"></i>Sinclair ZX81</li></ul></div>
+<div class="sys-m"><h5>Sharp <span class="sys-c">2</span></h5><ul><li data-k="x68k" data-s="X68000"><i data-i="x68000"></i>Sharp X68000</li><li><i data-i="x1"></i>Sharp X1</li></ul></div>
+<div class="sys-m"><h5>NEC <span class="sys-c">2</span></h5><ul><li data-k="pc98 pc9800" data-s="PC-98"><i data-i="pc98"></i>NEC PC-98</li><li data-k="pc88 pc8800 pc8000" data-s="PC-88"><i data-i="pc88"></i>NEC PC-88</li></ul></div>
+<div class="sys-m"><h5>Otros fabricantes <span class="sys-c">9</span></h5><ul><li data-k="msdos"><i data-a="DOS"></i>DOS</li><li data-k="fmtowns fm-towns" data-s="FM Towns"><i data-i="fmtowns"></i>Fujitsu FM Towns</li><li data-s="CPC"><i data-a="CPC"></i>Amstrad CPC</li><li data-k="bbcmicro" data-s="BBC Micro"><i data-i="bbcmicro"></i>Acorn BBC Micro</li><li data-k="moto to8 theodore" data-s="MO/TO"><i data-i="thomson"></i>Thomson MO/TO</li><li data-k="dragon32 dragon64"><i data-a="DRGN"></i>Dragon 32/64</li><li data-k="coco" data-s="TRS-80 CoCo"><i data-a="COCO"></i>Tandy TRS-80 Color Computer</li><li data-k="ti99 ti994a" data-s="TI-99/4A"><i data-i="ti99"></i>Texas Instruments TI-99/4A</li><li data-k="apple2 appleii"><i data-i="apple2"></i>Apple II</li></ul></div>
+</section>
+<section class="sys-g" data-f="arcade"><h4>Arcade <span class="sys-c" data-fact="families.arcade">15</span></h4>
+<div class="sys-m"><ul><li data-k="varcade" data-s="Arcade"><i data-i="varcade"></i>Arcade (various)</li><li data-k="awave sammy"><i data-a="AW"></i>Atomiswave</li><li data-k="cps1 capcom" data-s="CPS"><i data-a="CPS1"></i>Capcom Play System</li><li data-k="cps2 capcom" data-s="CPS II"><i data-a="CPS2"></i>Capcom Play System II</li><li data-k="cps3 capcom" data-s="CPS III"><i data-a="CPS3"></i>Capcom Play System III</li><li data-k="fbneo fba fbalpha"><i data-i="fbneo"></i>FinalBurn Neo</li><li><i data-a="HB"></i>HBMAME</li><li data-k="igs" data-s="PGM2"><i data-i="pgm2"></i>IGS PGM2</li><li data-k="arcade mame2003 mame2010"><i data-a="MAME"></i>MAME</li><li data-k="namco, sega, nintendo" data-s="Triforce"><i data-a="TRI"></i>Namco Sega Nintendo Triforce</li><li data-k="neogeo snk"><i data-i="neogeo"></i>Neo Geo</li><li data-k="model2 sega" data-s="Model 2"><i data-a="MDL2"></i>Sega Model 2</li><li data-k="model3 sega" data-s="Model 3"><i data-a="MDL3"></i>Sega Model 3</li><li data-k="sega" data-s="NAOMI"><i data-a="NAO"></i>Sega NAOMI</li><li data-k="naomi2 sega" data-s="NAOMI 2"><i data-a="NAO2"></i>Sega NAOMI 2</li></ul></div>
+</section>
+<section class="sys-g" data-f="engine"><h4>Motores, ports y consolas de fantasía <span class="sys-c" data-fact="families.engine">19</span></h4>
+<div class="sys-m"><ul><li data-s="Cave Story"><i data-a="CAVE"></i>Cave Story (NXEngine)</li><li><i data-a="DINO"></i>Dinothawr</li><li data-s="Doom"><i data-a="DOOM"></i>Doom (PrBoom)</li><li data-k="rpgmaker"><i data-a="RPG"></i>EasyRPG</li><li data-s="Flashback"><i data-a="FLBK"></i>Flashback (REminiscence)</li><li data-k="lowresnx"><i data-a="LRNX"></i>LowRes NX</li><li><i data-a="LUTR"></i>Lutro</li><li data-k="mrboom"><i data-a="BOOM"></i>Mr. Boom</li><li data-k="ons"><i data-a="ONS"></i>ONScripter</li><li><i data-a="BOR"></i>OpenBOR</li><li data-k="pico8 pico-8"><i data-a="P8"></i>PICO-8</li><li data-k="tyrquake"><i data-a="QK"></i>Quake</li><li data-s="Rick Dangerous"><i data-a="RICK"></i>Rick Dangerous (XRick)</li><li data-k="scumm"><i data-a="SVM"></i>ScummVM</li><li><i data-a="SOL"></i>Solarus</li><li data-k="tic80"><i data-a="TIC"></i>TIC-80</li><li><i data-a="V32"></i>Vircon32</li><li data-k="wasm4"><i data-a="W4"></i>WASM-4</li><li data-k="wolf3d" data-s="Wolfenstein 3D"><i data-a="W3D"></i>Wolfenstein 3D (ECWolf)</li></ul></div>
+</section>
+<!-- systems:end -->
+<p class="sys-none" hidden>Ningún sistema se llama así. Prueba con el nombre de la consola o con su carpeta (gba, snes…).</p>
+</details>
+<p class="sys-legal">Coverly no está afiliado ni respaldado por Nintendo, Sony, Microsoft, Sega ni ningún otro fabricante. Los nombres de los sistemas son marcas de sus dueños y aquí solo dicen con qué funciona. Iconos de sistemas adaptados de <a href="https://github.com/libretro/retroarch-assets/tree/d9f969054dc7fbb6fa89519036d2b971e0855b51/src/xmb/monochrome">RetroArch Assets</a> (tema XMB Monochrome), © libretro contributors, <a href="https://creativecommons.org/licenses/by/4.0/deed.es">CC BY 4.0</a>. Cambios: recoloreados, optimizados y recortados.</p>
+</div>
+</div>
+</section>
+
+<section class="section band-dark" id="terminal" aria-labelledby="terminal-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="terminal-t">Todo, también desde la terminal.</h2>
+<p>La orden <code>coverly</code> hace lo mismo que la app y se puede programar. Rellenar, ordenar y apartar duplicados son una simulación hasta que añades <code>--apply</code>, y cada informe sale en JSON si lo pides.</p>
+</div>
+<div class="cli">
+<dl class="cmds" aria-label="Órdenes de coverly">
+<div><dt><code>audit</code></dt><dd>Cuenta lo que falta. Solo lee.</dd></div>
+<div><dt><code>fill</code></dt><dd>Rellena portadas, capturas y pantallas de título.</dd></div>
+<div><dt><code>organize</code></dt><dd>Ordena por sistema, con comprimidos y discos.</dd></div>
+<div><dt><code>dedupe</code></dt><dd>Aparta las copias repetidas.</dd></div>
+<div><dt><code>undo</code></dt><dd>Deshace el último trabajo, o también los posteriores.</dd></div>
+<div><dt><code>catalog switch</code></dt><dd>Descarga, revisa o borra el catálogo de nombres de Switch.</dd></div>
+<div><dt><code>profiles, systems</code></dt><dd>Lista los formatos y los <span data-fact="systems">131</span> sistemas.</dd></div>
+<div><dt><code>update</code></dt><dd>Busca e instala versiones firmadas.</dd></div>
+</dl>
+<div class="cli-term">
+<div class="term" data-deck data-deck-seen="0.45" role="region" aria-label="Ejemplo de la línea de comandos">
+<div class="term-bar"><div class="term-ctl" data-deck-ctl role="group" aria-label="Escenas de la terminal"><button class="btn btn-small" type="button" aria-pressed="true" hidden>Portadas</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Ordenar</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Duplicados</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Deshacer</button></div></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Qué falta (solo lee)</span>
 <span class="p">$ </span><span class="t-cmd">coverly audit /Volumes/SD --missing-only</span>
 <span class="t-out">4553 sin portada</span></span>
 
@@ -305,11 +391,31 @@
 
 <span class="t-step"><span class="c"># Ahora sí, sin las dudosas</span>
 <span class="p">$ </span><span class="t-cmd">coverly fill /Volumes/SD --apply --auto-only</span>
-<span class="t-out">✓ 4401 aplicadas</span></span>
+<span class="t-out">✓ 4401 aplicadas</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Una carpeta de descargas, a la tarjeta</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Descargas --target /Volumes/SD</span>
+<span class="t-out">plan: 212 en 31 sistemas · 0 movidos</span></span>
 
-<span class="t-step"><span class="c"># Y si no te convence</span>
+<span class="t-step"><span class="c"># Aplica, y deja para luego lo de 10 GB o más</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Descargas --target /Volumes/SD --apply --skip-large</span>
+<span class="t-out">extract item 2/4 files 5/16
+✓ 209 ordenados · 3 grandes saltados</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Copias repetidas, por su contenido</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD</span>
+<span class="t-out">38 copias de más en 17 juegos · 0 apartadas</span></span>
+
+<span class="t-step"><span class="c"># Apartarlas, sin borrar nada</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD --apply</span>
+<span class="t-out">✓ 38 a _Duplicados/</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># El último trabajo</span>
 <span class="p">$ </span><span class="t-cmd">coverly undo</span>
-<span class="t-out">↶ 4401 restauradas</span></span></code></pre>
+<span class="t-out">↶ 4401 restauradas</span></span>
+
+<span class="t-step"><span class="c"># Uno anterior, y los que vinieron después</span>
+<span class="p">$ </span><span class="t-cmd">coverly undo --job 7 --include-later</span>
+<span class="t-out">↶ 2 trabajos deshechos</span></span></code></pre></div>
+</div>
+<p class="note">Binario suelto para macOS, Windows y Linux, en x64 y ARM64. <a href="#descargar">Descargar la línea de comandos</a></p>
 </div>
 </div>
 </div>
@@ -319,28 +425,51 @@
 <div class="wrap">
 <div class="section-head">
 <h2 id="comparar-t">Las otras opciones, comparadas.</h2>
-<p>Las más completas funcionan solo en Windows o piden montarlas a mano; Coverly ROMs quiere ser la opción segura en los tres sistemas.</p>
+<p>Para las portadas, es la única de la tabla que dice simular y deshacer, en los tres sistemas y sin cuenta. Y además ordena y aparta duplicados, con el mismo deshacer.</p>
 </div>
 <div class="table-scroll" tabindex="0" role="region" aria-labelledby="comparar-cap">
 <table class="compare">
-<caption id="comparar-cap">Datos de la web o el repositorio de cada herramienta, recogidos en octubre de 2026. «—» quiere decir que no lo indica.</caption>
+<caption id="comparar-cap">Datos de la web o el repositorio de cada herramienta, recogidos en octubre y noviembre de 2026. «—» quiere decir que no lo indica.</caption>
 <thead><tr><th scope="col"><span class="sr-only">Característica</span></th><th scope="col">Coverly ROMs</th><th scope="col">Skraper</th><th scope="col">Skyscraper</th><th scope="col">ARRM</th><th scope="col">Mini Scraper</th></tr></thead>
 <tbody>
-<tr><th scope="row">Windows</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>Sí</td><td>—</td><td>Sí</td><td>Sí, x64</td></tr>
+<tr><th scope="row">Windows</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí, x64 y ARM64 (beta)</td><td>Sí</td><td>—</td><td>Sí</td><td>Sí, x64</td></tr>
 <tr><th scope="row">macOS</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí, Apple silicon e Intel</td><td>Sin versión nativa</td><td>Compilándolo tú</td><td>No</td><td>Solo Apple silicon</td></tr>
 <tr><th scope="row">Linux</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>x64 y ARM64</td><td>Con Mono</td><td>Compilándolo tú</td><td>No</td><td>x64</td></tr>
 <tr><th scope="row">App con ventana</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>Sí</td><td>No, terminal</td><td>Sí</td><td>Sí</td></tr>
 <tr><th scope="row">Formato Anbernic (<code>Imgs/</code>)</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Directo</td><td>Configurándolo</td><td>Configurándolo y renombrando</td><td>Configurándolo</td><td>Directo</td></tr>
 <tr><th scope="row">Cuenta</th><td class="yes">No</td><td>ScreenScraper, en la práctica</td><td>Recomendada</td><td>Recomendada</td><td>No</td></tr>
-<tr><th scope="row">Simulación y deshacer</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Simulación y deshacer en portadas, ordenar y duplicados</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Identifica por huella</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>CRC32, MD5 y SHA1</td><td>Sí, CRC, MD5 y SHA1</td><td>Sí, con ScreenScraper</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Revisa las dudosas, con el motivo</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Portada aunque ninguna base la tenga</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>El icono del propio juego</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Ordena por sistema, con comprimidos y discos</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Aparta duplicados sin borrar</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>Sí, con deshacer</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><th scope="row">Consolas actuales, sin claves</th><td class="yes"><svg class="art ck" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><use href="assets/art/kit.svg#ck"/></svg>PS4, PS5, Xbox One, Switch</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 </tbody>
 </table>
 </div>
 <div class="ahead">
 <h3>Dónde van por delante</h3>
-<p>Skraper, Skyscraper y ARRM usan ScreenScraper y traen vídeos, mezclas de imágenes y metadatos. Coverly ROMs solo rellena imágenes. Mini Scraper también funciona sin cuenta y ya tiene versiones publicadas.</p>
+<p>Skraper, Skyscraper y ARRM usan ScreenScraper y traen vídeos, mezclas de imágenes, logos y metadatos; Coverly ROMs todavía no usa ScreenScraper. Mini Scraper y ROMCover también funcionan sin cuenta en Mac y traen el formato de Anbernic. Y Coverly ROMs aún no se ha probado en consolas reales.</p>
 </div>
-<p class="sources">Fuentes: <a href="https://www.skraper.net/">skraper.net</a>, <a href="https://github.com/Gemba/skyscraper">github.com/Gemba/skyscraper</a>, <a href="https://jujuvincebros.fr/">jujuvincebros.fr</a> y <a href="https://github.com/tzubertowski/mini-scraper-cfw">github.com/tzubertowski/mini-scraper-cfw</a>.</p>
+<p class="sources">Fuentes: <a href="https://www.skraper.net/">skraper.net</a>, <a href="https://github.com/Gemba/skyscraper">github.com/Gemba/skyscraper</a>, <a href="https://jujuvincebros.fr/">jujuvincebros.fr</a>, <a href="https://github.com/tzubertowski/mini-scraper-cfw">github.com/tzubertowski/mini-scraper-cfw</a> y <a href="https://github.com/Drafffffff/ROMCover">github.com/Drafffffff/ROMCover</a>.</p>
+</div>
+</section>
+
+<section class="section" id="siguiente" aria-labelledby="siguiente-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="siguiente-t">Lo siguiente: tu biblioteca.</h2>
+<p>Coverly va camino de ser la biblioteca de tus juegos, no solo de tu tarjeta. Esto es lo que está en marcha.</p>
+</div>
+<!-- roadmap:teaser:begin -->
+<ol class="rm-next rm-teaser">
+<li class="rm-item" data-id="2.1" data-status="research"><h3>Actualizaciones y DLC dentro de su juego</h3><p>Cada juego en su carpeta, con sus actualizaciones, DLC, demos y revisiones, y su portada en las seis vistas.</p><p class="rm-state"><span class="rm-status">En investigación</span><svg class="art rm-bar" viewBox="0 0 132 8" width="132" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d=""/><path class="rm-o" d="M0.5 .5h5v7h-5zM9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5z"/></svg><span class="rm-count">0 de 15 tareas</span></p></li>
+<li class="rm-item" data-id="3" data-status="blocked"><h3>Tu biblioteca</h3><p>Una biblioteca que vive en tu ordenador, no solo la carpeta abierta: colecciones, ficha de cada juego y arte guardado por juego.</p><p class="rm-after">Espera a: Actualizaciones y DLC dentro de su juego.</p><p class="rm-state"><span class="rm-status">Espera a otro bloque</span><svg class="art rm-bar" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d=""/><path class="rm-o" d="M0.5 .5h5v7h-5zM9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5zM135.5 .5h5v7h-5zM144.5 .5h5v7h-5zM153.5 .5h5v7h-5zM162.5 .5h5v7h-5zM171.5 .5h5v7h-5zM180.5 .5h5v7h-5zM189.5 .5h5v7h-5zM198.5 .5h5v7h-5zM207.5 .5h5v7h-5z"/></svg><span class="rm-count">0 de 32 tareas</span></p></li>
+<li class="rm-item" data-id="3.1" data-status="research"><h3>Nombres y arte por title ID</h3><p>Fuentes públicas para los juegos que las bases de portadas no tienen: el nombre y el arte, buscados por su title ID.</p><p class="rm-state"><span class="rm-status">En investigación</span><svg class="art rm-bar" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d="M0 0h6v8h-6z"/><path class="rm-o" d="M9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5zM135.5 .5h5v7h-5zM144.5 .5h5v7h-5zM153.5 .5h5v7h-5zM162.5 .5h5v7h-5zM171.5 .5h5v7h-5zM180.5 .5h5v7h-5zM189.5 .5h5v7h-5zM198.5 .5h5v7h-5zM207.5 .5h5v7h-5z"/></svg><span class="rm-count">1 de 28 tareas</span></p></li>
+</ol>
+<!-- roadmap:teaser:end -->
+<p class="rm-more"><a href="roadmap/">Ver la hoja de ruta</a></p>
 </div>
 </section>
 
@@ -412,7 +541,7 @@ O pulsa «Abrir igualmente» en Ajustes del Sistema › Privacidad y seguridad. 
 <li>Vídeos, mezclas de imágenes, marquesinas o logos.</li>
 <li>Editar metadatos, renombrar o verificar ROMs.</li>
 <li>Funcionar en la propia consola.</li>
-<li>Reconocer discos de PlayStation 2 o 3DO dentro de archivos.</li>
+<li>Poner las actualizaciones y DLC dentro de la carpeta de su juego (en camino).</li>
 <li>Aún no se ha probado en consolas reales.</li>
 </ul>
 </div>
@@ -430,10 +559,11 @@ O pulsa «Abrir igualmente» en Ajustes del Sistema › Privacidad y seguridad. 
 <details><summary>¿Trae ROMs o portadas?</summary><p>No. Coverly ROMs no incluye ROMs, BIOS ni arte de juegos. Las imágenes se descargan de libretro-thumbnails y, si pones tu propia clave, de SteamGridDB. Cada imagen es de sus dueños.</p></details>
 <details><summary>¿Va a sobrescribir mis portadas?</summary><p>No, salvo que lo pidas. Por defecto solo rellena lo que falta. Si eliges sustituir, antes guarda una copia en la carpeta de datos de la app, no en la tarjeta, y Deshacer la devuelve.</p></details>
 <details><summary>¿Necesito una cuenta?</summary><p>No. libretro-thumbnails funciona sin cuenta. SteamGridDB es opcional: usa tu propia clave, que se guarda en el llavero del sistema.</p></details>
-<details><summary>¿Con qué consolas funciona?</summary><p>Con las que usan los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales.</p></details>
+<details><summary>¿Necesito claves para Switch o PS4?</summary><p>No. Coverly ROMs nunca lee ni pide claves. Reconoce lo que puede con lo que va en claro, y lo que no puede leer queda como «Cifrado».</p></details>
+<details><summary>¿Con qué consolas funciona?</summary><p>Reconoce 131 sistemas y escribe en los formatos de los formatos de Anbernic de fábrica, GarlicOS, Onion OS, MinUI y NextUI, muOS, ES-DE, Batocera, Knulli y EmulationStation, o RetroArch. Para otro firmware puedes crear tu formato con vista previa. Aún no se ha probado en consolas reales.</p></details>
 <details><summary>¿Por qué avisan Gatekeeper y SmartScreen?</summary><p>Porque las descargas aún no llevan certificados de Apple ni de Microsoft. La primera vez, en macOS quita la marca de cuarentena o pulsa Abrir igualmente; en Windows, elige Más información y Ejecutar de todas formas. Hazlo solo con archivos de las versiones de este proyecto.</p></details>
 <details><summary>¿Borra los juegos repetidos?</summary><p>No. Los aparta en _Duplicados/, dentro de la biblioteca, o los manda a la Papelera si lo eliges, y Deshacer los devuelve. Si dos copias tienen partidas distintas, no toca ninguna.</p></details>
-<details><summary>¿Envía datos a algún sitio?</summary><p>No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. Las imágenes se recodifican, así que no llevan metadatos.</p></details>
+<details><summary>¿Envía datos a algún sitio?</summary><p>No hay telemetría. La app solo se conecta a las fuentes de arte y, si no lo desactivas, a la comprobación de actualizaciones al arrancar. El catálogo de nombres de Switch es opcional y viene apagado. Las imágenes se recodifican, así que no llevan metadatos.</p></details>
 <details><summary>¿Cómo se actualiza?</summary><p>Desde la propia app, con versiones de GitHub Releases verificadas con minisign antes de instalarse. Hay canal estable y beta, y nunca se reinicia en mitad de un trabajo. La línea de comandos usa coverly update.</p></details>
 </div>
 </div>
@@ -468,6 +598,9 @@ O pulsa «Abrir igualmente» en Ajustes del Sistema › Privacidad y seguridad. 
 <li><a href="#descargar">Descargas</a></li>
 <li><a href="https://github.com/MAECLY/coverly-roms">Código fuente</a><span class="metric-stars" data-metric="stars" hidden></span></li>
 <li><a href="#comparar">Comparar</a></li>
+<li><a href="features/">Funciones</a></li>
+<li><a href="roadmap/">Hoja de ruta</a></li>
+<li><a href="https://github.com/MAECLY/coverly-roms/blob/main/CHANGELOG.md">Novedades</a></li>
 <li><a href="#preguntas">Preguntas</a></li>
 <li><a href="llms.txt">llms.txt</a></li>
 <li><a href="agents.txt">agents.txt</a></li>

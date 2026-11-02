@@ -3,13 +3,18 @@
 The public page at **https://coverly-roms.maecly.com** is the static site in
 `site/` of this repository (`MAECLY/coverly-roms-landing`); the app lives in
 [`MAECLY/coverly-roms`](https://github.com/MAECLY/coverly-roms). Spanish at
-`/` (also `x-default`), English at `/en/`, plus `404.html`, `robots.txt`,
+`/` (also `x-default`), English at `/en/`, the feature pages at
+`/features/` and `/en/features/`, the roadmap at `/roadmap/` and
+`/en/roadmap/`, plus `404.html`, `robots.txt`,
 `sitemap.xml`, `llms.txt`, `agents.txt` and the web manifests. Plain HTML,
-one stylesheet, six small scripts (`theme.js` for the colour mode and OS
-hint, `motion.js` for the reveals, step clips, terminal and the third-party
-request counter, `shelf.js` for the showcase choreography, `views.js` for
-the six-views window, `release.js` for the latest release and the copy
-buttons, `metrics.js` for the public reach) and the decorative art under
+one stylesheet (plus `pages.css` for the two new pages), seven small
+scripts (`theme.js` for the colour mode and OS hint, `motion.js` for the
+reveals, clips, terminal scenes and the third-party request counter,
+`shelf.js` for the showcase choreography, `deck.js` for the button decks
+(the six views, the four steps, the terminal), `toc.js` for the /features
+index, `release.js` for the latest release and the copy buttons,
+`metrics.js` for the public reach), two data files under `site/data/`
+(`roadmap.json`, `facts.json`; see **Roadmap and facts**) and the decorative art under
 `site/assets/art/`. No framework and no dependencies: the build is a Python
 script that fills the release markers. The only other server the page talks
 to is `api.github.com`, for the latest release and the public reach (the
@@ -171,16 +176,27 @@ What moves:
 | Header | The Lean-To mark tips upright and back on hover or focus. A row of 24 mini slots under the bar fills with the reading progress. | Hover/focus; scroll (CSS) |
 | Hero, "The Lean-To" | Inline SVG (a wide scene ≥ 1024 px, a 64 px strip between the H1 and the copy below). The shelf rule draws, the two gaps' dashes march, a riso ghost proof appears in each (simulate), the layers register while the photo-corners fold away and the Manila tabs drop (apply), the Buckram spines draw and the tally reads 6/7 (commit), and the leaning cover rocks 12° → 9° → 12° without seating. The H1's keyword stands on a slot underline that turns solid. 2.3 s. ↻ Replay stays in place, `aria-disabled` while it plays. | 40% of the art on screen, at once if it already is; a load slower than 4 s shows the end frame |
 | Section heads | Each H2's shelf rule draws out from its Buckram cap | Scroll (CSS) |
-| #como (greyboard-dark band) | From 1024 px the four shots share one pinned desk: each step's text wipes its shot down over the last (`clip-path`, never a cross-fade, which would double-expose two busy screenshots). Each screenshot's camera moves in on the spot that matters (`--cx`/`--cy` sit on the mark, so the mark stays put and inside the frame); a slot rail fills step by step; the callouts and the stamp draw | Scroll (CSS) |
-| Step 3 and 4 clips | See **Step clips** below | 60% of the step's text (pinned) or 50% of the figure |
+| #como (greyboard-dark band) | From 1024 px, one desk (`deck.js`, `data-deck-mq`): the four steps are buttons on the left and the pressed one's shot is on the right, wiped in with `clip-path` (never a cross-fade). The pressed step's Buckram spine fills for 5 s and steps on; steps 3 and 4 play their clip when they come up. Each screenshot's camera still moves in on its spot as it scrolls; the callouts and the stamp draw. Phones and no-JS: every step with its shot, one under another. | 30% in view; paused on hover or focus, off screen, hidden tab, `cr-halt`; reduced motion stays on step 1, buttons still switch |
+| Step 3 and 4 clips | See **Step clips** below | When the step is picked on the desk, or 50% of the figure |
+| #seguro, «Y elige bien cada portada» | The source cascade: two source spines come up empty (dashed) and the game's own icon fills the slot (solid, Buckram spine, Manila tab). 2.6 s, ↻ Replay. Static and reduced motion: the end frame. Six points beside it. | 50% in view, once |
+| #ordenar, the archive that opens | After the app's own extraction progress (#30): the lid lifts, four tracks come out as dashed slots, each turns solid with its tick; «Juego 2 de 4 · Pista 5 de 16» is the app's text. 3.2 s, ↻ Replay. | 50% in view, once |
+| #terminal (second dark band) | The command list is plain text; the terminal is a deck of four scenes (covers, sorting with `--skip-large` and the CLI's real `extract item 2/4 files 5/16` line, duplicates, undo). `motion.js` types the pressed scene; the spine steps every 10 s. No JS: all four scenes, one under another. | 45% in view; same pauses as every deck |
+| #siguiente / #next | Static: three dashed blocks from `roadmap.json` with their status and task slots | — |
+| /features | No moment on load. The cascade, the archive and the duplicates (two copies slide into `_Duplicados/`, the undo tab drops) each play once when reached, with ↻; the layouts row develops; the six-views window as on the home; the terminal and trust scenes are still. The index of spines marks the group being read (`toc.js`). | 50% in view, once |
+| /roadmap | Nothing moves and no script of its own | — |
 | #seguro | The visitor runs the round trip: Simular → Aplicar → Deshacer, with a polite live region; the card ends exactly as it began. The five pictograms draw. | Click (also under reduced motion); scroll (CSS) |
-| #formatos | One gallery row develops once (grounds, covers, spines); hovering a layout row lifts its run. The terminal types each command and prints one output line; the cursor is a dashed slot that blinks three times. | `[data-reveal]`; hover; 45% on screen |
+| #formatos | One gallery row develops once (grounds, covers, spines); hovering a layout row lifts its run. The 131 systems by family sit beside the table (static). | `[data-reveal]`; hover |
 | #comparar | The Coverly column's highlight wipes down row by row and its checks draw | Scroll (CSS) |
 | #descargar | No release: a waiting slot whose dashes march once and whose `v0.1.0` accession tag swings and settles. Release: the OS cards fill like slots and the detected one's tag drops in. | Scroll (CSS) / `[data-reveal]` |
 | FAQ | The marker is a mini slot: dashed closed, solid Buckram open | Open |
 | Closing | A shelf across the viewport (25 slots, 7 on phones) with the hero's cover at its centre, leaning. The covers wipe on left to right, their spines just after; two slots (one on phones) stay dashed and pulse once, with `152` over them (Coverly never guesses); the leaning cover tips upright into its slot, its Manila tab drops and the CTA's Buckram spine draws under the button. | Scroll (CSS, pixel ranges on the shelf's own view timeline so the end is reached on any viewport); without scroll timelines `.landed` at 50% of the section, 1.6 s |
 | Footer | The "requests to other servers" count sits in a dashed mini slot that stays empty | Static |
-| #ordenar, the six views | A drawn app window walks through Covers, Details, Columns, Gallery, Art slots and Shelves: the same eight tiles (sprite covers and two missing slots) ease into each layout (`--cr-ease-ink`, 800 ms, 30 ms apart) while that view's lines and slots swap in. The pressed view button's Buckram spine fills for 3 s and its `animationend` steps on. The buttons switch at once and also work under reduced motion, which shows Covers and never steps by itself. On phones Columns keeps its panes and picked rows only. Markup from `scripts/site/gen_views.py`, which prints the layout table `views.js` carries. | In view (40%); paused on hover or focus, off screen, in a hidden tab, and for `cr-halt` |
+| #ordenar, the six views | A drawn app window walks through Covers, Details, Columns, Gallery, Art slots and Shelves: the same eight tiles (sprite covers and two missing slots) ease into each layout (`--cr-ease-ink`, 800 ms, 30 ms apart) while that view's lines and slots swap in. The pressed view button's Buckram spine fills for 3 s and its `animationend` steps on. The buttons switch at once and also work under reduced motion, which shows Covers and never steps by itself. On phones Columns keeps its panes and picked rows only. Markup from `scripts/site/gen_views.py`, which writes the layout table into the figure's `data-deck-tiles` (on both homes and both /features pages). | In view (40%); paused on hover or focus, off screen, in a hidden tab, and for `cr-halt` |
+| #como, the four steps | From 1024 px a WAI-ARIA tablist built by `deck.js` from the steps' own `<h3>`s (arrows, Home/End, roving tabindex); the selected tab's spine fills (5 s) and steps on. Below 1024 px and without JS, the steps stack with plain headings. | In view; paused on hover or focus, off screen, hidden tab, `cr-halt` |
+| #ordenar, duplicates | A shelf with three copies of one game: a read line finds the same fingerprint («Exact copy»), the copy with a cover gets its spine and the app's reason, the other two lift and drop into `_Duplicados`, the Undo tab shows, Undo brings them back. 7 s a turn, played 1.8 times so it rests on the set-aside frame (the static one). Shared with /features. | 50% in view; ↻; paused on hover and off screen |
+| #formatos, systems | Two shelves of the app's system silhouettes (or its abbreviation plates) loop in opposite directions, about 30 px/s, built by `systems.js` from the list; a Pause button (WCAG 2.2.2), remembered for the session. Under reduced motion the rows are still and scroll by hand. The sprite (`systems.svg`) is swapped into the placeholders when the section comes within 800 px. | Paused on hover, the button, off screen, hidden tab, `cr-halt` |
+| /features, sticky scenes | From 1200 px each group's figure stays beside its list; `toc.js` splits the stretch where the figure is pinned (list height minus figure height, or up to the page end) evenly between the group's beats and puts the one reached (`[data-beat]`) on the group; the list is kept at least the figure plus 120 px a beat, so short groups get a fair share too. CSS draws that state of the cover cascade, formats shelf, archive, duplicates, six views and trust box. A passive scroll listener (rAF, only for groups near the viewport, which an IntersectionObserver tracks), no pinned section, no hijack. Phones and no-JS: the finished scenes and their clips. Reduced motion: cuts. | Reading position |
+| /roadmap, the shelf | Generated by `roadmap.py`: the covers drop onto the rule, the Today tab swings in, each slot fills to its share of tasks and the dependency arcs appear. 2.4 s. | In view, once; ↻ |
 | Colour mode, ES/EN | The new mode spreads from the click; ES/EN cross-fade, the hero shelf rule held still (`view-transition-name: shelf`) | Click or key |
 
 The art: `assets/art/covers.svg` (40 generative covers and a 7-glyph stroke
@@ -215,17 +231,73 @@ Budgets (raw / gzip bytes):
 
 | What | Budget |
 | --- | --- |
-| Each page (`index.html`, `en/index.html`) | 74,000 / 17,500 |
-| Stylesheets (`tokens.css` + `site.css`) | 86,000 / 19,400 |
-| All scripts under `assets/` (recursive) | 29,000 / 9,100 |
+| Each home (`index.html`, `en/index.html`) | 105,000 / 25,200 |
+| Each /features page | 72,000 / 17,000 |
+| Each /roadmap page | 34,000 / 8,500 |
+| Stylesheets (`tokens.css` + `site.css`) | 106,000 / 23,600 |
+| `pages.css` (only /features and /roadmap) | 15,000 / 4,200 |
+| All scripts under `assets/` (recursive) | 39,500 / 12,000 |
 | `motion.js` alone | 9,500 |
 | `shelf.js` alone | 5,000 |
-| `release.js` alone | 6,500 |
-| `views.js` alone | 3,000 |
-| Art (`assets/art/*.svg`) | 24,000 / 7,000 |
+| `release.js` alone | 6,800 |
+| `deck.js` alone | 5,100 |
+| `systems.js` alone | 5,100 |
+| Art (`assets/art/*.svg`, without `systems.svg`) | 24,000 / 7,000 |
+| `systems.svg` alone (loaded near #formatos only) | 132,000 / 36,000 |
 | `covers.svg` alone | 18,000 |
 | Fonts | 128,000 |
-| Visible words, each locale | 1,850 |
+| Visible words: each home / /features / /roadmap | 3,050 / 2,600 / 1,200 |
+
+The November 2026 redesign (`docs/landing-redesign-plan.md`) raised the
+home budgets: covers stay first, but the home now also carries the cover
+choices, the archive scene, current consoles, the terminal section, twelve
+comparison rows and the next-up teaser. The plan's 78 KB / 1,950 words did
+not hold once the copy was written in full.
+
+Round 2 (`docs/landing-round2-plan.md` §6) raised them again: the list of
+all 131 systems (inside a closed `<details>`, with search aliases), its
+notice and credit, the drawn duplicates scene shared with /features, the
+step tabs, the /features beats and the /roadmap shelf. The system icon
+sprite has its own cap and never loads with the page. The covers (hero,
+#como, #seguro) stay at 28% or more of the home's height at 1440x900.
+
+## Systems
+
+`site/data/systems.json`, `site/assets/art/systems.svg` and the list
+between `<!-- systems:begin -->` and `<!-- systems:end -->` on both homes
+come from the app with `make systems APP=../coverly-roms`
+(`scripts/site/systems.py --write --app`): `systems.toml` (names,
+families, aliases, the maker from the libretro name plus a short table),
+`systemIcons.generated.ts` (the 89 RetroArch Assets silhouettes, CC BY
+4.0, path data rounded to one decimal) and `FALLBACK_ABBR` (the other
+42). `make check` fails when they drift from the app, and the `systems`
+gate checks the trademark notice and the CC BY credit in both languages,
+no ™/®, and that nothing on the first load points at the sprite. No
+maker logos: only the app's audited silhouettes, always beside the name.
+
+## Roadmap and facts
+
+- `site/data/roadmap.json` feeds `/roadmap/` and the homes' next-up
+  teaser. `scripts/site/roadmap.py` regenerates the blocks between
+  `<!-- roadmap:NAME:begin -->` and `<!-- roadmap:NAME:end -->`
+  (`teaser`, `shelf`, `released`, `upcoming`), validates the file (statuses,
+  ISO dates, versions in order, es/en copy, `after` ids, progress) and,
+  with `--app`, compares it with the app's `TODO.md` (one block per
+  `## N.`, its checkboxes), `CHANGELOG.md` (versions and dates) and
+  `docs/TRACKER.md` (PRs merged after the last release must be in
+  `unreleased.prs`). `make roadmap APP=../coverly-roms` (`--update`)
+  fills the machine fields; the copy, status, `public` and `teaser` are
+  written by hand, and a new TODO block arrives private with empty copy,
+  which the check refuses until someone writes it. The keys-of-your-own
+  mode is left out of the public file on purpose.
+- `site/data/facts.json` holds the numbers the pages print; every
+  `data-fact` element must match it (`facts` gate), and `roadmap.py
+  --app` checks it against the app's `systems.toml` and `credits.json`.
+  The `stale` gate refuses «more than 50 systems» and the like.
+- `make check` runs both (and `scripts/site/roadmap_test.py`); with the
+  app next to this repository it also runs the drift check. The Vercel
+  build runs `roadmap.py --remote`, which reads the app's `main` from the
+  GitHub API and only prints warnings.
 
 **Before merging a motion change, check it in a browser** (Chrome DevTools,
 the release-filled copy on a local port):

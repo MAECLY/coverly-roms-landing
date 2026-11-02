@@ -57,58 +57,64 @@
     return t;
   }
 
-  /* The terminal types each command in turn; a line shows when its turn
-     comes, and its output 200ms after the command. The untyped rest stays
-     in place, hidden, so no glyph moves. Skipped when already on screen. */
+  /* The terminal types one scene (deck.js picks it) command by command;
+     a line shows when its turn comes, and its output 200ms after the
+     command. The untyped rest stays in place, hidden, so no glyph moves.
+     The first scene is skipped when already on screen at load. */
   function terminal() {
     var term = document.querySelector(".term");
-    var steps = term ? term.querySelectorAll(".t-step") : [];
-    if (!steps.length || onScreen(term)) return;
-    var cmds = [], texts = [], outs = [], later = timers();
+    if (!term) return;
+    var all = term.querySelectorAll(".t-step"), text = [], later = timers();
+    if (!all.length) return;
     var done = document.createElement("span"), rest = document.createElement("span");
+    var cmd = function (el) { return el.querySelector(".t-cmd"); };
+    var out = function (el) { return el.querySelector(".t-out") || done; };
     rest.className = "t-rest";
-    for (var k = 0; k < steps.length; k++) {
-      cmds[k] = steps[k].querySelector(".t-cmd");
-      texts[k] = cmds[k].textContent;
-      outs[k] = steps[k].querySelector(".t-out") || done;
-    }
+    for (var k = 0; k < all.length; k++) text[k] = cmd(all[k]).textContent;
     var stop = function () {
       later.clear();
-      for (var j = 0; j < steps.length; j++) {
-        cmds[j].textContent = texts[j];
-        steps[j].classList.remove("t-wait");
-        outs[j].classList.remove("t-hold");
+      for (var j = 0; j < all.length; j++) {
+        cmd(all[j]).textContent = text[j];
+        all[j].classList.remove("t-wait");
+        out(all[j]).classList.remove("t-hold");
       }
       term.classList.remove("typing");
     };
     stops.push(stop);
-    var type = function (s, i) {
-      if (s >= steps.length) {
-        term.classList.remove("typing");
-        return later(function () { cmds[s - 1].textContent = texts[s - 1]; }, 1400, stop);
+    var play = function (scene) {
+      stop();
+      var steps = scene.querySelectorAll(".t-step"), base = Array.prototype.indexOf.call(all, steps[0]);
+      var type = function (s, i) {
+        if (s >= steps.length) {
+          term.classList.remove("typing");
+          return later(function () { cmd(steps[s - 1]).textContent = text[base + s - 1]; }, 1400, stop);
+        }
+        var t = text[base + s];
+        if (i === 0) {
+          if (s) cmd(steps[s - 1]).textContent = text[base + s - 1];
+          steps[s].classList.remove("t-wait");
+          cmd(steps[s]).textContent = "";
+          cmd(steps[s]).appendChild(done);
+          cmd(steps[s]).appendChild(rest);
+        }
+        done.textContent = t.slice(0, i);
+        rest.textContent = t.slice(i);
+        if (i >= t.length) return later(function () {
+          out(steps[s]).classList.remove("t-hold");
+          later(function () { type(s + 1, 0); }, 420, stop);
+        }, 200, stop);
+        later(function () { type(s, i + 1); }, 18 + ((i * 37) % 17) + (t.charAt(i) === " " ? 30 : 0), stop);
+      };
+      term.classList.add("typing");
+      for (var m = 0; m < steps.length; m++) {
+        steps[m].classList.add("t-wait");
+        out(steps[m]).classList.add("t-hold");
       }
-      var text = texts[s];
-      if (i === 0) {
-        if (s) cmds[s - 1].textContent = texts[s - 1];
-        steps[s].classList.remove("t-wait");
-        cmds[s].textContent = "";
-        cmds[s].appendChild(done);
-        cmds[s].appendChild(rest);
-      }
-      done.textContent = text.slice(0, i);
-      rest.textContent = text.slice(i);
-      if (i >= text.length) return later(function () {
-        outs[s].classList.remove("t-hold");
-        later(function () { type(s + 1, 0); }, 420, stop);
-      }, 200, stop);
-      later(function () { type(s, i + 1); }, 18 + ((i * 37) % 17) + (text.charAt(i) === " " ? 30 : 0), stop);
+      later(function () { type(0, 0); }, 300, stop);
     };
-    term.classList.add("typing");
-    for (var m = 0; m < steps.length; m++) {
-      steps[m].classList.add("t-wait");
-      outs[m].classList.add("t-hold");
-    }
-    once(term, 0.45, function () { later(function () { type(0, 0); }, 300, stop); });
+    var now = function () { return term.querySelector(".t-scene.is-on") || term.querySelector(".t-scene") || term; };
+    if (!onScreen(term)) once(term, 0.45, function () { play(now()); });
+    term.addEventListener("cr-deck", function () { try { play(now()); } catch (x) { stop(); } });
   }
 
   /* Already on screen at load: shown, not played. */
@@ -121,13 +127,13 @@
     }
   }
 
-  /* Steps 3 and 4 act out what their screenshot shows (SVG drawn over
-     the still; step 4's cover is vector art from the sprite). Pinned, the
-     figures share one spot, so the step's text decides when; ↻ plays it
-     again. */
+  /* A clip plays once in view, and again with its ↻ button: steps 3 and
+     4 act out their screenshot (SVG over the still), and the drawn
+     scenes do what they say. Inside an active deck (the four steps on a
+     desk) a step plays when it is picked instead. */
   function clip(fig) {
-    var step = fig.closest(".step"), button = step.querySelector(".clip-replay");
-    var later = timers(), cl = step.classList;
+    var box = fig.closest("[data-clip-box]"), button = box.querySelector(".clip-replay");
+    var later = timers(), cl = box.classList, deck = fig.closest("[data-deck]");
     var ready = function (on) {
       if (on) button.removeAttribute("aria-disabled");
       else button.setAttribute("aria-disabled", "true");
@@ -142,13 +148,10 @@
       ready(false);
       later(function () { cl.add("is-played"); ready(true); }, +fig.getAttribute("data-clip-ms") || 3600, stop);
     };
-    var pinned = getComputedStyle(step).display === "contents";
-    once(pinned ? step.querySelector(".step-text") : fig, pinned ? 0.6 : 0.5, function () {
-      try { play(); } catch (x) { stop(); }
-    });
-    button.addEventListener("click", function () {
-      try { play(); } catch (x) { stop(); }
-    });
+    var safe = function () { try { play(); } catch (x) { stop(); } };
+    once(fig, 0.5, function () { if (!fig.closest(".deck-on")) safe(); });
+    if (deck) deck.addEventListener("cr-deck", function () { if (cl.contains("is-on")) safe(); });
+    button.addEventListener("click", safe);
   }
 
   /* shelf.js listens for "cr-halt" and finishes its pieces too. */

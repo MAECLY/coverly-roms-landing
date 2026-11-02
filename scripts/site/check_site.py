@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the landing page before it ships. Standard library only.
 
-  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics]
+  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics,facts,roadmap,stale,systems]
 
 Fills site/ four times into a temporary folder with apply_release.py (once
 per fixture in scripts/site/fixtures/: release.json with the names releases
@@ -28,7 +28,7 @@ browser.
             keyframe or transition on layout properties, scroll-linked
             effects only inside @supports, motion never hides text or
             images, no autoplaying video, motion.js and shelf.js sizes,
-            shelf.js and views.js join halt() through the cr-halt event
+            shelf.js and deck.js join halt() through the cr-halt event
   art       decorative SVG (inline svg.art and assets/art/*.svg): hidden
             from assistive tech, sized, no <text>, raster, script or
             foreignObject, and the cover sprite under its cap
@@ -41,6 +41,16 @@ browser.
             names; Apple silicon and Intel, plus Windows ARM64 when the
             release has it, for the new ones) with no asset block comment
             left over, and a release with both name schemes is refused
+  facts     every [data-fact] number on a page equals site/data/facts.json
+            (systems, profiles, credits, families.*)
+  roadmap   roadmap.py --check on the built copy: site/data/roadmap.json is
+            valid and every generated block on the pages matches it
+  stale     no copy that the facts made false ("more than 50 systems")
+  systems   systems.py --check on the built copy (systems.json, the icon
+            sprite, both homes' lists and facts.json agree), the trademark
+            notice and CC BY credit in both homes with their links, no ™/®,
+            the sprite kept out of the first load, systems.js size and its
+            pauses
   metrics   the public-reach layer: both pages load metrics.js once,
             deferred, each data-metric slot (downloads, stars) is empty and
             hidden in site/ (apply_metrics.py fills it at build time only
@@ -84,16 +94,29 @@ CSP = (
     "font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; object-src 'none'; "
     "base-uri 'self'; form-action 'none'"
 )
-PAGES = {"es": "index.html", "en": "en/index.html"}
+# The two homes (release, metrics and the FAQ live there) and every page,
+# with the budget it is held to. Each Spanish page has its English pair.
+HOMES = {"es": "index.html", "en": "en/index.html"}
+PAGES = {
+    "index.html": "page", "en/index.html": "page",
+    "features/index.html": "features", "en/features/index.html": "features",
+    "roadmap/index.html": "roadmap", "en/roadmap/index.html": "roadmap",
+}
+PAIRS = [("index.html", "en/index.html"), ("features/index.html", "en/features/index.html"),
+         ("roadmap/index.html", "en/roadmap/index.html")]
 REQUIRED = [
     "index.html", "en/index.html", "404.html", "robots.txt",
+    "features/index.html", "en/features/index.html", "roadmap/index.html",
+    "en/roadmap/index.html", "assets/pages.css", "assets/toc.js",
+    "data/roadmap.json", "data/facts.json", "assets/og-features.png",
+    "assets/og-features-en.png", "assets/og-roadmap.png", "assets/og-roadmap-en.png",
     "sitemap.xml", "llms.txt", "agents.txt", "site.webmanifest",
     "en/site.webmanifest", "favicon.ico", "assets/site.css", "assets/theme.js",
     "assets/motion.js", "assets/release.js", "assets/metrics.js", "assets/favicon.svg", "assets/icon-192.png",
     "assets/icon-512.png", "assets/apple-touch-icon.png", "assets/og.png",
-    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/views.js",
+    "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/deck.js",
     "assets/art/covers.svg", "assets/art/kit.svg", "assets/art/grain.svg",
-    "assets/art/weave.svg",
+    "assets/art/weave.svg", "assets/art/systems.svg", "assets/systems.js", "data/systems.json",
     "assets/fonts/archivo-variable.woff2",
     "assets/fonts/atkinson-hyperlegible-next-variable.woff2",
     "assets/fonts/atkinson-hyperlegible-mono-variable.woff2",
@@ -123,7 +146,17 @@ BUDGET = {
     # that section's Shelves screenshot (scripts/site/gen_views.py: window
     # chrome, eight tiles, each view's lines and slots, six view buttons),
     # about 6.5 KB raw / 1.6 KB gz.
-    "page": (74_000, 17_500),
+    # Raised to 90,000 / 21,000 for the redesign (docs/landing-redesign-plan.md
+    # §7): the six views' layout table moves into data-deck-tiles, and the
+    # home gains #terminal, the source cascade, the archive that opens, five
+    # comparison rows and #siguiente, minus the pinned four-step desk.
+    # Raised to 105,000 / 25,200 for round 2 (docs/landing-round2-plan.md
+    # §6): the list of all 131 systems in #formatos, grouped by family and
+    # maker, with search aliases and carousel labels (about 9 KB raw /
+    # 2.8 KB gz), its search, filters, notice and CC BY credit, and the
+    # drawn duplicates scene that replaces the screenshot (its <picture>
+    # leaves).
+    "page": (105_000, 25_200),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
     # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
@@ -139,17 +172,46 @@ BUDGET = {
     # Raised to 83,500 / 18,800 for the alternating .feat rows of v0.2.0.
     # Raised to 86,000 / 19,400 for the six-views window (its fills, the
     # per-view swaps, the tile easing and the button spine).
-    "css": (86_000, 19_400),
+    # Raised to 96,000 / 21,600 for the redesign (docs/landing-redesign-plan.md
+    # §7): the one-desk steps (minus the pinned desk and its rail), the
+    # source cascade, the archive that opens, the terminal scenes, the
+    # sticky comparison column and the roadmap teaser.
+    # Raised to 106,000 / 23,600 for round 2 (docs/landing-round2-plan.md
+    # §6): the systems shelves and list, the duplicates scene shared with
+    # /features (moved out of pages.css and extended) and the step tabs.
+    "css": (106_000, 23_600),
+    # /features: seven groups of about 45 features with their version
+    # tags, five inline illustrations and the six-views window.
+    "features": (72_000, 17_000),
+    # /roadmap: HTML lists and mini slots generated by roadmap.py.
+    "roadmap": (34_000, 8_500),
+    # assets/pages.css, loaded only by /features and /roadmap. Raised to
+    # 15,000 / 4,200 for round 2 (docs/landing-round2-plan.md §6): the
+    # /features beats (sticky figures and each scene's earlier states,
+    # minus the duplicates scene, which moved to site.css) and the
+    # /roadmap shelf (grid columns, slots, arcs, phone list, its entrance).
+    "pages_css": (15_000, 4_200),
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
     # 23,000 / 7,800 for its installer offer before the first release, then
     # to 26,000 / 8,400 for metrics.js (see METRICS_JS), then to
-    # 29,000 / 9,100 for views.js (see VIEWS_JS).
-    "scripts": (29_000, 9_100),
+    # 29,000 / 9,100 for views.js (now deck.js, see DECK_JS), then to
+    # 31,500 / 9,900 for the redesign (docs/landing-redesign-plan.md §7):
+    # deck.js drives the steps and terminal too, toc.js for /features, and
+    # motion.js types the terminal scene by scene. Raised to 39,500 / 12,000
+    # for round 2 (docs/landing-round2-plan.md §6): deck.js builds the
+    # steps' tablist (see DECK_JS), systems.js (see SYSTEMS_JS) and toc.js
+    # moves the /features scenes beat by beat.
+    "scripts": (39_500, 12_000),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
+    # assets/art/systems.svg alone: the app's 89 system silhouettes
+    # (RetroArch Assets, CC BY 4.0) at one decimal, for the #formatos shelf
+    # and list. Requested only when that section comes near (systems.js),
+    # never on the first load; the "systems" gate checks that.
+    "systems_art": (132_000, 36_000),
     # Archivo (wdth 75-112, wght 600-800) + Atkinson Hyperlegible Next and
     # Mono, all variable and Latin-subset; brand.md caps the faces at 180 KB.
     "font": (128_000, None),
@@ -171,11 +233,19 @@ RELEASE_JS = 6_800
 # (paged fetch, cache, the localized label). Kept out of release.js so that
 # file keeps its cap.
 METRICS_JS = 3_400
-# views.js alone (raw bytes): the six-views window (buttons, the layout
-# table of its eight tiles, the paused-when-unseen clock). Kept out of
-# shelf.js so that file keeps its cap.
-VIEWS_JS = 3_000
+# deck.js alone (raw bytes): buttons that switch a figure (the six-views
+# window, the four steps, the terminal scenes), the tile layout read from
+# data-deck-tiles and the paused-when-unseen clock. Was views.js (3,000),
+# which carried the layout table itself. Raised to 5,000 for round 2
+# (docs/landing-round2-plan.md §5.4): the steps' WAI-ARIA tablist built
+# from their headings (roles on and off at the media query, arrows,
+# Home/End, roving tabindex), about 1.5 KB.
+DECK_JS = 5_100
 METRICS = ("downloads", "stars")
+# systems.js alone (raw bytes): the #formatos shelf of every system (icons
+# swapped in near the section, the two looping rows and their pause
+# button) and the search and family filters of the full list.
+SYSTEMS_JS = 5_100
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000
 # Versorium keeps 680; this page carries a comparison, a layout table and
@@ -186,7 +256,16 @@ COVERS_SVG = 18_000
 # duplicates, views), a FAQ entry on duplicates and a not-yet line.
 # Raised to 1,900 for the per-chip downloads: the Intel Mac link and the
 # Windows ARM64 installer, .msi and CLI links of the release names.
-MAX_WORDS = 1_900
+# Raised to 2,600 for the redesign: #como loses about 180 words; the cover
+# choices in #seguro, current consoles, #terminal, five comparison rows,
+# #siguiente and the keys question add them back.
+# /features lists every feature in a sentence; /roadmap is a list of
+# versions and blocks generated from site/data/roadmap.json.
+# Raised to 3,050 for round 2: the 131 system names and their group
+# headings (about 400), a reference list inside a closed <details>, plus
+# the trademark notice and the CC BY credit; the duplicates screenshot's
+# alt and caption leave.
+MAX_WORDS = {"page": 3_050, "features": 2_600, "roadmap": 1_200}
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)
@@ -448,19 +527,20 @@ def shape(doc: Page) -> dict[str, object]:
 
 
 def gate_parity(site: Path, r: Report) -> None:
-    docs = {lang: parse(site / rel) for lang, rel in PAGES.items()}
-    es, en = shape(docs["es"]), shape(docs["en"])
-    for key in es:
-        if es[key] != en[key]:
-            r.fail("parity", f"{key}: es {es[key]} != en {en[key]}")
-    for lang, doc in docs.items():
+    for es_rel, en_rel in PAIRS:
+        es, en = shape(parse(site / es_rel)), shape(parse(site / en_rel))
+        for key in es:
+            if es[key] != en[key]:
+                r.fail("parity", f"{es_rel}: {key}: es {es[key]} != en {en[key]}")
+        r.note("parity", f"{es_rel} shape {es}")
+    for lang, rel in HOMES.items():
+        doc = parse(site / rel)
         visible = list(zip(doc.summaries, doc.answers[: len(doc.summaries)]))
         ld = faq_ld(doc)
         if visible != ld:
             r.fail("parity", f"{lang}: FAQPage JSON-LD differs from the visible FAQ")
         if not ld:
             r.fail("parity", f"{lang}: no FAQPage JSON-LD")
-    r.note("parity", f"shape {es}")
 
 
 # ── head ───────────────────────────────────────────────────────────────
@@ -489,12 +569,12 @@ def gate_head(site: Path, r: Report) -> None:
                 for need in ("width", "height", "alt"):
                     if need not in a:
                         r.fail("head", f"{rel}: <img {a.get('src')}> has no {need}")
-                if rel in PAGES.values() and a.get("loading") != "lazy":
+                if rel in HOMES.values() and a.get("loading") != "lazy":
                     r.fail("head", f"{rel}: <img {a.get('src')}> is not lazy (all shots sit below the hero)")
-        if rel in PAGES.values():
+        if rel in PAGES:
             links = [(a.get("rel"), a.get("hreflang"), a.get("href")) for t, a in doc.tags if t == "link"]
             canon = [h for rl, _, h in links if rl == "canonical"]
-            want = f"https://{HOST}/" + ("en/" if rel.startswith("en/") else "")
+            want = f"https://{HOST}/" + rel.removesuffix("index.html")
             if canon != [want]:
                 r.fail("head", f"{rel}: canonical {canon} != {want}")
             langs = sorted(hl for rl, hl, _ in links if rl == "alternate" and hl)
@@ -516,12 +596,15 @@ def sizes(paths: list[Path]) -> tuple[int, int]:
 
 
 def gate_budget(site: Path, r: Report) -> None:
-    checks = {f"page {rel}": ("page", [site / rel]) for rel in PAGES.values()}
+    checks = {f"page {rel}": (kind, [site / rel]) for rel, kind in PAGES.items()}
+    checks["pages.css"] = ("pages_css", [site / "assets/pages.css"])
     checks["css"] = ("css", [site / "assets/tokens.css", site / "assets/site.css"])
     checks["scripts"] = ("scripts", sorted((site / "assets").rglob("*.js")))
-    art = sorted((site / "assets/art").glob("*.svg"))
+    art = sorted(p for p in (site / "assets/art").glob("*.svg") if p.name != "systems.svg")
     if art:
         checks["art"] = ("art", art)
+    if (site / "assets/art/systems.svg").is_file():
+        checks["systems.svg"] = ("systems_art", [site / "assets/art/systems.svg"])
     checks["font"] = ("font", sorted((site / "assets/fonts").glob("*.woff2")))
     for name, (kind, paths) in checks.items():
         raw, gz = sizes(paths)
@@ -529,11 +612,11 @@ def gate_budget(site: Path, r: Report) -> None:
         r.note("budget", f"{name}: {raw} B raw, {gz} B gzip")
         if raw > max_raw or (max_gz and gz > max_gz):
             r.fail("budget", f"{name}: {raw} B raw / {gz} B gzip over {max_raw} / {max_gz}")
-    for lang, rel in PAGES.items():
+    for rel, kind in PAGES.items():
         n = len(parse(site / rel).words)
-        r.note("budget", f"{lang}: {n} visible words")
-        if n > MAX_WORDS:
-            r.fail("budget", f"{lang}: {n} visible words, over {MAX_WORDS}")
+        r.note("budget", f"{rel}: {n} visible words")
+        if n > MAX_WORDS[kind]:
+            r.fail("budget", f"{rel}: {n} visible words, over {MAX_WORDS[kind]}")
 
 
 # ── contrast ───────────────────────────────────────────────────────────
@@ -603,6 +686,41 @@ MOVES = {
 USER_LAYOUT = {("::details-content", "height"), ("::details-content", "content-visibility")}
 JS_GATES = ("html.anim", "html.motion", "html.vt-ink")
 TEXT = re.compile(r"(^|[\s>+~])(h[1-6]|p|li|a|img|picture|figure|button|\.btn)$")
+
+
+class ClipScan(HTMLParser):
+    """Every [data-clip] inside a [data-clip-box] that holds a .clip-replay."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[tuple[str, bool]] = []
+        self.boxes: list[list[bool]] = []  # per open box: [has clip, has replay]
+        self.bad: list[str] = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        box = "data-clip-box" in a
+        if box:
+            self.boxes.append([False, False])
+        if "data-clip" in a:
+            if not self.boxes:
+                self.bad.append(f"<{tag} data-clip> outside a [data-clip-box]")
+            else:
+                self.boxes[-1][0] = True
+        if "clip-replay" in (a.get("class") or "").split() and self.boxes:
+            self.boxes[-1][1] = True
+        if tag not in Page.VOID:
+            self.stack.append((tag, box))
+
+    def handle_endtag(self, tag):
+        while self.stack:
+            t, box = self.stack.pop()
+            if box:
+                clip, replay = self.boxes.pop()
+                if clip and not replay:
+                    self.bad.append("a [data-clip-box] without its .clip-replay button")
+            if t == tag:
+                break
 
 
 def css_rules(css: str) -> list[tuple[list[str], str, str]]:
@@ -705,17 +823,17 @@ def gate_motion(site: Path, r: Report) -> None:
         ):
             if need not in text:
                 r.fail("motion", f"{where} lacks {need!r}")
-    # views.js steps on its own only under html.motion, and stops for
+    # deck.js steps on its own only under html.motion, and stops for
     # cr-halt and reduced motion; its buttons work without either.
-    views = (site / "assets/views.js").read_text(encoding="utf-8")
+    views = (site / "assets/deck.js").read_text(encoding="utf-8")
     n = len(views.encode())
-    r.note("motion", f"views.js: {n} B raw")
-    if n > VIEWS_JS:
-        r.fail("motion", f"views.js is {n} B, over {VIEWS_JS}")
+    r.note("motion", f"deck.js: {n} B raw")
+    if n > DECK_JS:
+        r.fail("motion", f"deck.js is {n} B, over {DECK_JS}")
     for need in ('"cr-halt"', 'classList.contains("motion")', 'matchMedia("(prefers-reduced-motion: reduce)")',
                  '"visibilitychange"', "IntersectionObserver"):
         if need not in views:
-            r.fail("motion", f"views.js lacks {need!r}")
+            r.fail("motion", f"deck.js lacks {need!r}")
     # The gates: html.anim only without reduced motion or Save-Data; any
     # error or a mid-visit switch to reduced motion runs halt().
     for need, where, text in (
@@ -763,7 +881,13 @@ def gate_motion(site: Path, r: Report) -> None:
                     if TEXT.search(re.sub(r":[\w-]+(\([^)]*\))?", "", s.strip())):
                         r.fail("motion", f"{s.strip()}: motion hides text or images")
     gate_hiding_keyframes(rules, r)
-    for rel in PAGES.values():
+    for rel in PAGES:
+        # motion.js clip(): every [data-clip] sits in a [data-clip-box]
+        # that holds its replay button, or motion.js halts on it.
+        scan = ClipScan()
+        scan.feed((site / rel).read_text(encoding="utf-8"))
+        for what in scan.bad:
+            r.fail("motion", f"{rel}: {what}")
         doc = parse(site / rel)
         for t, a in doc.tags:
             if t == "video" or "autoplay" in a:
@@ -807,7 +931,7 @@ class ArtScan(HTMLParser):
 def gate_art(site: Path, r: Report) -> None:
     # Decorative art carries no words (the word cap and screen readers),
     # always reserves its box (CLS 0) and never pulls in raster or script.
-    for rel in PAGES.values():
+    for rel in PAGES:
         scan = ArtScan()
         scan.feed((site / rel).read_text(encoding="utf-8"))
         for i, (a, inner) in enumerate(scan.found):
@@ -857,8 +981,8 @@ def gate_release(site: Path, r: Report) -> None:
         if need not in js:
             r.fail("release", f"release.js lacks {need!r}")
     released = any((site / rel).read_text(encoding="utf-8").count("/releases/download/")
-                   for rel in PAGES.values())
-    for rel in PAGES.values():
+                   for rel in HOMES.values())
+    for rel in HOMES.values():
         text = (site / rel).read_text(encoding="utf-8")
         if "asset:" in text:
             r.fail("release", f"{rel}: an asset/noasset block comment is left over")
@@ -934,7 +1058,7 @@ def gate_card_rows(site: Path, r: Report) -> None:
         r.fail("release", "site.css: no subgrid .dl-card rule with grid-row: span N")
         return
     span = int(m.group(1))
-    for rel in PAGES.values():
+    for rel in HOMES.values():
         text = (site / rel).read_text(encoding="utf-8")
         for card in re.findall(r'<div class="dl-card"[^>]*>(.*?)</div>', text, flags=re.S):
             items = len(re.findall(r"<(?:h3|p|a)\b", card))
@@ -1023,7 +1147,7 @@ def gate_metrics(site: Path, r: Report) -> None:
     for need in (f'"https://api.github.com/repos/{REPO}"', "sessionStorage", "abort()", "n > 0"):
         if need not in js:
             r.fail("metrics", f"metrics.js lacks {need!r}")
-    for rel in PAGES.values():
+    for rel in HOMES.values():
         doc = parse(site / rel)
         src = [a.get("src", "") for t, a in doc.tags if t == "script" and a.get("src", "").endswith("assets/metrics.js")]
         if len(src) != 1 or not any(t == "script" and a.get("src") == src[0] and "defer" in a for t, a in doc.tags):
@@ -1038,11 +1162,108 @@ def gate_metrics(site: Path, r: Report) -> None:
                 r.fail("metrics", f"{rel}: data-metric={name} must be empty and end in ' hidden>'")
 
 
+FACTS = "data/facts.json"
+# Copy that a fact made false; a page or text file carrying it fails.
+STALE = re.compile(r"más de 50\b|more than 50\b|\b5\d (?:sistemas|systems)\b", re.I)
+
+
+def gate_facts(site: Path, r: Report) -> None:
+    path = site / FACTS
+    if not path.is_file():
+        r.fail("facts", f"missing {FACTS}")
+        return
+    facts = json.loads(path.read_text(encoding="utf-8"))
+    seen = 0
+    for page in sorted(site.rglob("*.html")):
+        text = page.read_text(encoding="utf-8")
+        for tag, key, inner in re.findall(r'<(\w+)\b[^>]*\sdata-fact="([\w.]+)"[^>]*>(.*?)</\1>', text, re.S):
+            seen += 1
+            want = facts
+            for part in key.split("."):
+                want = want.get(part) if isinstance(want, dict) else None
+            got = re.search(r"\d[\d.,]*", re.sub(r"<[^>]+>", "", inner))
+            if not isinstance(want, int):
+                r.fail("facts", f"{page.relative_to(site)}: data-fact={key} is not a number in {FACTS}")
+            elif not got or int(re.sub(r"\D", "", got.group())) != want:
+                r.fail("facts", f"{page.relative_to(site)}: data-fact={key} says {got and got.group()!r}, {FACTS} says {want}")
+    r.note("facts", f"{seen} data-fact number(s)")
+    if not seen:
+        r.fail("facts", "no [data-fact] number on any page")
+
+
+ROADMAP = ROOT / "scripts/site/roadmap.py"
+
+
+def gate_roadmap(site: Path, r: Report) -> None:
+    run = subprocess.run([sys.executable, "-I", str(ROADMAP), "--check", "--site", str(site),
+                          "--data", str(site / "data/roadmap.json")], capture_output=True, text=True)
+    if run.returncode != 0:
+        lines = [x.removeprefix("FAIL roadmap ") for x in run.stdout.splitlines() if x.startswith("FAIL roadmap ")]
+        for line in lines:
+            r.fail("roadmap", line)
+        if not lines:
+            r.fail("roadmap", (run.stderr or run.stdout).strip()[-500:])
+
+
+SYSTEMS = ROOT / "scripts/site/systems.py"
+SYSTEMS_LEGAL = {
+    "es": ["no está afiliado ni respaldado", "son marcas de sus dueños", "RetroArch Assets", "CC BY 4.0"],
+    "en": ["not affiliated with or endorsed", "trademarks of their owners", "RetroArch Assets", "CC BY 4.0"],
+}
+
+
+def gate_systems(site: Path, r: Report) -> None:
+    """systems.py --check on the built copy, the trademark notice and the
+    CC BY credit in both homes, no (TM)/(R) in the block, and the sprite
+    never referenced by the first load (systems.js swaps it in)."""
+    run = subprocess.run([sys.executable, "-I", str(SYSTEMS), "--check", "--site", str(site)],
+                         capture_output=True, text=True)
+    for line in run.stdout.splitlines():
+        if line.startswith("FAIL systems "):
+            r.fail("systems", line.removeprefix("FAIL systems "))
+    if run.returncode and "FAIL" not in run.stdout:
+        r.fail("systems", (run.stderr or run.stdout).strip()[-500:])
+    for lang, rel in HOMES.items():
+        text = (site / rel).read_text(encoding="utf-8")
+        m = re.search(r'<div class="sys" .*?<p class="sys-legal">(.*?)</p>', text, re.S)
+        if not m:
+            r.fail("systems", f"{rel}: no .sys block with its .sys-legal notice")
+            continue
+        for need in SYSTEMS_LEGAL[lang] + ["creativecommons.org/licenses/by/4.0/", "github.com/libretro/retroarch-assets/tree/"]:
+            if need not in m.group(1):
+                r.fail("systems", f"{rel}: the systems notice lacks {need!r}")
+        if re.search(r"[™®]|&trade;|&reg;", m.group(0)):
+            r.fail("systems", f"{rel}: ™ or ® in the systems block")
+        if "systems.svg#" in text or re.search(r'(?:href|src)="[^"]*systems\.svg', text):
+            r.fail("systems", f"{rel}: the first load references systems.svg (systems.js loads it)")
+        if 'src="assets/systems.js"' not in text and 'src="../assets/systems.js"' not in text:
+            r.fail("systems", f"{rel}: does not load systems.js")
+    js = site / "assets/systems.js"
+    if js.is_file():
+        n = js.stat().st_size
+        r.note("systems", f"systems.js: {n} B raw")
+        if n > SYSTEMS_JS:
+            r.fail("systems", f"systems.js is {n} B, over {SYSTEMS_JS}")
+        body = js.read_text(encoding="utf-8")
+        for need in ('"cr-halt"', 'matchMedia("(prefers-reduced-motion: reduce)")', "IntersectionObserver",
+                     '"visibilitychange"'):
+            if need not in body:
+                r.fail("systems", f"systems.js lacks {need!r}")
+
+
+def gate_stale(site: Path, r: Report) -> None:
+    for f in sorted(site.rglob("*")):
+        if f.suffix in (".html", ".txt", ".xml", ".webmanifest"):
+            for m in STALE.finditer(f.read_text(encoding="utf-8")):
+                r.fail("stale", f"{f.relative_to(site)}: {m.group()!r} (the facts say otherwise)")
+
+
 GATES = {
     "files": gate_files, "links": gate_links, "parity": gate_parity,
     "head": gate_head, "budget": gate_budget, "contrast": gate_contrast,
     "motion": gate_motion, "art": gate_art, "release": gate_release,
-    "metrics": gate_metrics,
+    "metrics": gate_metrics, "facts": gate_facts, "stale": gate_stale,
+    "roadmap": gate_roadmap, "systems": gate_systems,
 }
 
 

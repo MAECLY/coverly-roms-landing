@@ -1,0 +1,12 @@
+{
+  "systems": 131,
+  "profiles": 8,
+  "credits": 62,
+  "families": {
+    "console": 50,
+    "handheld": 20,
+    "computer": 27,
+    "arcade": 15,
+    "engine": 19
+  }
+}
