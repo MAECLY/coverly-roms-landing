@@ -1,9 +1,11 @@
 # Coverly ROMs
 
-> Free desktop app (AGPL-3.0-only) for Windows, macOS and Linux that audits a ROM library, such as a handheld's SD card, shows which games lack cover, screenshot or title-screen art, and fills them in bulk from libretro-thumbnails (no account) or SteamGridDB (your own key). A dry run comes first, existing art is never overwritten unless you ask (and then it is backed up), and the last job can be undone. It ships with a command line, `coverly`. No account, no telemetry. Made by Miguel Esparza (MAECLY).
+> Free desktop app (AGPL-3.0-only) for Windows, macOS and Linux that audits a ROM library, such as a handheld's SD card, shows which games lack cover, screenshot or title-screen art, and fills them in bulk from libretro-thumbnails (no account) or SteamGridDB (your own key). A dry run comes first, existing art is never overwritten unless you ask (and then it is backed up), and the last job can be undone. Around the covers it sorts downloads into 131 systems (archives, disc games and games that are a folder included) and sets duplicates aside, both with a dry run and undo. It ships with a command line, `coverly`. No account, no telemetry. Made by Miguel Esparza (MAECLY).
 
 Canonical: https://coverly-roms.maecly.com/
 English page: https://coverly-roms.maecly.com/en/
+Features: https://coverly-roms.maecly.com/en/features/ (Spanish: https://coverly-roms.maecly.com/features/)
+Roadmap: https://coverly-roms.maecly.com/en/roadmap/ (Spanish: https://coverly-roms.maecly.com/roadmap/)
 Source: https://github.com/MAECLY/coverly-roms
 Licence: AGPL-3.0-only, contributions under a Contributor License Agreement. The name Coverly ROMs and its mark belong to MAECLY and are not covered by the licence.
 Contact: hola@maecly.com
@@ -50,12 +52,36 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - Privacy: no telemetry. Network requests only to the art sources and the optional update check. Images are decoded and re-encoded, which strips metadata.
 - Updates: in-app, from GitHub Releases, verified with minisign; stable and beta channels; never restarts during a job.
 
+## Next version (already in the code, not in a published release yet)
+
+- 131 systems, up from 54: retro consoles, handhelds, computers, arcade boards, ports and engines, fantasy consoles, GameCube, Wii, Wii U, 3DS, Switch, PS Vita, PS3, PS4, PS5, Xbox, Xbox 360, Xbox One and Xbox Series (catalogued only).
+- Current consoles recognised without keys, from what is stored in the clear; anything unreadable is labelled "Encrypted". Coverly never reads, asks for, downloads or ships console keys, and leaves key and licence files untouched.
+- Optional Switch name catalogue from blawar/titledb (MIT), off by default.
+- Covers: the icon a game carries (PS3, PS Vita, Wii U, 3DS, Xbox 360) when no source has one; PS4, PS5, Xbox One and Xbox Series try it first. RetroArch thumbnails of titles with characters such as & or : are named the way RetroArch looks for them.
+- Organise: games that are a folder move as one item, from inside zip and 7z archives too; loose multi-disc games are grouped with an .m3u; each item of 10 GB or more asks first ("Yes / Yes to all / No"), and `coverly organize --skip-large` leaves them in place.
+- Duplicates by title ID and version, and by the same folder; updates and DLC are listed under their game.
+- Settings: a Credits tab listing 62 sources, databases and libraries with their licences; Organise and Duplicates in their own tabs with search.
+- Downloads named by system and chip: separate Apple silicon and Intel Mac builds, and Windows ARM64.
+- CLI: `coverly catalog switch status|update|remove`.
+
 ## Not supported
 
 - ScreenScraper (planned; not available in public builds).
 - TheGamesDB; mixed/composite images, videos, marquees, wheels.
 - Editing gamelist metadata, renaming or verifying ROMs.
 - Running on the handheld itself.
-- PlayStation 2 and 3DO discs inside archives are named as not supported yet.
 - It bundles no ROMs, BIOS files or game art. Game art belongs to its owners.
 - Not yet tested on real handhelds; the maximum image sizes some firmware accepts are not confirmed.
+
+## Docs
+
+- [Home (Spanish)](https://coverly-roms.maecly.com/)
+- [Home (English)](https://coverly-roms.maecly.com/en/)
+- [Features (Spanish)](https://coverly-roms.maecly.com/features/)
+- [Features (English)](https://coverly-roms.maecly.com/en/features/)
+- [Roadmap (Spanish)](https://coverly-roms.maecly.com/roadmap/)
+- [Roadmap (English)](https://coverly-roms.maecly.com/en/roadmap/)
+- [Source code](https://github.com/MAECLY/coverly-roms)
+- [Releases](https://github.com/MAECLY/coverly-roms/releases)
+- [Changelog](https://github.com/MAECLY/coverly-roms/blob/main/CHANGELOG.md)
+- [Licence (AGPL-3.0)](https://github.com/MAECLY/coverly-roms/blob/main/LICENSE)
