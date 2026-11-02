@@ -90,6 +90,7 @@ def parse_todo(text: str) -> dict[str, dict[str, int | str]]:
     """{id: {done, total, title}} for every "## N." section of TODO.md:
     every checkbox (any indent, any ### inside) up to the next "## "."""
     out: dict[str, dict[str, int | str]] = {}
+    counts: dict[str, list[int]] = {}
     cur = None
     fence = False
     for line in text.splitlines():
@@ -98,16 +99,18 @@ def parse_todo(text: str) -> dict[str, dict[str, int | str]]:
         if fence:
             continue
         if line.startswith("## "):
-            m = re.match(r"## (\d+(?:\.\d+)?)\.\s+(.*)", line)
-            cur = m.group(1) if m else None
-            if cur:
-                out[cur] = {"done": 0, "total": 0, "title": m.group(2).strip()}
+            head = re.match(r"## (\d+(?:\.\d+)?)\.\s+(.*)", line)
+            cur = head.group(1) if head else None
+            if head and cur:
+                out[cur] = {"done": 0, "total": 0, "title": head.group(2).strip()}
+                counts[cur] = [0, 0]
             continue
         if cur:
-            m = re.match(r"\s*[-*] \[([ xX])\]", line)
-            if m:
-                out[cur]["total"] += 1
-                out[cur]["done"] += m.group(1) != " "
+            box = re.match(r"\s*[-*] \[([ xX])\]", line)
+            if box:
+                counts[cur][1] += 1
+                counts[cur][0] += box.group(1) != " "
+                out[cur]["done"], out[cur]["total"] = counts[cur]
     return out
 
 

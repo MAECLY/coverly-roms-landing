@@ -19,6 +19,7 @@ HERE = Path(__file__).resolve().parent
 APP = HERE / "fixtures/app"
 sys.dont_write_bytecode = True  # no __pycache__ in the working tree
 _spec = importlib.util.spec_from_file_location("roadmap", HERE / "roadmap.py")
+assert _spec is not None and _spec.loader is not None
 rm = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(rm)
 
