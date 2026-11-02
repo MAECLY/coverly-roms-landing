@@ -184,6 +184,86 @@
 .tr-none {
   color: var(--cr-slot-missing);
 }
+/* /features from 1200px: each group's figure stays beside its list
+   (sticky, no pinned section, no scroll hijack) and toc.js puts the beat
+   being read on the group ([data-beat] on .fgroup): early beats draw the
+   scene's earlier states, the last one is the finished scene, which is
+   also what phones, no-JS and reduced motion see. Clips do not play
+   there; the beats replace them. */
+@media (min-width: 1200px) {
+  .fgroup > :is(figure, .term-help) {
+    position: sticky;
+    top: calc(var(--header) + 24px);
+  }
+}
+.fgroup[data-beat] .clip-replay {
+  display: none;
+}
+.fgroup .cas .sp,
+.fgroup .arc-lid {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.fgroup .arc-lid {
+  transform-origin: 0 100%;
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .cv,
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .tb,
+.fgroup[data-beat='1'] .cas :is(.s2, .s3),
+.fgroup[data-beat='2'] .cas .s3,
+.fgroup[data-beat='1'] .gal .g-cv :is(.q4, .q5, .q6, .q7, .q8),
+.fgroup[data-beat='2'] .gal .g-cv :is(.q7, .q8),
+.fgroup[data-beat='1'] .arc .trk,
+.fgroup[data-beat='2'] .arc :is(.t-f, .t-k),
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup-box :is(.dup-tag, .dup-undo),
+.fgroup[data-beat='1'] .dup-why,
+.fgroup[data-beat='1'] .trust :is(.tr-seal, .tr-ck) {
+  opacity: 0;
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .mi,
+.fgroup[data-beat='2'] .arc .t-o {
+  opacity: 1;
+}
+.fgroup[data-beat='1'] .cas .s1 {
+  opacity: 0.35;
+}
+.fgroup[data-beat='2'] .cas .s1,
+.fgroup[data-beat='3'] .cas .s2 {
+  transform: translateX(-28px);
+}
+.fgroup:is([data-beat='1'], [data-beat='2'], [data-beat='3']) .cas .sp,
+.fgroup[data-beat='1'] .dup .dup-sp {
+  transform: scaleX(0);
+}
+.fgroup[data-beat='1'] .arc .trk {
+  transform: translateX(-80px) scale(0.6);
+}
+.fgroup[data-beat='2'] .arc-lid {
+  transform: rotate(-28deg);
+}
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup .da {
+  transform: translate(-162px, 44px) scale(1.2);
+}
+.fgroup:is([data-beat='1'], [data-beat='2']) .dup .db {
+  transform: translate(-106px, 40px) scale(1.2);
+}
+.fgroup[data-beat='1'] .trust :is(.tr-box, .tr-zip) {
+  opacity: 0.35;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .fgroup[data-beat] :is(.cas, .gal, .arc, .dup-box, .trust) * {
+    animation: none;
+    transition: opacity 420ms var(--cr-ease-standard), transform 600ms var(--cr-ease-ink);
+  }
+  html.motion .fgroup[data-beat] .dup-box .dup-why {
+    animation: none;
+    transition: opacity 420ms var(--cr-ease-standard);
+  }
+  html.motion .fgroup[data-beat] [data-deck].play :is([aria-pressed='true'], [aria-selected='true'])::after {
+    animation: none;
+  }
+}
+
 /* /roadmap: one shelf per version, its accession tag and date, and what
    it brought as solid slots with a Buckram spine (Coverly made them). */
 .rm-shelf {
