@@ -47,6 +47,7 @@
 .pill.is-soon .pill-dot,
 .dl-soon,
 .notyet li,
+.rm-item::before,
 .faq summary::after,
 .req-count,
 html.motion .t-rest::before {
@@ -3504,6 +3505,106 @@ html.motion .t-rest::before {
       animation-delay: 1360ms;
     }
   }
+}
+
+/* == redesign:next == */
+/* What comes next (#siguiente and /roadmap; roadmap.py writes the HTML
+   from site/data/roadmap.json). Each block is a missing slot, dashed;
+   its status in words, and its tasks as a row of mini slots. */
+.rm-next {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  list-style: none;
+}
+.rm-teaser {
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .rm-teaser {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.rm-item {
+  position: relative;
+  padding: 18px 0 18px 34px;
+  border-top: 1px solid var(--cr-border);
+}
+.rm-teaser .rm-item {
+  border-top: 0;
+}
+.rm-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 18px;
+  height: 24px;
+}
+.rm-item[data-status='verifying']::before,
+.rm-item[data-status='almost']::before {
+  --dash-ink: var(--cr-slot-applied);
+  background:
+    linear-gradient(var(--cr-slot-applied), var(--cr-slot-applied)) 0 100% / 100% 3px no-repeat,
+    linear-gradient(var(--cr-slot-filled), var(--cr-slot-filled)) 0 0 / 100% 100% no-repeat;
+}
+.rm-item[data-status='almost']::before {
+  background:
+    linear-gradient(var(--cr-slot-filled), var(--cr-slot-filled)) 0 0 / 100% 70% no-repeat,
+    var(--dash-edges);
+}
+.rm-item[data-status='verifying']::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 22px;
+  width: 6px;
+  height: 6px;
+  background: var(--cr-manila);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+.rm-item[data-status='blocked'] {
+  color: var(--cr-text-secondary);
+}
+.rm-item h3 {
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+.rm-item p {
+  color: var(--cr-text-secondary);
+}
+.rm-after {
+  margin-top: 6px;
+  font-size: 0.9375rem;
+}
+.rm-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 10px;
+  font-size: 0.875rem;
+}
+.rm-status {
+  color: var(--cr-text);
+  font-weight: 600;
+}
+.rm-bar {
+  max-width: 100%;
+  height: 8px;
+}
+.rm-f {
+  fill: var(--cr-slot-applied);
+}
+.rm-o {
+  fill: none;
+  stroke: var(--cr-slot-missing);
+}
+.rm-more {
+  margin-top: 24px;
+  font-weight: 600;
 }
 
 /* == redesign:terminal == */

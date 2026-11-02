@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Coverly ROMs · The missing cover art in your ROMs | MAECLY</title>
-<meta name="description" content="Coverly ROMs checks your handheld's SD card, shows which games have no cover art and adds it in one go, with a dry run first and undo after. Free and AGPL-3.0 for Windows, macOS and Linux.">
+<meta name="description" content="Free, no account: Coverly ROMs adds the missing covers on your handheld, sorts 131 systems and sets duplicates aside. With undo.">
 <meta name="author" content="Miguel Esparza · MAECLY">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="color-scheme" content="light dark">
@@ -52,8 +52,8 @@
 "@graph": [
 {"@type":"WebSite","@id":"https://coverly-roms.maecly.com/#website","url":"https://coverly-roms.maecly.com/","name":"Coverly ROMs","inLanguage":["es","en"],"publisher":{"@id":"https://www.maecly.com/#org"}},
 {"@type":"Organization","@id":"https://www.maecly.com/#org","name":"MAECLY","url":"https://www.maecly.com/"},
-{"@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","name":"Coverly ROMs","description":"Free (AGPL-3.0) desktop app for Windows, macOS and Linux that audits a ROM library, shows which games lack cover, screenshot or title-screen art and fills them from libretro-thumbnails or SteamGridDB, with a dry run first, backups and undo. Writes the Anbernic stock, GarlicOS, Onion OS, MinUI, muOS, ES-DE, Batocera and RetroArch layouts. It also sorts ROMs by system, archives and disc games included, and sets duplicates aside with undo. Includes the coverly command line. No account, no telemetry.","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11, macOS 11 or later, Linux x64, Linux ARM64","inLanguage":["es","en"],"license":"https://www.gnu.org/licenses/agpl-3.0.html","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Miguel Esparza"},"publisher":{"@id":"https://www.maecly.com/#org"},"image":"https://coverly-roms.maecly.com/assets/icon-512.png","screenshot":"https://coverly-roms.maecly.com/assets/shots/en/library-light.webp","url":"https://coverly-roms.maecly.com/en/"},
-{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/en/#faq","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It costs nothing, needs no account and has no paid tier. The code is AGPL-3.0."}},{"@type":"Question","name":"Does it come with ROMs or cover art?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs bundles no ROMs, BIOS files or game art. Images are downloaded from libretro-thumbnails and, if you add your own key, SteamGridDB. Every image belongs to its owners."}},{"@type":"Question","name":"Will it overwrite my covers?","acceptedAnswer":{"@type":"Answer","text":"Not unless you ask it to. By default it only fills what is missing. If you choose to replace art, it first keeps a copy in the app's data folder, not on the card, and Undo puts it back."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails works without one. SteamGridDB is optional and uses your own key, kept in your system keychain."}},{"@type":"Question","name":"Which handhelds does it work with?","acceptedAnswer":{"@type":"Answer","text":"Any that uses the Anbernic stock, GarlicOS, Onion OS, MinUI and NextUI, muOS, ES-DE, Batocera, Knulli and EmulationStation, or RetroArch layout. For other firmware you can build your own layout with a live preview. It has not been tested on real handhelds yet."}},{"@type":"Question","name":"Why do Gatekeeper and SmartScreen warn me?","acceptedAnswer":{"@type":"Answer","text":"Because the downloads carry no Apple or Microsoft certificate yet. The first time, on macOS clear the quarantine flag or click Open Anyway; on Windows, choose More info, then Run anyway. Only do it for files from this project’s releases."}},{"@type":"Question","name":"Does it delete repeated games?","acceptedAnswer":{"@type":"Answer","text":"No. It sets them aside in _Duplicados/, inside the library, or sends them to the Trash if you choose, and Undo puts them back. If two copies have different saves, it touches neither."}},{"@type":"Question","name":"Does it send data anywhere?","acceptedAnswer":{"@type":"Answer","text":"There is no telemetry. The app only talks to the art sources and, unless you turn it off, to the update check at startup. Images are re-encoded, so they carry no metadata."}},{"@type":"Question","name":"How does it update?","acceptedAnswer":{"@type":"Answer","text":"From inside the app, with GitHub Releases builds verified with minisign before they install. There are stable and beta channels, and it never restarts in the middle of a job. The command line uses coverly update."}}]}
+{"@type":"SoftwareApplication","@id":"https://coverly-roms.maecly.com/#software","name":"Coverly ROMs","description":"Free (AGPL-3.0) desktop app for Windows, macOS and Linux that adds the missing cover art to a ROM library: it audits which games lack cover, screenshot or title-screen art and fills them from libretro-thumbnails, SteamGridDB or the icon the game itself carries, with a dry run first, backups and undo. It writes in the Anbernic stock, GarlicOS, Onion OS, MinUI, muOS, ES-DE, Batocera and RetroArch layouts. Around the covers it sorts ROMs into 131 systems, with archives, disc games and games that are a folder, recognises current consoles without keys and sets duplicates aside, all with undo. It ships with the coverly command line. No account, no telemetry.","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11, Windows 11 ARM64, macOS 11 or later (Apple silicon and Intel), Linux x64, Linux ARM64","inLanguage":["es","en"],"license":"https://www.gnu.org/licenses/agpl-3.0.html","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Person","name":"Miguel Esparza"},"publisher":{"@id":"https://www.maecly.com/#org"},"image":"https://coverly-roms.maecly.com/assets/icon-512.png","screenshot":"https://coverly-roms.maecly.com/assets/shots/en/library-light.webp","url":"https://coverly-roms.maecly.com/en/"},
+{"@type":"FAQPage","@id":"https://coverly-roms.maecly.com/en/#faq","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It costs nothing, needs no account and has no paid tier. The code is AGPL-3.0."}},{"@type":"Question","name":"Does it come with ROMs or cover art?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs bundles no ROMs, BIOS files or game art. Images are downloaded from libretro-thumbnails and, if you add your own key, SteamGridDB. Every image belongs to its owners."}},{"@type":"Question","name":"Will it overwrite my covers?","acceptedAnswer":{"@type":"Answer","text":"Not unless you ask it to. By default it only fills what is missing. If you choose to replace art, it first keeps a copy in the app's data folder, not on the card, and Undo puts it back."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. libretro-thumbnails works without one. SteamGridDB is optional and uses your own key, kept in your system keychain."}},{"@type":"Question","name":"Do I need keys for Switch or PS4?","acceptedAnswer":{"@type":"Answer","text":"No. Coverly ROMs never reads or asks for keys. It recognises what it can from what's stored in the clear, and anything it can't read stays as “Encrypted”."}},{"@type":"Question","name":"Which handhelds does it work with?","acceptedAnswer":{"@type":"Answer","text":"It recognises 131 systems and writes in the Anbernic stock, GarlicOS, Onion OS, MinUI and NextUI, muOS, ES-DE, Batocera, Knulli and EmulationStation, or RetroArch layout. For other firmware you can build your own layout with a live preview. It has not been tested on real handhelds yet."}},{"@type":"Question","name":"Why do Gatekeeper and SmartScreen warn me?","acceptedAnswer":{"@type":"Answer","text":"Because the downloads carry no Apple or Microsoft certificate yet. The first time, on macOS clear the quarantine flag or click Open Anyway; on Windows, choose More info, then Run anyway. Only do it for files from this project’s releases."}},{"@type":"Question","name":"Does it delete repeated games?","acceptedAnswer":{"@type":"Answer","text":"No. It sets them aside in _Duplicados/, inside the library, or sends them to the Trash if you choose, and Undo puts them back. If two copies have different saves, it touches neither."}},{"@type":"Question","name":"Does it send data anywhere?","acceptedAnswer":{"@type":"Answer","text":"There is no telemetry. The app only talks to the art sources and, unless you turn it off, to the update check at startup. The Switch name catalogue is optional and off by default. Images are re-encoded, so they carry no metadata."}},{"@type":"Question","name":"How does it update?","acceptedAnswer":{"@type":"Answer","text":"From inside the app, with GitHub Releases builds verified with minisign before they install. There are stable and beta channels, and it never restarts in the middle of a job. The command line uses coverly update."}}]}
 ]
 }
 </script>
@@ -72,16 +72,20 @@
 <svg class="art progress-slots" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><defs><rect id="ms" x=".5" y=".5" width="5" height="7" rx=".75"/><g id="msr"><use href="#ms"/><use href="#ms" x="9"/><use href="#ms" x="18"/><use href="#ms" x="27"/><use href="#ms" x="36"/><use href="#ms" x="45"/><use href="#ms" x="54"/><use href="#ms" x="63"/><use href="#ms" x="72"/><use href="#ms" x="81"/><use href="#ms" x="90"/><use href="#ms" x="99"/><use href="#ms" x="108"/><use href="#ms" x="117"/><use href="#ms" x="126"/><use href="#ms" x="135"/><use href="#ms" x="144"/><use href="#ms" x="153"/><use href="#ms" x="162"/><use href="#ms" x="171"/><use href="#ms" x="180"/><use href="#ms" x="189"/><use href="#ms" x="198"/><use href="#ms" x="207"/></g></defs><use class="ps-dash" href="#msr"/><use class="ps-fill" href="#msr"/></svg>
 <nav class="topnav" aria-label="Sections">
 <a href="#how">How it works</a>
-<a href="#safe">Safety</a>
 <a href="#layouts">Handhelds</a>
+<a href="#terminal">Terminal</a>
 <a href="#compare">Compare</a>
-<a href="#faq">FAQ</a>
+<a href="features/">Features</a>
+<a href="roadmap/">Roadmap</a>
 </nav>
 <details class="navmenu"><summary><span class="sr-only">Sections</span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></summary><nav aria-label="Sections">
 <a href="#how">How it works</a>
 <a href="#safe">Safety</a>
 <a href="#layouts">Handhelds</a>
+<a href="#terminal">Terminal</a>
 <a href="#compare">Compare</a>
+<a href="features/">Features</a>
+<a href="roadmap/">Roadmap</a>
 <a href="#faq">FAQ</a>
 <!-- release:begin --><a href="#download">Download</a><!-- release:end -->
 <!-- norelease:begin --><a href="#download"><span data-rel-old>Release status</span><span data-rel-new hidden>Download</span></a><!-- norelease:end -->
@@ -108,10 +112,12 @@
 <!-- norelease:begin --><a class="btn btn-primary" href="#how">See how it works</a>
 <a class="btn" href="#download"><span data-rel-old>Release status</span><span data-rel-new hidden>Download</span></a><!-- norelease:end -->
 </div>
+<p class="sub-more">And while it's there, it sorts your downloads into <span data-fact="systems">131</span> systems and sets aside the games you have twice.</p>
 <ul class="facts" aria-label="At a glance">
 <li>Free</li>
 <li>No account</li>
 <li>No telemetry</li>
+<li><span data-fact="systems">131</span> systems</li>
 <li>Windows, macOS and Linux</li>
 <li data-metric="downloads" hidden></li>
 </ul>
@@ -409,6 +415,23 @@
 </div>
 </section>
 
+<section class="section" id="next" aria-labelledby="next-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="next-t">Next: your own library.</h2>
+<p>Coverly is on its way to being the library of your games, not just your card. This is what's in progress.</p>
+</div>
+<!-- roadmap:teaser:begin -->
+<ol class="rm-next rm-teaser">
+<li class="rm-item" data-id="2.1" data-status="research"><h3>Updates and DLC inside their game</h3><p>Each game in its own folder, with its updates, DLC, demos and revisions, and its cover in all six views.</p><p class="rm-state"><span class="rm-status">Being researched</span><svg class="art rm-bar" viewBox="0 0 132 8" width="132" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d=""/><path class="rm-o" d="M0.5 .5h5v7h-5zM9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5z"/></svg><span class="rm-count">0 of 15 tasks</span></p></li>
+<li class="rm-item" data-id="3" data-status="blocked"><h3>Your library</h3><p>A library that lives on your computer, not just the folder you opened: collections, a page for each game and art kept per game.</p><p class="rm-after">Waits for: Updates and DLC inside their game.</p><p class="rm-state"><span class="rm-status">Waiting on another block</span><svg class="art rm-bar" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d=""/><path class="rm-o" d="M0.5 .5h5v7h-5zM9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5zM135.5 .5h5v7h-5zM144.5 .5h5v7h-5zM153.5 .5h5v7h-5zM162.5 .5h5v7h-5zM171.5 .5h5v7h-5zM180.5 .5h5v7h-5zM189.5 .5h5v7h-5zM198.5 .5h5v7h-5zM207.5 .5h5v7h-5z"/></svg><span class="rm-count">0 of 32 tasks</span></p></li>
+<li class="rm-item" data-id="3.1" data-status="research"><h3>Names and art by title ID</h3><p>Public sources for the games cover databases lack: the name and the art, looked up by title ID.</p><p class="rm-state"><span class="rm-status">Being researched</span><svg class="art rm-bar" viewBox="0 0 213 8" width="213" height="8" aria-hidden="true" focusable="false"><path class="rm-f" d="M0 0h6v8h-6z"/><path class="rm-o" d="M9.5 .5h5v7h-5zM18.5 .5h5v7h-5zM27.5 .5h5v7h-5zM36.5 .5h5v7h-5zM45.5 .5h5v7h-5zM54.5 .5h5v7h-5zM63.5 .5h5v7h-5zM72.5 .5h5v7h-5zM81.5 .5h5v7h-5zM90.5 .5h5v7h-5zM99.5 .5h5v7h-5zM108.5 .5h5v7h-5zM117.5 .5h5v7h-5zM126.5 .5h5v7h-5zM135.5 .5h5v7h-5zM144.5 .5h5v7h-5zM153.5 .5h5v7h-5zM162.5 .5h5v7h-5zM171.5 .5h5v7h-5zM180.5 .5h5v7h-5zM189.5 .5h5v7h-5zM198.5 .5h5v7h-5zM207.5 .5h5v7h-5z"/></svg><span class="rm-count">1 of 28 tasks</span></p></li>
+</ol>
+<!-- roadmap:teaser:end -->
+<p class="rm-more"><a href="roadmap/">See the roadmap</a></p>
+</div>
+</section>
+
 <section class="section" id="download" aria-labelledby="download-t">
 <div class="wrap">
 <!-- release:begin -->
@@ -477,7 +500,7 @@ Or click “Open Anyway” in System Settings › Privacy &amp; Security. That f
 <li>Videos, mixed images, marquees or wheels.</li>
 <li>Editing metadata, renaming or verifying ROMs.</li>
 <li>Running on the handheld itself.</li>
-<li>Recognising PlayStation 2 or 3DO discs inside archives.</li>
+<li>Putting updates and DLC inside their game's folder (on its way).</li>
 <li>It has not been tested on real handhelds yet.</li>
 </ul>
 </div>
@@ -495,10 +518,11 @@ Or click “Open Anyway” in System Settings › Privacy &amp; Security. That f
 <details><summary>Does it come with ROMs or cover art?</summary><p>No. Coverly ROMs bundles no ROMs, BIOS files or game art. Images are downloaded from libretro-thumbnails and, if you add your own key, SteamGridDB. Every image belongs to its owners.</p></details>
 <details><summary>Will it overwrite my covers?</summary><p>Not unless you ask it to. By default it only fills what is missing. If you choose to replace art, it first keeps a copy in the app's data folder, not on the card, and Undo puts it back.</p></details>
 <details><summary>Do I need an account?</summary><p>No. libretro-thumbnails works without one. SteamGridDB is optional and uses your own key, kept in your system keychain.</p></details>
-<details><summary>Which handhelds does it work with?</summary><p>Any that uses the Anbernic stock, GarlicOS, Onion OS, MinUI and NextUI, muOS, ES-DE, Batocera, Knulli and EmulationStation, or RetroArch layout. For other firmware you can build your own layout with a live preview. It has not been tested on real handhelds yet.</p></details>
+<details><summary>Do I need keys for Switch or PS4?</summary><p>No. Coverly ROMs never reads or asks for keys. It recognises what it can from what's stored in the clear, and anything it can't read stays as “Encrypted”.</p></details>
+<details><summary>Which handhelds does it work with?</summary><p>It recognises 131 systems and writes in the Anbernic stock, GarlicOS, Onion OS, MinUI and NextUI, muOS, ES-DE, Batocera, Knulli and EmulationStation, or RetroArch layout. For other firmware you can build your own layout with a live preview. It has not been tested on real handhelds yet.</p></details>
 <details><summary>Why do Gatekeeper and SmartScreen warn me?</summary><p>Because the downloads carry no Apple or Microsoft certificate yet. The first time, on macOS clear the quarantine flag or click Open Anyway; on Windows, choose More info, then Run anyway. Only do it for files from this project’s releases.</p></details>
 <details><summary>Does it delete repeated games?</summary><p>No. It sets them aside in _Duplicados/, inside the library, or sends them to the Trash if you choose, and Undo puts them back. If two copies have different saves, it touches neither.</p></details>
-<details><summary>Does it send data anywhere?</summary><p>There is no telemetry. The app only talks to the art sources and, unless you turn it off, to the update check at startup. Images are re-encoded, so they carry no metadata.</p></details>
+<details><summary>Does it send data anywhere?</summary><p>There is no telemetry. The app only talks to the art sources and, unless you turn it off, to the update check at startup. The Switch name catalogue is optional and off by default. Images are re-encoded, so they carry no metadata.</p></details>
 <details><summary>How does it update?</summary><p>From inside the app, with GitHub Releases builds verified with minisign before they install. There are stable and beta channels, and it never restarts in the middle of a job. The command line uses coverly update.</p></details>
 </div>
 </div>
@@ -533,6 +557,9 @@ Or click “Open Anyway” in System Settings › Privacy &amp; Security. That f
 <li><a href="#download">Downloads</a></li>
 <li><a href="https://github.com/MAECLY/coverly-roms">Source code</a><span class="metric-stars" data-metric="stars" hidden></span></li>
 <li><a href="#compare">Compare</a></li>
+<li><a href="features/">Features</a></li>
+<li><a href="roadmap/">Roadmap</a></li>
+<li><a href="https://github.com/MAECLY/coverly-roms/blob/main/CHANGELOG.md">What's new</a></li>
 <li><a href="#faq">FAQ</a></li>
 <li><a href="../llms.txt">llms.txt</a></li>
 <li><a href="../agents.txt">agents.txt</a></li>
