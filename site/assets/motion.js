@@ -65,6 +65,7 @@
     var term = document.querySelector(".term");
     if (!term) return;
     var all = term.querySelectorAll(".t-step"), text = [], later = timers();
+    if (!all.length) return;
     var done = document.createElement("span"), rest = document.createElement("span");
     var cmd = function (el) { return el.querySelector(".t-cmd"); };
     var out = function (el) { return el.querySelector(".t-out") || done; };

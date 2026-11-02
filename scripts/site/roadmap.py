@@ -7,6 +7,7 @@
                                     CHANGELOG.md and docs/TRACKER.md
   roadmap.py --update PATH          fill the machine fields from the app and
                                     regenerate the blocks
+  roadmap.py --write                regenerate the blocks from the JSON only
   roadmap.py --remote               --check --app against the app's main on
                                     GitHub; warns only (Vercel build)
 
@@ -344,11 +345,11 @@ def blocks(site: Path, data: dict, write: bool) -> list[str]:
         text = page.read_text(encoding="utf-8")
         new = text
         for name in names:
-            pat = re.compile(rf"(<!-- roadmap:{name}:begin -->\n).*?(\n<!-- roadmap:{name}:end -->)", re.S)
+            pat = re.compile(rf"(<!-- roadmap:{name}:begin -->\n).*?(<!-- roadmap:{name}:end -->)", re.S)
             if not pat.search(new):
                 e.append(f"{rel}: no roadmap:{name} block")
                 continue
-            new = pat.sub(lambda m: m.group(1) + render(data, lang, name) + m.group(2), new)
+            new = pat.sub(lambda m: m.group(1) + render(data, lang, name) + "\n" + m.group(2), new)
         if new != text:
             if write:
                 page.write_text(new, encoding="utf-8")
@@ -422,6 +423,7 @@ def main(argv: list[str]) -> int:
     p.add_argument("--app", type=Path)
     p.add_argument("--update", type=Path, metavar="APP")
     p.add_argument("--remote", action="store_true")
+    p.add_argument("--write", action="store_true")
     p.add_argument("--data", type=Path, default=DATA)
     p.add_argument("--site", type=Path, default=SITE)
     p.add_argument("--facts", type=Path, default=FACTS)
@@ -451,7 +453,7 @@ def main(argv: list[str]) -> int:
         return 1 if errs else 0
     errs = validate(data)
     if not errs:
-        errs = blocks(a.site, data, write=False)
+        errs = blocks(a.site, data, write=a.write)
         if a.app:
             app = read_app(a.app)
             errs += drift(data, app) + facts_drift(json.loads(a.facts.read_text(encoding="utf-8")), app)

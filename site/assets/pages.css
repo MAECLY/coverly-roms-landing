@@ -1,0 +1,346 @@
+/* /features and /roadmap only (the homes never load this file). Tokens,
+   type and the slot grammar come from tokens.css and site.css. */
+
+/* Page head: the H1 on its shelf rule, the lede under it. */
+.page-head > .wrap {
+  padding-top: clamp(48px, 8vw, 104px);
+  padding-bottom: clamp(32px, 5vw, 56px);
+}
+.page-head h1 {
+  max-width: 14em;
+  font: var(--cr-type-landing-h1);
+  font-stretch: 75%;
+  font-size: clamp(2.75rem, 5vw + 1rem, 5rem);
+}
+.lede {
+  max-width: 40em;
+  margin-top: 20px;
+  color: var(--cr-text-secondary);
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+.page-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+/* The version tag: the Manila accession label of #descargar, set in
+   Archivo at width 75. It says when a feature arrived. */
+.vtag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+  font: 700 0.8125rem/1.4 var(--cr-font-display);
+  font-stretch: 75%;
+  white-space: nowrap;
+}
+.vtag[data-since='next'] {
+  --dash-ink: var(--cr-manila-fg);
+  background: transparent;
+  color: var(--cr-text);
+  outline: 1.5px dashed var(--cr-slot-missing);
+  outline-offset: -1.5px;
+}
+
+/* /features: an index of spines beside the groups (sticky from 1024px;
+   a scrolling row of links on a phone), then one shelf per group. */
+.features {
+  display: grid;
+  gap: 32px;
+  padding-bottom: clamp(64px, 9vw, 120px);
+}
+.toc ol {
+  display: flex;
+  gap: 6px 18px;
+  overflow-x: auto;
+  padding: 0 0 8px;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+.toc a {
+  display: block;
+  position: relative;
+  padding: 6px 0 6px 18px;
+  color: var(--cr-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.toc a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 9px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 1px;
+  outline: 1.5px dashed var(--cr-slot-missing);
+  outline-offset: -1.5px;
+}
+.toc a:hover,
+.toc a[aria-current] {
+  color: var(--cr-text);
+}
+.toc a[aria-current]::before {
+  outline-color: transparent;
+  background: linear-gradient(var(--cr-slot-applied), var(--cr-slot-applied)) 0 100% / 100% 3px no-repeat,
+    var(--cr-slot-filled);
+}
+@media (min-width: 1024px) {
+  .features {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 56px;
+  }
+  .toc ol {
+    position: sticky;
+    top: calc(var(--header) + 32px);
+    display: grid;
+    overflow: visible;
+  }
+}
+.fgroups {
+  min-width: 0;
+}
+.fgroup {
+  display: grid;
+  gap: 24px;
+  padding: clamp(40px, 6vw, 72px) 0 0;
+  scroll-margin-top: calc(var(--header) + 16px);
+  background:
+    linear-gradient(var(--cr-primary), var(--cr-primary)) 0 0 / 48px var(--cr-border-width-spine) no-repeat,
+    linear-gradient(var(--cr-border), var(--cr-border)) 0 0 / 100% 1px no-repeat;
+}
+.fgroup:first-child {
+  padding-top: 32px;
+}
+.fgroup-head h2 {
+  font-size: clamp(1.875rem, 2.4vw + 1rem, 2.75rem);
+}
+.fgroup-head p {
+  margin-top: 8px;
+  color: var(--cr-text-secondary);
+  font-size: 1.0625rem;
+}
+@media (min-width: 1200px) {
+  .fgroup {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+  .fgroup-head {
+    grid-column: 1 / -1;
+  }
+}
+.flist > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--cr-border);
+}
+.flist dt {
+  font-weight: 600;
+}
+.flist dd {
+  grid-column: 1;
+  margin: 0;
+  color: var(--cr-text-secondary);
+}
+.flist .since {
+  grid-column: 2;
+  grid-row: 1;
+}
+.term-help pre {
+  font-size: 0.8125rem;
+}
+
+/* Duplicates, drawn: the copy that stays gets its spine; the other two
+   slide off the shelf into _Duplicados/, which shows its undo tab.
+   Static: that end. */
+.dup,
+.trust {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dup-fold {
+  color: var(--cr-surface-raised);
+  stroke: var(--cr-border-strong);
+}
+.dup-tab {
+  color: var(--cr-border-strong);
+}
+.dup-tag {
+  color: var(--cr-manila);
+}
+.dup-sp {
+  color: var(--cr-slot-applied);
+}
+.dup-o {
+  color: var(--cr-slot-missing);
+}
+.tr-box {
+  fill: var(--cr-manila);
+}
+.tr-zip {
+  stroke: var(--cr-manila-fg);
+  stroke-width: 3;
+  stroke-dasharray: 2 2;
+}
+.tr-seal {
+  fill: var(--cr-surface);
+  stroke: var(--cr-success);
+  stroke-width: 2;
+}
+.tr-ck {
+  color: var(--cr-success);
+}
+.tr-none {
+  color: var(--cr-slot-missing);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .dup :is(.d2, .d3, .dup-sp, .dup-tag, .dup-o) {
+    animation: 2800ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing .dup .d2 {
+    animation-name: dup-go2;
+  }
+  html.motion .is-playing .dup .d3 {
+    animation-name: dup-go3;
+  }
+  html.motion .is-playing .dup .dup-sp {
+    transform-box: fill-box;
+    transform-origin: 0 50%;
+    animation-name: dup-spine;
+  }
+  html.motion .is-playing .dup .dup-tag {
+    animation-name: dup-tag;
+  }
+  html.motion .is-playing .dup .dup-o {
+    animation-name: dup-gap;
+  }
+  html.motion .dup[data-off] *,
+  html.motion .fgroup:is(:hover, :focus-within) .dup * {
+    animation-play-state: paused;
+  }
+}
+@keyframes dup-go2 {
+  0%,
+  25% {
+    transform: translate(-103px, 22px) scale(1.25);
+  }
+  60%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes dup-go3 {
+  0%,
+  35% {
+    transform: translate(-80px, 18px) scale(1.25);
+  }
+  70%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes dup-spine {
+  0%,
+  10% {
+    transform: scaleX(0);
+  }
+  22%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes dup-tag {
+  0%,
+  80% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dup-gap {
+  0%,
+  30% {
+    opacity: 0;
+  }
+  70%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* /roadmap: one shelf per version, its accession tag and date, and what
+   it brought as solid slots with a Buckram spine (Coverly made them). */
+.rm-shelf {
+  display: grid;
+  gap: clamp(28px, 4vw, 40px);
+}
+.rm-rel h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cr-border-strong);
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+}
+.rm-tag {
+  padding: 2px 10px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+}
+.rm-rel time {
+  font: 500 1rem/1.4 var(--cr-font-body);
+  color: var(--cr-text-secondary);
+}
+.rm-unrel > p {
+  margin-top: 10px;
+  color: var(--cr-text-secondary);
+}
+.rm-done {
+  display: grid;
+  gap: 4px 32px;
+  margin-top: 14px;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 900px) {
+  .rm-done {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.rm-done li {
+  position: relative;
+  padding: 6px 0 6px 26px;
+}
+.rm-done li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 12px;
+  height: 16px;
+  border-radius: 1px;
+  background:
+    linear-gradient(var(--cr-slot-applied), var(--cr-slot-applied)) 0 100% / 100% 3px no-repeat,
+    var(--cr-slot-filled);
+}
+
+/* The topbar link of the page you are on. */
+.topnav [aria-current='page'] {
+  color: var(--cr-text);
+  box-shadow: inset 0 -3px 0 var(--cr-slot-applied);
+}
