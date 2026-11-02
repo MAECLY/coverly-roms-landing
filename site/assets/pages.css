@@ -444,6 +444,11 @@
   .rm-today span {
     margin-bottom: 60px;
   }
+  .rm-slot b {
+    min-height: 2.3em;
+    display: flex;
+    align-items: flex-end;
+  }
   .rm-bay h3 {
     grid-row: 2;
     padding-top: 2px;
