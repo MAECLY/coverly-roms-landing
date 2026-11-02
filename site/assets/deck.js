@@ -1,5 +1,5 @@
 /* Decks (six views, four steps, terminal scenes): [data-deck] holds
-   buttons in [data-deck-ctl], optional [data-deck-panel]s (.is-on), a
+   buttons in [data-deck-ctl] (or [data-deck-btn]), optional [data-deck-panel]s (.is-on), a
    [data-deck-say] line and, for the six views, .vt tiles placed from
    data-deck-tiles (gen_views.py). data-deck-mq limits it to a media query.
    Buttons switch at once, also under reduced motion. With html.motion the
@@ -11,7 +11,7 @@
   var html = document.documentElement, each = function (l, f) { Array.prototype.forEach.call(l, f); };
   var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)"), done = 0, all = [];
   each(document.querySelectorAll("[data-deck]"), function (box) {
-    var bs = box.querySelectorAll("[data-deck-ctl] button"), ps = box.querySelectorAll("[data-deck-panel]");
+    var bs = box.querySelectorAll("[data-deck-ctl] button,[data-deck-btn]"), ps = box.querySelectorAll("[data-deck-panel]");
     var ts = box.querySelectorAll(".vt"), say = box.querySelector("[data-deck-say]");
     var L = (box.getAttribute("data-deck-tiles") || "").split(";").filter(Boolean).map(function (v) { return v.split(","); });
     var mq = box.getAttribute("data-deck-mq"), wide = mq && window.matchMedia ? matchMedia(mq) : null;

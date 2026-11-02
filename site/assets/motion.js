@@ -121,13 +121,13 @@
     }
   }
 
-  /* Steps 3 and 4 act out what their screenshot shows (SVG drawn over
-     the still; step 4's cover is vector art from the sprite). Pinned, the
-     figures share one spot, so the step's text decides when; ↻ plays it
-     again. */
+  /* A clip plays once in view, and again with its ↻ button: steps 3 and
+     4 act out their screenshot (SVG over the still), and the drawn
+     scenes do what they say. Inside an active deck (the four steps on a
+     desk) a step plays when it is picked instead. */
   function clip(fig) {
-    var step = fig.closest(".step"), button = step.querySelector(".clip-replay");
-    var later = timers(), cl = step.classList;
+    var box = fig.closest("[data-clip-box]"), button = box.querySelector(".clip-replay");
+    var later = timers(), cl = box.classList, deck = fig.closest("[data-deck]");
     var ready = function (on) {
       if (on) button.removeAttribute("aria-disabled");
       else button.setAttribute("aria-disabled", "true");
@@ -142,13 +142,10 @@
       ready(false);
       later(function () { cl.add("is-played"); ready(true); }, +fig.getAttribute("data-clip-ms") || 3600, stop);
     };
-    var pinned = getComputedStyle(step).display === "contents";
-    once(pinned ? step.querySelector(".step-text") : fig, pinned ? 0.6 : 0.5, function () {
-      try { play(); } catch (x) { stop(); }
-    });
-    button.addEventListener("click", function () {
-      try { play(); } catch (x) { stop(); }
-    });
+    var safe = function () { try { play(); } catch (x) { stop(); } };
+    once(fig, 0.5, function () { if (!fig.closest(".deck-on")) safe(); });
+    if (deck) deck.addEventListener("cr-deck", function () { if (cl.contains("is-on")) safe(); });
+    button.addEventListener("click", safe);
   }
 
   /* shelf.js listens for "cr-halt" and finishes its pieces too. */

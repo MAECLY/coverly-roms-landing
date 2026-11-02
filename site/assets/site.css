@@ -575,7 +575,9 @@ html.motion .replay[aria-disabled='true'] {
   max-width: 40em;
 }
 
-/* How it works: a real sequence, so it is numbered. */
+/* How it works: a real sequence, so it is numbered. From 1024px, with
+   deck.js, one desk: the four steps are buttons on the left (the pressed
+   one shows its text and fills its spine) and its shot on the right. */
 .steps {
   display: grid;
   gap: clamp(56px, 8vw, 96px);
@@ -596,6 +598,86 @@ html.motion .replay[aria-disabled='true'] {
   .step-text {
     position: sticky;
     top: calc(var(--header) + 32px);
+  }
+}
+.step-pick {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  position: relative;
+}
+.step-pick:not(:disabled) {
+  cursor: pointer;
+}
+.steps {
+  --deck-ms: 5s;
+}
+@media (min-width: 1024px) {
+  .steps.deck-on {
+    grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
+    grid-template-rows: repeat(3, auto) 1fr;
+    column-gap: 56px;
+    row-gap: 0;
+  }
+  .deck-on > .step {
+    display: contents;
+  }
+  .deck-on .step-text {
+    grid-column: 1;
+    position: static;
+    padding: 20px 0;
+    border-top: 1px solid var(--cr-border);
+  }
+  .deck-on .step:nth-child(2) .step-text {
+    grid-row: 2;
+  }
+  .deck-on .step:nth-child(3) .step-text {
+    grid-row: 3;
+  }
+  .deck-on .step:nth-child(4) .step-text {
+    grid-row: 4;
+  }
+  .deck-on .step > figure {
+    grid-column: 2;
+    grid-row: 1 / 5;
+  }
+  .deck-on .step:not(.is-on) > figure {
+    visibility: hidden;
+  }
+  .deck-on .step:not(.is-on) .step-text :is(p, .clip-replay) {
+    display: none;
+  }
+  .deck-on .step-num {
+    display: inline-block;
+    width: 1.6em;
+    margin: 0;
+    font-size: 1em;
+    color: var(--cr-text-secondary);
+  }
+  .deck-on .step-pick[aria-pressed='false'] {
+    color: var(--cr-text-secondary);
+  }
+  .deck-on .step-pick[aria-pressed='true'] .step-num {
+    color: var(--cr-primary);
+  }
+  .deck-on .step-pick::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -21px;
+    width: 48px;
+    height: var(--cr-border-width-spine);
+    background: var(--cr-slot-applied);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  .deck-on .step-pick[aria-pressed='true']::after {
+    transform: none;
   }
 }
 .step-num {
@@ -795,7 +877,7 @@ html.motion .replay[aria-disabled='true'] {
   html.motion .vw .vd {
     transition: opacity var(--cr-duration-slow) var(--cr-ease-standard);
   }
-  html.motion [data-deck].play [data-deck-ctl] [aria-pressed='true']::after {
+  html.motion .vw.play [aria-pressed='true']::after {
     content: '';
     position: absolute;
     left: 10px;
@@ -804,6 +886,8 @@ html.motion .replay[aria-disabled='true'] {
     height: 2px;
     background: var(--cr-slot-applied);
     transform-origin: 0 50%;
+  }
+  html.motion [data-deck].play [aria-pressed='true']::after {
     animation: rl-spine var(--deck-ms, 3s) linear both;
   }
   html.motion [data-deck]:is(:hover, :focus-within) [aria-pressed='true']::after {
@@ -1714,6 +1798,9 @@ html.vt-ink::view-transition-new(root) {
     transform-origin: 413px 153px;
     animation: fx-land 560ms var(--cr-ease-ink) 1800ms both;
   }
+  html.motion .deck-on .step.is-on > figure {
+    animation: fig-in 700ms var(--cr-ease-ink) both;
+  }
   html.motion .no-anim,
   html.motion .no-anim * {
     animation-duration: 1ms !important;
@@ -1749,71 +1836,6 @@ html.vt-ink::view-transition-new(root) {
       animation: draw linear both;
       animation-timeline: view();
       animation-range: entry 70% cover 50%;
-    }
-
-    /* Four steps, one desk: the screenshot stays put and each step's
-       text brings in its own. */
-    @media (min-width: 1024px) {
-      .steps {
-        grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
-        column-gap: 56px;
-        row-gap: 0;
-        timeline-scope: --s1, --s2, --s3, --s4;
-      }
-      .step {
-        display: contents;
-      }
-      .step-text {
-        grid-column: 1;
-        position: static;
-        min-height: 72vh;
-        padding-top: 14vh;
-      }
-      .step:first-child .step-text {
-        padding-top: 0;
-      }
-      .step:nth-child(1) .step-text {
-        grid-row: 1;
-        view-timeline-name: --s1;
-      }
-      .step:nth-child(2) .step-text {
-        grid-row: 2;
-        view-timeline-name: --s2;
-      }
-      .step:nth-child(3) .step-text {
-        grid-row: 3;
-        view-timeline-name: --s3;
-      }
-      .step:nth-child(4) .step-text {
-        grid-row: 4;
-        view-timeline-name: --s4;
-      }
-      .step > figure {
-        grid-column: 2;
-        grid-row: 1 / 5;
-        position: sticky;
-        top: max(calc(var(--header) + 32px), calc(50vh - 250px));
-        align-self: start;
-      }
-      .step:nth-child(2) > figure {
-        animation: fig-in linear both;
-        animation-timeline: --s2;
-        animation-range: entry 55% entry 85%;
-      }
-      .step:nth-child(3) > figure {
-        animation: fig-in linear both;
-        animation-timeline: --s3;
-        animation-range: entry 55% entry 85%;
-      }
-      .step:nth-child(4) > figure {
-        animation: fig-in linear both;
-        animation-timeline: --s4;
-        animation-range: entry 55% entry 85%;
-      }
-      .step:nth-child(2) .annot-mark {
-        animation-timeline: --s2;
-        animation-range: entry 90% cover 45%;
-      }
     }
   }
 }
@@ -2555,22 +2577,6 @@ body::before {
 .st-b {
   opacity: 0.45;
 }
-/* Step rail beside the pinned desk: dashed, then solid with a spine. */
-.rail {
-  display: none;
-}
-.rl-o {
-  fill: none;
-  stroke: var(--cr-slot-missing);
-  stroke-width: 1.5;
-  stroke-dasharray: 3 2;
-}
-.rl-f {
-  fill: var(--cr-slot-filled);
-}
-.rl-s {
-  fill: var(--cr-slot-applied);
-}
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .steps {
@@ -2597,53 +2603,6 @@ body::before {
     .callout {
       animation-name: co-in;
       animation-range: cover 38% cover 44%;
-    }
-    @media (min-width: 1024px) {
-      .cam-1 {
-        animation-range: cover 25% cover 75%;
-      }
-      .step:nth-child(1) {
-        --tl: --s1;
-      }
-      .step:nth-child(2) {
-        --tl: --s2;
-      }
-      .step:nth-child(3) {
-        --tl: --s3;
-      }
-      .step:nth-child(4) {
-        --tl: --s4;
-      }
-      .rail {
-        display: block;
-        grid-column: 1;
-        grid-row: 1 / 5;
-        justify-self: end;
-        position: sticky;
-        top: calc(max(var(--header) + 32px, 50vh - 250px) + 170px);
-        margin-right: -38px;
-      }
-      .rl-f,
-      .rl-s {
-        transform-box: fill-box;
-        transform-origin: 0 100%;
-        animation: rl-fill linear both;
-        animation-timeline: --s1;
-        animation-range: entry 30% entry 80%;
-      }
-      .rl-s {
-        animation-name: rl-spine;
-        animation-range: entry 80% cover 50%;
-      }
-      .r2 > * {
-        animation-timeline: --s2;
-      }
-      .r3 > * {
-        animation-timeline: --s3;
-      }
-      .r4 > * {
-        animation-timeline: --s4;
-      }
     }
   }
 }
@@ -2679,11 +2638,6 @@ body::before {
 @keyframes co-in {
   from {
     opacity: 0;
-  }
-}
-@keyframes rl-fill {
-  from {
-    transform: scaleY(0);
   }
 }
 @keyframes rl-spine {

@@ -131,13 +131,11 @@
 <div class="section-head">
 <h2 id="como-t">Cuatro pasos. Los dos primeros no escriben nada.</h2>
 </div>
-<ol class="steps">
-<li class="step">
-<svg class="art rail" viewBox="0 0 20 150" width="20" height="150" aria-hidden="true" focusable="false"><g class="rl r1"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r2" transform="translate(0 40)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r3" transform="translate(0 80)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g><g class="rl r4" transform="translate(0 120)"><rect class="rl-o" x=".75" y=".75" width="18.5" height="24.5" rx="1"/><rect class="rl-f" width="20" height="26" rx="1"/><rect class="rl-s" y="28" width="20" height="2"/></g></svg>
+<ol class="steps" data-deck data-deck-mq="(min-width: 1024px)" data-deck-seen="0.3">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">1</span>
-<h3>Abre la carpeta o la tarjeta SD.</h3>
-<p>Coverly reconoce el formato de tu firmware o frontend y te enseña cada sistema con lo que le falta: portada, captura o pantalla de título. También con bibliotecas de más de 10.000 juegos.</p>
+<h3><button class="step-pick" type="button" data-deck-btn aria-pressed="true" disabled><span class="step-num" aria-hidden="true">1</span>Abre la tarjeta.</button></h3>
+<p>Coverly reconoce tu firmware y cuenta lo que le falta a cada sistema: portada, captura o pantalla de título.</p>
 </div>
 <figure>
 <div class="shot"><div class="cam cam-1"><picture>
@@ -145,12 +143,10 @@
 </picture><svg class="annot" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><ellipse class="annot-mark" pathLength="1" cx="183" cy="786" rx="58" ry="10" transform="rotate(-2 183 786)"/></svg></div><svg class="annot call" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M214 768C238 714 288 692 330 690"/></svg><span class="callout co-1" aria-hidden="true">lo que falta, contado</span></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">2</span>
-<h3>Prueba el trabajo antes de hacerlo.</h3>
-<p>Cada ROM se identifica por su huella (CRC32, MD5 o SHA1) y, si no, por su nombre. El asistente elige la imagen según la región de la ROM, tus fuentes o los votos, y te enseña el plan entero.</p>
-<p>Hasta que pulsas Ejecutar, no se escribe nada.</p>
+<h3><button class="step-pick" type="button" data-deck-btn aria-pressed="false" disabled><span class="step-num" aria-hidden="true">2</span>Simula.</button></h3>
+<p>Identifica cada ROM por su huella y te enseña el plan entero. Todavía no escribe nada.</p>
 </div>
 <figure>
 <div class="shot"><div class="cam cam-2"><picture>
@@ -158,11 +154,10 @@
 </picture><svg class="annot" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><ellipse class="annot-mark" pathLength="1" cx="443" cy="98" rx="96" ry="15" transform="rotate(-2 443 98)"/><g class="stamp"><g id="sta"><circle cx="836" cy="76" r="28"/><circle cx="836" cy="76" r="22"/><rect class="st-slot" x="828.5" y="66" width="15" height="20" rx="1.5"/></g><use class="st-b" href="#sta" x="2.5" y="-2"/></g></svg></div></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">3</span>
-<h3>Decide solo las dudosas.</h3>
-<p>Las coincidencias seguras van solas. Las dudosas esperan en una cola que recorres con el teclado, y la elegida dice por qué.</p>
+<h3><button class="step-pick" type="button" data-deck-btn aria-pressed="false" disabled><span class="step-num" aria-hidden="true">3</span>Decide las dudosas.</button></h3>
+<p>Las seguras van solas; las dudosas esperan en una cola que recorres con el teclado, y cada una dice por qué.</p>
 <button class="replay clip-replay" type="button" aria-label="Repetir la animación del paso 3"><span aria-hidden="true">↻</span> Repetir</button>
 </div>
 <figure class="clip" data-clip data-clip-ms="3600">
@@ -171,11 +166,10 @@
 </picture><svg class="annot clip-fx" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="fx-hide" x="438.5" y="263.5" width="127" height="291" rx="8"/><rect class="fx-press" x="831" y="596" width="86" height="37" rx="7"/><g class="fx-ring"><rect x="438.5" y="263.5" width="127" height="291" rx="8"/><g class="fx-key k1"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">→</text></g><g class="fx-key k2"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">→</text></g><g class="fx-key k3"><rect x="524" y="275" width="34" height="28" rx="6"/><text x="541" y="295" text-anchor="middle">↵</text></g></g></svg></div><svg class="annot call" viewBox="0 0 1280 800" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M548 540C588 556 612 628 640 640"/></svg><span class="callout co-3" aria-hidden="true">y dice por qué</span></div>
 </figure>
 </li>
-<li class="step">
+<li class="step" data-deck-panel data-clip-box>
 <div class="step-text">
-<span class="step-num" aria-hidden="true">4</span>
-<h3>Aplica, y deshaz si no te convence.</h3>
-<p>Las imágenes se escriben de una en una, sin dejar archivos a medias. Deshacer devuelve la tarjeta a como estaba. Y cualquier portada se cambia a mano desde la ficha del juego.</p>
+<h3><button class="step-pick" type="button" data-deck-btn aria-pressed="false" disabled><span class="step-num" aria-hidden="true">4</span>Aplica, o deshaz.</button></h3>
+<p>Las imágenes se escriben de una en una. Deshacer devuelve la tarjeta a como estaba.</p>
 <button class="replay clip-replay" type="button" aria-label="Repetir la animación del paso 4"><span aria-hidden="true">↻</span> Repetir</button>
 </div>
 <figure class="clip" data-clip data-clip-ms="3200">
