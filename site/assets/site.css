@@ -3626,10 +3626,14 @@ html.motion .t-rest::before {
 }
 .cmds > div {
   display: grid;
-  grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
-  gap: 12px;
+  gap: 2px 12px;
   padding: 10px 0;
   border-top: 1px solid var(--cr-border);
+}
+@media (min-width: 600px) {
+  .cmds > div {
+    grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+  }
 }
 .cmds dt code {
   font-size: 0.875rem;
