@@ -20,6 +20,26 @@ script that fills the release markers. The only other server the page talks
 to is `api.github.com`, for the latest release and the public reach (the
 CSP allows nothing else).
 
+## Analytics
+
+Every page, `404.html` included, loads Vercel Web Analytics with its
+plain-HTML tag, `<script src="/_vercel/insights/script.js" defer>`, after
+its own scripts. Vercel serves that script and receives its page views
+(`/_vercel/insights/view`) on the deployment's own origin, so the CSP stays
+`script-src 'self'` / `connect-src 'self' https://api.github.com` and the
+footer counter, which counts only other origins, does not count them (on the
+home pages it still counts the `api.github.com` calls of `release.js` and
+`metrics.js`). No cookies and
+no cross-site tracking; the footer says so in both languages. The optional
+`window.va` queue stub is left out: it is an inline script, which the CSP
+forbids, and page views need no queue. The tag lives in `site/` (not
+injected at build time) so the published HTML is what the repository shows
+and `check_site.py` can check it; the cost is that `make site` answers 404
+for it, the one expected console error of a local preview. Web Analytics
+must be enabled in the Vercel project (Analytics tab) for the path to
+exist in production. The `analytics` gate keeps the tag on every page, once,
+deferred and same-origin, and fails on any "no analytics" copy.
+
 It follows the conventions of the Pluryprint and Versorium landings: the same
 section order, bilingual setup, SEO and agent files, and release-filled
 download section.
@@ -126,7 +146,7 @@ headers), action pins in this repository's workflows, internal links and
 `#fragments`, Spanish/English structural parity, FAQ JSON-LD against the
 visible FAQ, CSP and head tags, sized/described/lazy images, size budgets,
 visible word count, WCAG contrast of the token pairs, the motion contract (see
-Motion), the art and the live-release layer. `.github/workflows/check.yml`
+Motion), the art, the live-release layer and the analytics tag on every page. `.github/workflows/check.yml`
 runs the same on every push and pull request.
 
 ## Motion
@@ -316,7 +336,9 @@ the release-filled copy on a local port):
   Reference, October 2026 with the fixture release: mobile 97, LCP 2.48 s;
   desktop 100; `main` before the showcase: mobile 98, LCP 2.40 s.
 - Firefox for the finished states without scroll timelines.
-- 0 console errors and no CSP reports.
+- 0 console errors and no CSP reports, apart from the 404 of
+  `/_vercel/insights/script.js` in a local preview (Vercel serves it only on
+  the deployment; see **Analytics**).
 
 **Step clips.** The step 3 and 4 clips are not recordings: each is an SVG in
 the 1280×800 space of its screenshot (`.clip-fx`, like the step 1 and 2

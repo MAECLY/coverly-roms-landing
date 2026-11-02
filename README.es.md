@@ -7,7 +7,10 @@
 La web de [Coverly ROMs](https://github.com/MAECLY/coverly-roms), publicada
 en **https://coverly-roms.maecly.com**: una web estática y bilingüe
 (español en `/`, inglés en `/en/`), sin framework, sin dependencias y sin
-rastreadores. La app, sus releases y sus incidencias están en
+cookies. Lo único que mide es
+[Vercel Web Analytics](https://vercel.com/docs/analytics): visitas anónimas,
+con su script y su envío servidos desde el propio dominio
+(`/_vercel/insights/*`), sin cookies y sin rastreo entre sitios. La app, sus releases y sus incidencias están en
 [MAECLY/coverly-roms](https://github.com/MAECLY/coverly-roms).
 
 ## Qué hay
