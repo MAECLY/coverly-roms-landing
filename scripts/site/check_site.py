@@ -181,8 +181,11 @@ BUDGET = {
     # 29,000 / 9,100 for views.js (now deck.js, see DECK_JS), then to
     # 31,500 / 9,900 for the redesign (docs/landing-redesign-plan.md §7):
     # deck.js drives the steps and terminal too, toc.js for /features, and
-    # motion.js types the terminal scene by scene.
-    "scripts": (31_500, 9_900),
+    # motion.js types the terminal scene by scene. Raised to 36,500 / 11,300
+    # for round 2 (docs/landing-round2-plan.md §6): deck.js builds the
+    # steps' tablist (see DECK_JS), systems.js (see SYSTEMS_JS) and toc.js
+    # moves the /features scenes beat by beat.
+    "scripts": (36_500, 11_300),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
@@ -210,8 +213,11 @@ METRICS_JS = 3_400
 # deck.js alone (raw bytes): buttons that switch a figure (the six-views
 # window, the four steps, the terminal scenes), the tile layout read from
 # data-deck-tiles and the paused-when-unseen clock. Was views.js (3,000),
-# which carried the layout table itself.
-DECK_JS = 3_600
+# which carried the layout table itself. Raised to 5,000 for round 2
+# (docs/landing-round2-plan.md §5.4): the steps' WAI-ARIA tablist built
+# from their headings (roles on and off at the media query, arrows,
+# Home/End, roving tabindex), about 1.5 KB.
+DECK_JS = 5_100
 METRICS = ("downloads", "stars")
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000

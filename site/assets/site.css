@@ -576,15 +576,18 @@ html.motion .replay[aria-disabled='true'] {
   max-width: 40em;
 }
 
-/* How it works: a real sequence, so it is numbered. From 1024px, with
-   deck.js, one desk: the four steps are buttons on the left (the pressed
-   one shows its text and fills its spine) and its shot on the right. */
+/* How it works: a real sequence, so it is numbered, and each step's
+   <h3> is plain text. From 1024px, deck.js turns it into one desk: a
+   WAI-ARIA tablist made from those headings on the left (the selected
+   tab shows its step's text below and fills its spine), its shot on the
+   right. Below that, and without JS, the four steps stack. */
 .steps {
   display: grid;
   gap: clamp(56px, 8vw, 96px);
   padding: 0;
   list-style: none;
   counter-reset: step;
+  --deck-ms: 5s;
 }
 .step {
   display: grid;
@@ -601,84 +604,90 @@ html.motion .replay[aria-disabled='true'] {
     top: calc(var(--header) + 32px);
   }
 }
+.step-tabs[hidden] {
+  display: none;
+}
 .step-pick {
   display: block;
   width: 100%;
-  padding: 0;
+  padding: 16px 0;
   border: 0;
+  border-top: 1px solid var(--cr-border);
   background: none;
-  color: inherit;
-  font: inherit;
+  color: var(--cr-text-secondary);
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
   text-align: left;
   position: relative;
-}
-.step-pick:not(:disabled) {
   cursor: pointer;
 }
-.steps {
-  --deck-ms: 5s;
+.step-pick[aria-selected='true'] {
+  color: var(--cr-text);
+}
+.step-pick:hover {
+  color: var(--cr-text);
+}
+.step-pick::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 48px;
+  height: var(--cr-border-width-spine);
+  background: var(--cr-slot-applied);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.step-pick[aria-selected='true']::after {
+  transform: none;
+}
+.step-pick .step-num {
+  display: inline-block;
+  width: 1.6em;
+  margin: 0;
+  font-size: 1em;
+  color: var(--cr-text-secondary);
+}
+.step-pick[aria-selected='true'] .step-num {
+  color: var(--cr-primary);
 }
 @media (min-width: 1024px) {
   .steps.deck-on {
     grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
-    grid-template-rows: repeat(3, auto) 1fr;
+    grid-template-rows: auto 1fr;
     column-gap: 56px;
     row-gap: 0;
   }
   .deck-on > .step {
     display: contents;
   }
+  .deck-on > .step-tabs {
+    grid-column: 1;
+    grid-row: 1;
+  }
   .deck-on .step-text {
     grid-column: 1;
-    position: static;
-    padding: 20px 0;
-    border-top: 1px solid var(--cr-border);
-  }
-  .deck-on .step:nth-child(2) .step-text {
     grid-row: 2;
+    position: static;
+    padding: 4px 0 20px;
   }
-  .deck-on .step:nth-child(3) .step-text {
-    grid-row: 3;
-  }
-  .deck-on .step:nth-child(4) .step-text {
-    grid-row: 4;
+  .deck-on .step-text h3 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
   .deck-on .step > figure {
     grid-column: 2;
-    grid-row: 1 / 5;
+    grid-row: 1 / 3;
   }
   .deck-on .step:not(.is-on) > figure {
     visibility: hidden;
   }
-  .deck-on .step:not(.is-on) .step-text :is(p, .clip-replay) {
+  .deck-on .step:not(.is-on) .step-text {
     display: none;
-  }
-  .deck-on .step-num {
-    display: inline-block;
-    width: 1.6em;
-    margin: 0;
-    font-size: 1em;
-    color: var(--cr-text-secondary);
-  }
-  .deck-on .step-pick[aria-pressed='false'] {
-    color: var(--cr-text-secondary);
-  }
-  .deck-on .step-pick[aria-pressed='true'] .step-num {
-    color: var(--cr-primary);
-  }
-  .deck-on .step-pick::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: -21px;
-    width: 48px;
-    height: var(--cr-border-width-spine);
-    background: var(--cr-slot-applied);
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-  }
-  .deck-on .step-pick[aria-pressed='true']::after {
-    transform: none;
   }
 }
 .step-num {
@@ -888,10 +897,10 @@ html.motion .replay[aria-disabled='true'] {
     background: var(--cr-slot-applied);
     transform-origin: 0 50%;
   }
-  html.motion [data-deck].play [aria-pressed='true']::after {
+  html.motion [data-deck].play :is([aria-pressed='true'], [aria-selected='true'])::after {
     animation: rl-spine var(--deck-ms, 3s) linear both;
   }
-  html.motion [data-deck]:is(:hover, :focus-within) [aria-pressed='true']::after {
+  html.motion [data-deck]:is(:hover, :focus-within) :is([aria-pressed='true'], [aria-selected='true'])::after {
     animation-play-state: paused;
   }
 }
