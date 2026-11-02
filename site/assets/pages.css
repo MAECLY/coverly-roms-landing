@@ -50,6 +50,7 @@
    a scrolling row of links on a phone), then one shelf per group. */
 .features {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px;
   padding-bottom: clamp(64px, 9vw, 120px);
 }
