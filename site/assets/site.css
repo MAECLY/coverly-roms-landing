@@ -3699,10 +3699,22 @@ html.motion .term.play [aria-pressed='true']::after {
    that loop slowly, and the full list in a <details> with search. The
    placeholders are dashed slots until systems.js swaps the sprite in. */
 .fmt {
-  max-width: 760px;
+  display: grid;
+  gap: 24px 56px;
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .fmt {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-rows: auto 1fr;
+  }
+  .fmt > .table-scroll {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
 }
 .sys {
-  margin-top: clamp(48px, 6vw, 72px);
+  margin-top: clamp(32px, 4vw, 48px);
 }
 .sys [hidden] {
   display: none !important;
@@ -3760,8 +3772,8 @@ html.motion .term.play [aria-pressed='true']::after {
 }
 .sys-shelf {
   display: grid;
-  gap: 4px;
-  margin: 20px 0 8px;
+  gap: 2px;
+  margin: 12px 0 4px;
 }
 .sys-shelf:empty {
   display: none;
@@ -3783,13 +3795,15 @@ html.motion .sys:not(.is-still) .sys-row {
 .sys-set {
   display: flex;
   gap: 8px;
-  padding: 10px 8px 8px 0;
+  padding: 6px 8px 6px 0;
 }
 .sys-p {
   display: grid;
   justify-items: center;
-  gap: 6px;
-  width: 96px;
+  gap: 4px;
+  min-width: 72px;
+  padding: 0 6px;
+  white-space: nowrap;
   scroll-snap-align: start;
   font: 600 0.75rem/1.2 var(--cr-font-display);
   font-stretch: 75%;
@@ -3797,15 +3811,15 @@ html.motion .sys:not(.is-still) .sys-row {
   color: var(--cr-text-secondary);
 }
 .sys-p i {
-  width: 56px;
-  height: 40px;
+  width: 48px;
+  height: 32px;
   font-size: 0.75rem;
 }
 .sys-all {
   border-bottom: 1px solid var(--cr-border);
 }
 .sys-all summary {
-  padding: 14px 0;
+  padding: 12px 0;
   cursor: pointer;
   font-weight: 600;
 }
@@ -3892,8 +3906,8 @@ html.motion .sys:not(.is-still) .sys-row {
   color: var(--cr-text-secondary);
 }
 .sys-legal {
-  margin-top: 16px;
-  max-width: 52em;
+  margin-top: 12px;
+  max-width: none;
   font-size: 0.8125rem;
   color: var(--cr-text-muted);
 }
@@ -3972,12 +3986,12 @@ html.motion .sys:not(.is-still) .sys-row {
 }
 .dup-exact {
   left: 29%;
-  top: 37%;
+  top: 32%;
   color: var(--cr-text-secondary);
 }
 .dup-undo {
   right: 0;
-  top: 5%;
+  top: -3%;
   padding: 2px 8px;
   border-radius: var(--cr-radius-sm);
   background: var(--cr-manila);
@@ -3985,7 +3999,7 @@ html.motion .sys:not(.is-still) .sys-row {
 }
 .dup-dir {
   left: 72.5%;
-  top: 66%;
+  top: 64%;
   font-family: var(--cr-font-mono);
   color: var(--cr-text-secondary);
 }
