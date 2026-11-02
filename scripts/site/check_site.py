@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the landing page before it ships. Standard library only.
 
-  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics]
+  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics,facts,roadmap,stale,systems]
 
 Fills site/ four times into a temporary folder with apply_release.py (once
 per fixture in scripts/site/fixtures/: release.json with the names releases
@@ -46,6 +46,11 @@ browser.
   roadmap   roadmap.py --check on the built copy: site/data/roadmap.json is
             valid and every generated block on the pages matches it
   stale     no copy that the facts made false ("more than 50 systems")
+  systems   systems.py --check on the built copy (systems.json, the icon
+            sprite, both homes' lists and facts.json agree), the trademark
+            notice and CC BY credit in both homes with their links, no ™/®,
+            the sprite kept out of the first load, systems.js size and its
+            pauses
   metrics   the public-reach layer: both pages load metrics.js once,
             deferred, each data-metric slot (downloads, stars) is empty and
             hidden in site/ (apply_metrics.py fills it at build time only
@@ -111,7 +116,7 @@ REQUIRED = [
     "assets/icon-512.png", "assets/apple-touch-icon.png", "assets/og.png",
     "assets/og-en.png", "assets/tokens.css", "assets/shelf.js", "assets/deck.js",
     "assets/art/covers.svg", "assets/art/kit.svg", "assets/art/grain.svg",
-    "assets/art/weave.svg",
+    "assets/art/weave.svg", "assets/art/systems.svg", "assets/systems.js", "data/systems.json",
     "assets/fonts/archivo-variable.woff2",
     "assets/fonts/atkinson-hyperlegible-next-variable.woff2",
     "assets/fonts/atkinson-hyperlegible-mono-variable.woff2",
@@ -145,7 +150,13 @@ BUDGET = {
     # §7): the six views' layout table moves into data-deck-tiles, and the
     # home gains #terminal, the source cascade, the archive that opens, five
     # comparison rows and #siguiente, minus the pinned four-step desk.
-    "page": (90_000, 21_000),
+    # Raised to 105,000 / 25,200 for round 2 (docs/landing-round2-plan.md
+    # §6): the list of all 131 systems in #formatos, grouped by family and
+    # maker, with search aliases and carousel labels (about 9 KB raw /
+    # 2.8 KB gz), its search, filters, notice and CC BY credit, and the
+    # drawn duplicates scene that replaces the screenshot (its <picture>
+    # leaves).
+    "page": (105_000, 25_200),
     # site.css + the generated tokens.css. Raised from 54,000 / 12,500 for
     # the showcase (docs/landing-showcase-spec.md §8):
     # hero keyframes, step camera and rail, demo, gallery and the closing
@@ -165,7 +176,10 @@ BUDGET = {
     # §7): the one-desk steps (minus the pinned desk and its rail), the
     # source cascade, the archive that opens, the terminal scenes, the
     # sticky comparison column and the roadmap teaser.
-    "css": (96_000, 21_600),
+    # Raised to 106,000 / 23,600 for round 2 (docs/landing-round2-plan.md
+    # §6): the systems shelves and list, the duplicates scene shared with
+    # /features (moved out of pages.css and extended) and the step tabs.
+    "css": (106_000, 23_600),
     # /features: seven groups of about 45 features with their version
     # tags, five inline illustrations and the six-views window.
     "features": (72_000, 17_000),
@@ -181,14 +195,19 @@ BUDGET = {
     # 29,000 / 9,100 for views.js (now deck.js, see DECK_JS), then to
     # 31,500 / 9,900 for the redesign (docs/landing-redesign-plan.md §7):
     # deck.js drives the steps and terminal too, toc.js for /features, and
-    # motion.js types the terminal scene by scene. Raised to 36,500 / 11,300
+    # motion.js types the terminal scene by scene. Raised to 39,500 / 12,000
     # for round 2 (docs/landing-round2-plan.md §6): deck.js builds the
     # steps' tablist (see DECK_JS), systems.js (see SYSTEMS_JS) and toc.js
     # moves the /features scenes beat by beat.
-    "scripts": (36_500, 11_300),
+    "scripts": (39_500, 12_000),
     # Every .svg under assets/art/: the generated cover sprite plus the
     # static grain and weave tiles. Cached and shared by both locales.
     "art": (24_000, 7_000),
+    # assets/art/systems.svg alone: the app's 89 system silhouettes
+    # (RetroArch Assets, CC BY 4.0) at one decimal, for the #formatos shelf
+    # and list. Requested only when that section comes near (systems.js),
+    # never on the first load; the "systems" gate checks that.
+    "systems_art": (132_000, 36_000),
     # Archivo (wdth 75-112, wght 600-800) + Atkinson Hyperlegible Next and
     # Mono, all variable and Latin-subset; brand.md caps the faces at 180 KB.
     "font": (128_000, None),
@@ -219,6 +238,10 @@ METRICS_JS = 3_400
 # Home/End, roving tabindex), about 1.5 KB.
 DECK_JS = 5_100
 METRICS = ("downloads", "stars")
+# systems.js alone (raw bytes): the #formatos shelf of every system (icons
+# swapped in near the section, the two looping rows and their pause
+# button) and the search and family filters of the full list.
+SYSTEMS_JS = 5_100
 # The generated cover sprite alone (raw bytes).
 COVERS_SVG = 18_000
 # Versorium keeps 680; this page carries a comparison, a layout table and
@@ -234,7 +257,11 @@ COVERS_SVG = 18_000
 # #siguiente and the keys question add them back.
 # /features lists every feature in a sentence; /roadmap is a list of
 # versions and blocks generated from site/data/roadmap.json.
-MAX_WORDS = {"page": 2_600, "features": 2_600, "roadmap": 1_200}
+# Raised to 3,050 for round 2: the 131 system names and their group
+# headings (about 400), a reference list inside a closed <details>, plus
+# the trademark notice and the CC BY credit; the duplicates screenshot's
+# alt and caption leave.
+MAX_WORDS = {"page": 3_050, "features": 2_600, "roadmap": 1_200}
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)
@@ -569,9 +596,11 @@ def gate_budget(site: Path, r: Report) -> None:
     checks["pages.css"] = ("pages_css", [site / "assets/pages.css"])
     checks["css"] = ("css", [site / "assets/tokens.css", site / "assets/site.css"])
     checks["scripts"] = ("scripts", sorted((site / "assets").rglob("*.js")))
-    art = sorted((site / "assets/art").glob("*.svg"))
+    art = sorted(p for p in (site / "assets/art").glob("*.svg") if p.name != "systems.svg")
     if art:
         checks["art"] = ("art", art)
+    if (site / "assets/art/systems.svg").is_file():
+        checks["systems.svg"] = ("systems_art", [site / "assets/art/systems.svg"])
     checks["font"] = ("font", sorted((site / "assets/fonts").glob("*.woff2")))
     for name, (kind, paths) in checks.items():
         raw, gz = sizes(paths)
@@ -1172,6 +1201,52 @@ def gate_roadmap(site: Path, r: Report) -> None:
             r.fail("roadmap", (run.stderr or run.stdout).strip()[-500:])
 
 
+SYSTEMS = ROOT / "scripts/site/systems.py"
+SYSTEMS_LEGAL = {
+    "es": ["no está afiliado ni respaldado", "son marcas de sus dueños", "RetroArch Assets", "CC BY 4.0"],
+    "en": ["not affiliated with or endorsed", "trademarks of their owners", "RetroArch Assets", "CC BY 4.0"],
+}
+
+
+def gate_systems(site: Path, r: Report) -> None:
+    """systems.py --check on the built copy, the trademark notice and the
+    CC BY credit in both homes, no (TM)/(R) in the block, and the sprite
+    never referenced by the first load (systems.js swaps it in)."""
+    run = subprocess.run([sys.executable, "-I", str(SYSTEMS), "--check", "--site", str(site)],
+                         capture_output=True, text=True)
+    for line in run.stdout.splitlines():
+        if line.startswith("FAIL systems "):
+            r.fail("systems", line.removeprefix("FAIL systems "))
+    if run.returncode and "FAIL" not in run.stdout:
+        r.fail("systems", (run.stderr or run.stdout).strip()[-500:])
+    for lang, rel in HOMES.items():
+        text = (site / rel).read_text(encoding="utf-8")
+        m = re.search(r'<div class="sys" .*?<p class="sys-legal">(.*?)</p>', text, re.S)
+        if not m:
+            r.fail("systems", f"{rel}: no .sys block with its .sys-legal notice")
+            continue
+        for need in SYSTEMS_LEGAL[lang] + ["creativecommons.org/licenses/by/4.0/", "github.com/libretro/retroarch-assets/tree/"]:
+            if need not in m.group(1):
+                r.fail("systems", f"{rel}: the systems notice lacks {need!r}")
+        if re.search(r"[™®]|&trade;|&reg;", m.group(0)):
+            r.fail("systems", f"{rel}: ™ or ® in the systems block")
+        if "systems.svg#" in text or re.search(r'(?:href|src)="[^"]*systems\.svg', text):
+            r.fail("systems", f"{rel}: the first load references systems.svg (systems.js loads it)")
+        if 'src="assets/systems.js"' not in text and 'src="../assets/systems.js"' not in text:
+            r.fail("systems", f"{rel}: does not load systems.js")
+    js = site / "assets/systems.js"
+    if js.is_file():
+        n = js.stat().st_size
+        r.note("systems", f"systems.js: {n} B raw")
+        if n > SYSTEMS_JS:
+            r.fail("systems", f"systems.js is {n} B, over {SYSTEMS_JS}")
+        body = js.read_text(encoding="utf-8")
+        for need in ('"cr-halt"', 'matchMedia("(prefers-reduced-motion: reduce)")', "IntersectionObserver",
+                     '"visibilitychange"'):
+            if need not in body:
+                r.fail("systems", f"systems.js lacks {need!r}")
+
+
 def gate_stale(site: Path, r: Report) -> None:
     for f in sorted(site.rglob("*")):
         if f.suffix in (".html", ".txt", ".xml", ".webmanifest"):
@@ -1184,7 +1259,7 @@ GATES = {
     "head": gate_head, "budget": gate_budget, "contrast": gate_contrast,
     "motion": gate_motion, "art": gate_art, "release": gate_release,
     "metrics": gate_metrics, "facts": gate_facts, "stale": gate_stale,
-    "roadmap": gate_roadmap,
+    "roadmap": gate_roadmap, "systems": gate_systems,
 }
 
 

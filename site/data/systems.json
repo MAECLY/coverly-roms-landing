@@ -1,0 +1,1562 @@
+{
+ "schema": 1,
+ "source": {
+  "app_repo": "MAECLY/coverly-roms",
+  "app_commit": "98dc427",
+  "systems_sha256": "a69baf9e6ee6d104148ea2828bd7af39f5833c548ba4866da0a6a7f86226ac66",
+  "icons_sha256": "07729b9fce4869b2225f3f3736e3a224ee804c448cc1dc63950b39ed0a030745",
+  "fallbacks_sha256": "85477daafabf4a406d731267da2000f3f174d53aec935f95b81ce7b0cdfc7c84"
+ },
+ "systems": [
+  {
+   "id": "a2600",
+   "name": "Atari 2600",
+   "short": "Atari 2600",
+   "family": "console",
+   "maker": "Atari",
+   "keys": [
+    "a2600"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "a5200",
+   "name": "Atari 5200",
+   "short": "Atari 5200",
+   "family": "console",
+   "maker": "Atari",
+   "keys": [
+    "a5200"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "a7800",
+   "name": "Atari 7800",
+   "short": "Atari 7800",
+   "family": "console",
+   "maker": "Atari",
+   "keys": [
+    "a7800"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "a800",
+   "name": "Atari 8-bit",
+   "short": "Atari 8-bit",
+   "family": "computer",
+   "maker": "Atari",
+   "keys": [
+    "a800",
+    "atari800"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "amiga",
+   "name": "Commodore Amiga",
+   "short": "Amiga",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "atarist",
+   "name": "Atari ST",
+   "short": "Atari ST",
+   "family": "computer",
+   "maker": "Atari",
+   "keys": [
+    "atarist"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "atomiswave",
+   "name": "Atomiswave",
+   "short": "Atomiswave",
+   "family": "arcade",
+   "maker": "Sammy",
+   "keys": [
+    "awave"
+   ],
+   "icon": false,
+   "abbr": "AW"
+  },
+  {
+   "id": "c64",
+   "name": "Commodore 64",
+   "short": "Commodore 64",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [
+    "c64"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "cps1",
+   "name": "Capcom Play System",
+   "short": "CPS",
+   "family": "arcade",
+   "maker": "Capcom",
+   "keys": [
+    "cps1"
+   ],
+   "icon": false,
+   "abbr": "CPS1"
+  },
+  {
+   "id": "cps2",
+   "name": "Capcom Play System II",
+   "short": "CPS II",
+   "family": "arcade",
+   "maker": "Capcom",
+   "keys": [
+    "cps2"
+   ],
+   "icon": false,
+   "abbr": "CPS2"
+  },
+  {
+   "id": "cps3",
+   "name": "Capcom Play System III",
+   "short": "CPS III",
+   "family": "arcade",
+   "maker": "Capcom",
+   "keys": [
+    "cps3"
+   ],
+   "icon": false,
+   "abbr": "CPS3"
+  },
+  {
+   "id": "dos",
+   "name": "DOS",
+   "short": "DOS",
+   "family": "computer",
+   "maker": null,
+   "keys": [
+    "msdos"
+   ],
+   "icon": false,
+   "abbr": "DOS"
+  },
+  {
+   "id": "dreamcast",
+   "name": "Sega Dreamcast",
+   "short": "Dreamcast",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "dc"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "easyrpg",
+   "name": "EasyRPG",
+   "short": "EasyRPG",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "rpgmaker"
+   ],
+   "icon": false,
+   "abbr": "RPG"
+  },
+  {
+   "id": "fbneo",
+   "name": "FinalBurn Neo",
+   "short": "FinalBurn Neo",
+   "family": "arcade",
+   "maker": null,
+   "keys": [
+    "fbneo",
+    "fba",
+    "fbalpha"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "nes",
+   "name": "Nintendo Entertainment System",
+   "short": "NES",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "nes",
+    "fc",
+    "famicom"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "fds",
+   "name": "Famicom Disk System",
+   "short": "Famicom Disk System",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "fds"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gb",
+   "name": "Game Boy",
+   "short": "Game Boy",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "gb",
+    "gameboy"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gba",
+   "name": "Game Boy Advance",
+   "short": "Game Boy Advance",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "gba"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gbc",
+   "name": "Game Boy Color",
+   "short": "Game Boy Color",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "gbc"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gamegear",
+   "name": "Sega Game Gear",
+   "short": "Game Gear",
+   "family": "handheld",
+   "maker": "Sega",
+   "keys": [
+    "gamegear",
+    "gg"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gw",
+   "name": "Game & Watch",
+   "short": "Game & Watch",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "gw"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "hbmame",
+   "name": "HBMAME",
+   "short": "HBMAME",
+   "family": "arcade",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "HB"
+  },
+  {
+   "id": "lynx",
+   "name": "Atari Lynx",
+   "short": "Lynx",
+   "family": "handheld",
+   "maker": "Atari",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "mame",
+   "name": "MAME",
+   "short": "MAME",
+   "family": "arcade",
+   "maker": null,
+   "keys": [
+    "arcade",
+    "mame2003",
+    "mame2010"
+   ],
+   "icon": false,
+   "abbr": "MAME"
+  },
+  {
+   "id": "megadrive",
+   "name": "Sega Mega Drive / Genesis",
+   "short": "Mega Drive",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "md"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "segacd",
+   "name": "Sega CD / Mega-CD",
+   "short": "Sega CD",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "segacd",
+    "mdcd",
+    "megacd"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "msx",
+   "name": "MSX",
+   "short": "MSX",
+   "family": "computer",
+   "maker": "MSX",
+   "keys": [
+    "msx1"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "n64",
+   "name": "Nintendo 64",
+   "short": "Nintendo 64",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "n64"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "naomi",
+   "name": "Sega NAOMI",
+   "short": "NAOMI",
+   "family": "arcade",
+   "maker": "Sega",
+   "keys": [],
+   "icon": false,
+   "abbr": "NAO"
+  },
+  {
+   "id": "nds",
+   "name": "Nintendo DS",
+   "short": "Nintendo DS",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "nds",
+    "dsi"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "neocd",
+   "name": "Neo Geo CD",
+   "short": "Neo Geo CD",
+   "family": "console",
+   "maker": "SNK",
+   "keys": [
+    "neocd",
+    "neogeocd"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "neogeo",
+   "name": "Neo Geo",
+   "short": "Neo Geo",
+   "family": "arcade",
+   "maker": "SNK",
+   "keys": [
+    "neogeo"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ngp",
+   "name": "Neo Geo Pocket",
+   "short": "Neo Geo Pocket",
+   "family": "handheld",
+   "maker": "SNK",
+   "keys": [
+    "ngp"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ngpc",
+   "name": "Neo Geo Pocket Color",
+   "short": "Neo Geo Pocket Color",
+   "family": "handheld",
+   "maker": "SNK",
+   "keys": [
+    "ngpc"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ons",
+   "name": "ONScripter",
+   "short": "ONScripter",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "ons"
+   ],
+   "icon": false,
+   "abbr": "ONS"
+  },
+  {
+   "id": "openbor",
+   "name": "OpenBOR",
+   "short": "OpenBOR",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "BOR"
+  },
+  {
+   "id": "pcengine",
+   "name": "PC Engine / TurboGrafx-16",
+   "short": "PC Engine",
+   "family": "console",
+   "maker": "NEC",
+   "keys": [
+    "pcengine",
+    "pce",
+    "tg16"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pcenginecd",
+   "name": "PC Engine CD / TurboGrafx-CD",
+   "short": "PC Engine CD",
+   "family": "console",
+   "maker": "NEC",
+   "keys": [
+    "pcecd",
+    "tgcd"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pgm2",
+   "name": "IGS PGM2",
+   "short": "PGM2",
+   "family": "arcade",
+   "maker": "IGS",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pico8",
+   "name": "PICO-8",
+   "short": "PICO-8",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "pico8",
+    "pico-8"
+   ],
+   "icon": false,
+   "abbr": "P8"
+  },
+  {
+   "id": "pokemini",
+   "name": "Pokemon Mini",
+   "short": "Pokemon Mini",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "pokemini",
+    "poke"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "psx",
+   "name": "Sony PlayStation",
+   "short": "PlayStation",
+   "family": "console",
+   "maker": "Sony",
+   "keys": [
+    "psx",
+    "ps",
+    "ps1"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "psp",
+   "name": "Sony PSP",
+   "short": "PSP",
+   "family": "handheld",
+   "maker": "Sony",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "saturn",
+   "name": "Sega Saturn",
+   "short": "Saturn",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "scummvm",
+   "name": "ScummVM",
+   "short": "ScummVM",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "scumm"
+   ],
+   "icon": false,
+   "abbr": "SVM"
+  },
+  {
+   "id": "sega32x",
+   "name": "Sega 32X",
+   "short": "Sega 32X",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "sega32x",
+    "sega32"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "snes",
+   "name": "Super Nintendo",
+   "short": "Super Nintendo",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "snes",
+    "sfc"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "mastersystem",
+   "name": "Sega Master System",
+   "short": "Master System",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "sms"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "varcade",
+   "name": "Arcade (various)",
+   "short": "Arcade",
+   "family": "arcade",
+   "maker": null,
+   "keys": [
+    "varcade"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "virtualboy",
+   "name": "Virtual Boy",
+   "short": "Virtual Boy",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "vb"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "vic20",
+   "name": "Commodore VIC-20",
+   "short": "VIC-20",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [
+    "vic20",
+    "vic-20"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "wonderswan",
+   "name": "WonderSwan",
+   "short": "WonderSwan",
+   "family": "handheld",
+   "maker": "Bandai",
+   "keys": [
+    "ws"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "wonderswancolor",
+   "name": "WonderSwan Color",
+   "short": "WonderSwan Color",
+   "family": "handheld",
+   "maker": "Bandai",
+   "keys": [
+    "wsc"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ps2",
+   "name": "Sony PlayStation 2",
+   "short": "PlayStation 2",
+   "family": "console",
+   "maker": "Sony",
+   "keys": [
+    "ps2"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "3do",
+   "name": "3DO Interactive Multiplayer",
+   "short": "3DO",
+   "family": "console",
+   "maker": "3DO",
+   "keys": [
+    "3d0"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pcfx",
+   "name": "NEC PC-FX",
+   "short": "PC-FX",
+   "family": "console",
+   "maker": "NEC",
+   "keys": [
+    "pcfx",
+    "pc-fx"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "cdi",
+   "name": "Philips CD-i",
+   "short": "CD-i",
+   "family": "console",
+   "maker": "Philips",
+   "keys": [
+    "cdi",
+    "cdimono1",
+    "cd-i"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "amigacd32",
+   "name": "Commodore Amiga CD32",
+   "short": "Amiga CD32",
+   "family": "console",
+   "maker": "Commodore",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "cdtv",
+   "name": "Commodore CDTV",
+   "short": "CDTV",
+   "family": "console",
+   "maker": "Commodore",
+   "keys": [],
+   "icon": false,
+   "abbr": "CDTV"
+  },
+  {
+   "id": "jaguarcd",
+   "name": "Atari Jaguar CD",
+   "short": "Jaguar CD",
+   "family": "console",
+   "maker": "Atari",
+   "keys": [
+    "jaguarcd"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "fmtowns",
+   "name": "Fujitsu FM Towns",
+   "short": "FM Towns",
+   "family": "computer",
+   "maker": "Fujitsu",
+   "keys": [
+    "fmtowns",
+    "fm-towns"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "colecovision",
+   "name": "ColecoVision",
+   "short": "ColecoVision",
+   "family": "console",
+   "maker": "Coleco",
+   "keys": [
+    "coleco"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "intellivision",
+   "name": "Mattel Intellivision",
+   "short": "Intellivision",
+   "family": "console",
+   "maker": "Mattel",
+   "keys": [
+    "intv"
+   ],
+   "icon": false,
+   "abbr": "INTV"
+  },
+  {
+   "id": "vectrex",
+   "name": "GCE Vectrex",
+   "short": "Vectrex",
+   "family": "console",
+   "maker": "GCE",
+   "keys": [],
+   "icon": false,
+   "abbr": "VEC"
+  },
+  {
+   "id": "odyssey2",
+   "name": "Magnavox Odyssey² / Videopac",
+   "short": "Odyssey²",
+   "family": "console",
+   "maker": "Magnavox",
+   "keys": [
+    "odyssey2",
+    "o2em"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "channelf",
+   "name": "Fairchild Channel F",
+   "short": "Channel F",
+   "family": "console",
+   "maker": "Fairchild",
+   "keys": [
+    "channelf"
+   ],
+   "icon": false,
+   "abbr": "CHF"
+  },
+  {
+   "id": "arcadia",
+   "name": "Emerson Arcadia 2001",
+   "short": "Arcadia 2001",
+   "family": "console",
+   "maker": "Emerson",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "scv",
+   "name": "Epoch Super Cassette Vision",
+   "short": "Super Cassette Vision",
+   "family": "console",
+   "maker": "Epoch",
+   "keys": [
+    "scv"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "jaguar",
+   "name": "Atari Jaguar",
+   "short": "Jaguar",
+   "family": "console",
+   "maker": "Atari",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "sg1000",
+   "name": "Sega SG-1000 / SC-3000",
+   "short": "SG-1000",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "sg1000",
+    "sg-1000",
+    "sc3000"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pico",
+   "name": "Sega Pico",
+   "short": "Pico",
+   "family": "console",
+   "maker": "Sega",
+   "keys": [
+    "segapico"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "supergrafx",
+   "name": "PC Engine SuperGrafx",
+   "short": "SuperGrafx",
+   "family": "console",
+   "maker": "NEC",
+   "keys": [
+    "sgfx"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "n64dd",
+   "name": "Nintendo 64DD",
+   "short": "Nintendo 64DD",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "n64dd"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "satellaview",
+   "name": "Nintendo Satellaview",
+   "short": "Satellaview",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "bsx",
+    "bs-x"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "sufami",
+   "name": "Bandai Sufami Turbo",
+   "short": "Sufami Turbo",
+   "family": "console",
+   "maker": "Bandai",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "supervision",
+   "name": "Watara Supervision",
+   "short": "Supervision",
+   "family": "handheld",
+   "maker": "Watara",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "gamecom",
+   "name": "Tiger Game.com",
+   "short": "Game.com",
+   "family": "handheld",
+   "maker": "Tiger",
+   "keys": [
+    "gamecom"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "megaduck",
+   "name": "Mega Duck / Cougar Boy",
+   "short": "Mega Duck",
+   "family": "handheld",
+   "maker": null,
+   "keys": [
+    "megaduck"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "zxspectrum",
+   "name": "Sinclair ZX Spectrum",
+   "short": "ZX Spectrum",
+   "family": "computer",
+   "maker": "Sinclair",
+   "keys": [
+    "zxs"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "zx81",
+   "name": "Sinclair ZX81",
+   "short": "ZX81",
+   "family": "computer",
+   "maker": "Sinclair",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "amstradcpc",
+   "name": "Amstrad CPC",
+   "short": "CPC",
+   "family": "computer",
+   "maker": "Amstrad",
+   "keys": [],
+   "icon": false,
+   "abbr": "CPC"
+  },
+  {
+   "id": "bbcmicro",
+   "name": "Acorn BBC Micro",
+   "short": "BBC Micro",
+   "family": "computer",
+   "maker": "Acorn",
+   "keys": [
+    "bbcmicro"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "thomson",
+   "name": "Thomson MO/TO",
+   "short": "MO/TO",
+   "family": "computer",
+   "maker": "Thomson",
+   "keys": [
+    "moto",
+    "to8",
+    "theodore"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "dragon",
+   "name": "Dragon 32/64",
+   "short": "Dragon 32/64",
+   "family": "computer",
+   "maker": "Dragon Data",
+   "keys": [
+    "dragon32",
+    "dragon64"
+   ],
+   "icon": false,
+   "abbr": "DRGN"
+  },
+  {
+   "id": "coco",
+   "name": "Tandy TRS-80 Color Computer",
+   "short": "TRS-80 CoCo",
+   "family": "computer",
+   "maker": "Tandy",
+   "keys": [
+    "coco"
+   ],
+   "icon": false,
+   "abbr": "COCO"
+  },
+  {
+   "id": "ti99",
+   "name": "Texas Instruments TI-99/4A",
+   "short": "TI-99/4A",
+   "family": "computer",
+   "maker": "Texas Instruments",
+   "keys": [
+    "ti99",
+    "ti994a"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "x68000",
+   "name": "Sharp X68000",
+   "short": "X68000",
+   "family": "computer",
+   "maker": "Sharp",
+   "keys": [
+    "x68k"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "x1",
+   "name": "Sharp X1",
+   "short": "Sharp X1",
+   "family": "computer",
+   "maker": "Sharp",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pc98",
+   "name": "NEC PC-98",
+   "short": "PC-98",
+   "family": "computer",
+   "maker": "NEC",
+   "keys": [
+    "pc98",
+    "pc9800"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pc88",
+   "name": "NEC PC-88",
+   "short": "PC-88",
+   "family": "computer",
+   "maker": "NEC",
+   "keys": [
+    "pc88",
+    "pc8800",
+    "pc8000"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "plus4",
+   "name": "Commodore Plus/4",
+   "short": "Plus/4",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [
+    "plus4",
+    "cplus4"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "pet",
+   "name": "Commodore PET",
+   "short": "PET",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "c128",
+   "name": "Commodore 128",
+   "short": "Commodore 128",
+   "family": "computer",
+   "maker": "Commodore",
+   "keys": [
+    "c128"
+   ],
+   "icon": false,
+   "abbr": "C128"
+  },
+  {
+   "id": "atarixe",
+   "name": "Atari XE / XEGS",
+   "short": "Atari XE",
+   "family": "computer",
+   "maker": "Atari",
+   "keys": [
+    "atarixe"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "msx2",
+   "name": "MSX2",
+   "short": "MSX2",
+   "family": "computer",
+   "maker": "MSX",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "msxturbor",
+   "name": "MSX turbo R",
+   "short": "MSX turbo R",
+   "family": "computer",
+   "maker": "MSX",
+   "keys": [
+    "turbor"
+   ],
+   "icon": false,
+   "abbr": "TR"
+  },
+  {
+   "id": "apple2",
+   "name": "Apple II",
+   "short": "Apple II",
+   "family": "computer",
+   "maker": "Apple",
+   "keys": [
+    "apple2",
+    "appleii"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "tic80",
+   "name": "TIC-80",
+   "short": "TIC-80",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "tic80"
+   ],
+   "icon": false,
+   "abbr": "TIC"
+  },
+  {
+   "id": "wasm4",
+   "name": "WASM-4",
+   "short": "WASM-4",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "wasm4"
+   ],
+   "icon": false,
+   "abbr": "W4"
+  },
+  {
+   "id": "arduboy",
+   "name": "Arduboy",
+   "short": "Arduboy",
+   "family": "handheld",
+   "maker": "Arduboy",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "uzebox",
+   "name": "Uzebox",
+   "short": "Uzebox",
+   "family": "console",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "UZE"
+  },
+  {
+   "id": "lowresnx",
+   "name": "LowRes NX",
+   "short": "LowRes NX",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "lowresnx"
+   ],
+   "icon": false,
+   "abbr": "LRNX"
+  },
+  {
+   "id": "vircon32",
+   "name": "Vircon32",
+   "short": "Vircon32",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "V32"
+  },
+  {
+   "id": "doom",
+   "name": "Doom (PrBoom)",
+   "short": "Doom",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "DOOM"
+  },
+  {
+   "id": "quake",
+   "name": "Quake",
+   "short": "Quake",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "tyrquake"
+   ],
+   "icon": false,
+   "abbr": "QK"
+  },
+  {
+   "id": "cavestory",
+   "name": "Cave Story (NXEngine)",
+   "short": "Cave Story",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "CAVE"
+  },
+  {
+   "id": "wolf3d",
+   "name": "Wolfenstein 3D (ECWolf)",
+   "short": "Wolfenstein 3D",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "wolf3d"
+   ],
+   "icon": false,
+   "abbr": "W3D"
+  },
+  {
+   "id": "mrboom",
+   "name": "Mr. Boom",
+   "short": "Mr. Boom",
+   "family": "engine",
+   "maker": null,
+   "keys": [
+    "mrboom"
+   ],
+   "icon": false,
+   "abbr": "BOOM"
+  },
+  {
+   "id": "dinothawr",
+   "name": "Dinothawr",
+   "short": "Dinothawr",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "DINO"
+  },
+  {
+   "id": "lutro",
+   "name": "Lutro",
+   "short": "Lutro",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "LUTR"
+  },
+  {
+   "id": "solarus",
+   "name": "Solarus",
+   "short": "Solarus",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "SOL"
+  },
+  {
+   "id": "flashback",
+   "name": "Flashback (REminiscence)",
+   "short": "Flashback",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "FLBK"
+  },
+  {
+   "id": "xrick",
+   "name": "Rick Dangerous (XRick)",
+   "short": "Rick Dangerous",
+   "family": "engine",
+   "maker": null,
+   "keys": [],
+   "icon": false,
+   "abbr": "RICK"
+  },
+  {
+   "id": "model2",
+   "name": "Sega Model 2",
+   "short": "Model 2",
+   "family": "arcade",
+   "maker": "Sega",
+   "keys": [
+    "model2"
+   ],
+   "icon": false,
+   "abbr": "MDL2"
+  },
+  {
+   "id": "model3",
+   "name": "Sega Model 3",
+   "short": "Model 3",
+   "family": "arcade",
+   "maker": "Sega",
+   "keys": [
+    "model3"
+   ],
+   "icon": false,
+   "abbr": "MDL3"
+  },
+  {
+   "id": "naomi2",
+   "name": "Sega NAOMI 2",
+   "short": "NAOMI 2",
+   "family": "arcade",
+   "maker": "Sega",
+   "keys": [
+    "naomi2"
+   ],
+   "icon": false,
+   "abbr": "NAO2"
+  },
+  {
+   "id": "triforce",
+   "name": "Namco Sega Nintendo Triforce",
+   "short": "Triforce",
+   "family": "arcade",
+   "maker": "Namco, Sega, Nintendo",
+   "keys": [],
+   "icon": false,
+   "abbr": "TRI"
+  },
+  {
+   "id": "gamecube",
+   "name": "Nintendo GameCube",
+   "short": "GameCube",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "gc",
+    "ngc",
+    "gcn"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "wii",
+   "name": "Nintendo Wii",
+   "short": "Wii",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "3ds",
+   "name": "Nintendo 3DS",
+   "short": "Nintendo 3DS",
+   "family": "handheld",
+   "maker": "Nintendo",
+   "keys": [
+    "n3ds"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "wiiu",
+   "name": "Nintendo Wii U",
+   "short": "Wii U",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "wiiu"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "switch",
+   "name": "Nintendo Switch",
+   "short": "Switch",
+   "family": "console",
+   "maker": "Nintendo",
+   "keys": [
+    "nsw"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "psvita",
+   "name": "Sony PlayStation Vita",
+   "short": "PlayStation Vita",
+   "family": "handheld",
+   "maker": "Sony",
+   "keys": [
+    "psvita"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ps3",
+   "name": "Sony PlayStation 3",
+   "short": "PlayStation 3",
+   "family": "console",
+   "maker": "Sony",
+   "keys": [
+    "ps3"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "xbox",
+   "name": "Microsoft Xbox",
+   "short": "Xbox",
+   "family": "console",
+   "maker": "Microsoft",
+   "keys": [],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "xbox360",
+   "name": "Microsoft Xbox 360",
+   "short": "Xbox 360",
+   "family": "console",
+   "maker": "Microsoft",
+   "keys": [
+    "xbox360",
+    "x360"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ps4",
+   "name": "Sony PlayStation 4",
+   "short": "PlayStation 4",
+   "family": "console",
+   "maker": "Sony",
+   "keys": [
+    "ps4"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "ps5",
+   "name": "Sony PlayStation 5",
+   "short": "PlayStation 5",
+   "family": "console",
+   "maker": "Sony",
+   "keys": [
+    "ps5"
+   ],
+   "icon": false,
+   "abbr": "PS5"
+  },
+  {
+   "id": "xboxone",
+   "name": "Microsoft Xbox One",
+   "short": "Xbox One",
+   "family": "console",
+   "maker": "Microsoft",
+   "keys": [
+    "xboxone",
+    "xb1"
+   ],
+   "icon": true,
+   "abbr": null
+  },
+  {
+   "id": "xboxseries",
+   "name": "Microsoft Xbox Series X|S",
+   "short": "Xbox Series X|S",
+   "family": "console",
+   "maker": "Microsoft",
+   "keys": [
+    "xsx"
+   ],
+   "icon": true,
+   "abbr": null
+  }
+ ]
+}

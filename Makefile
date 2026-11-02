@@ -39,13 +39,15 @@ build: ## Build target/site as Vercel does (latest release from the GitHub API).
 	bash scripts/site/vercel_build.sh
 
 .PHONY: check
-check: ## Every gate: tokens, cover sprite, release.js, metrics and roadmap tests, links, parity, head, budgets, contrast, motion, art, release, metrics, facts, stale copy, roadmap (and against the app when it is there).
+check: ## Every gate: tokens, cover sprite, release.js, metrics, roadmap and systems tests, links, parity, head, budgets, contrast, motion, art, release, metrics, facts, stale copy, systems, roadmap and systems (and against the app when it is there).
 	node scripts/brand/build_tokens.mjs --check
 	node scripts/site/gen_covers.mjs --check
 	node --test scripts/site/*.test.mjs
 	python3 -I scripts/site/roadmap_test.py
+	python3 -I scripts/site/systems_test.py
 	python3 -I scripts/site/check_site.py
 	python3 -I scripts/site/roadmap.py --check $(if $(APP),--app "$(APP)")
+	python3 -I scripts/site/systems.py --check $(if $(APP),--app "$(APP)")
 
 .PHONY: roadmap
 roadmap: ## Sync site/data/roadmap.json with the app (APP=../coverly-roms) and regenerate its blocks (from the JSON alone without an app).
@@ -54,6 +56,14 @@ roadmap: ## Sync site/data/roadmap.json with the app (APP=../coverly-roms) and r
 .PHONY: roadmap-check
 roadmap-check: ## Check roadmap.json and its blocks, and against the app when APP is set or ../coverly-roms exists.
 	python3 -I scripts/site/roadmap.py --check $(if $(APP),--app "$(APP)")
+
+.PHONY: systems
+systems: ## Regenerate site/data/systems.json, the icon sprite and the homes' system lists from the app (APP=../coverly-roms; from the JSON alone without an app).
+	python3 -I scripts/site/systems.py --write $(if $(APP),--app "$(APP)")
+
+.PHONY: systems-check
+systems-check: ## Check systems.json, the sprite and the lists, and against the app when APP is set or ../coverly-roms exists.
+	python3 -I scripts/site/systems.py --check $(if $(APP),--app "$(APP)")
 
 .PHONY: covers
 covers: ## Regenerate the cover sprite and inks (CONTACT=sheet.html also writes a review sheet).
