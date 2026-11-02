@@ -17,14 +17,18 @@ rastreadores. La app, sus releases y sus incidencias están en
   «Tu tarjeta vuelve como estaba», con cómo se elige cada portada), y
   después lo que ha crecido alrededor: ordenar comprimidos y discos,
   consolas actuales sin claves, duplicados y las seis vistas, los formatos y
-  los 131 sistemas por familia, la línea de comandos en su propia sección,
+  cada uno de los 131 sistemas (una balda lenta con sus iconos y una lista
+  con buscador), la línea de comandos en su propia sección,
   la comparativa con Skraper, Skyscraper, ARRM y Mini Scraper, lo siguiente,
   las descargas y las preguntas.
 - **[Funciones](https://coverly-roms.maecly.com/features/)** (`/features/`,
   `/en/features/`): todas las funciones en siete grupos, cada una con la
-  versión en que llegó y un dibujo hecho con las piezas de la propia web.
+  versión en que llegó y un dibujo hecho con las piezas de la propia web,
+  que se queda al lado de la lista y avanza a medida que lees.
 - **[Hoja de ruta](https://coverly-roms.maecly.com/roadmap/)** (`/roadmap/`,
-  `/en/roadmap/`): cada versión con su fecha, y lo que viene con su estado.
+  `/en/roadmap/`): una balda visual (las versiones publicadas, Hoy y los
+  huecos de Ahora, Después y Más adelante, llenos según su avance) encima
+  de cada versión con su fecha y de lo que viene con su estado.
 
 Todas las animaciones son dibujadas (nada de carruseles de capturas), se
 reproducen una vez o con un botón, se paran fuera de pantalla y con el
@@ -42,12 +46,13 @@ make site RELEASE=scripts/site/fixtures/release-new.json        # nombres nuevos
 make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # nombres nuevos, sin Windows ARM64
 make check                                                      # todas las comprobaciones, como en CI
 make roadmap                                                    # sincroniza site/data/roadmap.json con ../coverly-roms
+make systems                                                    # regenera la lista de sistemas y sus iconos desde ../coverly-roms
 make help                                                       # todos los objetivos
 ```
 
-`make check` también pasa los tests de `roadmap.py` y, con la app clonada
-al lado (`../coverly-roms`, o `APP=`/`COVERLY_APP=`), falla si la hoja de
-ruta o las cifras se desfasan de la app.
+`make check` también pasa los tests de `roadmap.py` y `systems.py` y, con
+la app clonada al lado (`../coverly-roms`, o `APP=`/`COVERLY_APP=`), falla
+si la hoja de ruta, las cifras o los sistemas se desfasan de la app.
 
 ## Hoja de ruta y cifras
 

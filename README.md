@@ -16,15 +16,18 @@ itself, its releases and its issues live in
   covers first (the hero, the four steps on one desk, and «Your card comes
   back as it was» with how each cover is chosen), then what grew around
   them: sorting archives and discs, current consoles without keys,
-  duplicates and the six views, the layouts and the 131 systems by family,
+  duplicates and the six views, the layouts and every one of the 131
+  systems (a slow shelf of their icons and a searchable list),
   the command line in its own section, the comparison with Skraper,
   Skyscraper, ARRM and Mini Scraper, what comes next, downloads and the FAQ.
 - **[Features](https://coverly-roms.maecly.com/en/features/)** (`/features/`,
   `/en/features/`): every feature in seven groups, each with the version it
-  arrived in and a drawing built from the page's own parts.
+  arrived in and a drawing built from the page's own parts, which stays
+  beside the list and advances as you read.
 - **[Roadmap](https://coverly-roms.maecly.com/en/roadmap/)** (`/roadmap/`,
-  `/en/roadmap/`): each version with its date, and what comes next with
-  its status.
+  `/en/roadmap/`): a visual shelf (released versions, Today, then Now /
+  Next / Later slots filled by progress) above each version with its date
+  and what comes next with its status.
 
 Every animation is drawn (no screenshot carousels), plays once or on a
 button, pauses off screen and on hover, and is a still frame under reduced
@@ -42,16 +45,17 @@ make site RELEASE=scripts/site/fixtures/release-new.json        # the release na
 make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # the release names, without Windows ARM64
 make check                                                      # every gate, as CI runs it
 make roadmap                                                    # sync site/data/roadmap.json with ../coverly-roms
+make systems                                                    # regenerate the systems list and icon sprite from ../coverly-roms
 make help                                                       # all targets
 ```
 
 `make check` runs the token and cover-sprite staleness checks, the
 `release.js`, metrics and roadmap tests and `scripts/site/check_site.py`
 (links, ES/EN parity per page, head tags and CSP, budgets, contrast, motion,
-art, release markers, facts, stale copy, roadmap blocks) on four builds: the
+art, release markers, facts, stale copy, roadmap blocks, systems) on four builds: the
 three fixtures above and the no-release state. With the app checked out next
 to this repository (`../coverly-roms`, or `APP=`/`COVERLY_APP=`), it also
-fails when the roadmap or the facts drift from the app.
+fails when the roadmap, the facts or the systems drift from the app.
 
 ## Roadmap and facts
 
