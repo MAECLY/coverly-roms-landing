@@ -37,11 +37,19 @@
       else if (!g.hasAttribute("data-beat")) set(g, "1");
     });
   };
+  /* Any crossing of the reading line (55% down) recomputes the group's
+     beat: the last one whose first item is above it, so a fast scroll
+     that skips the band still lands on the right state. */
   var band = new IntersectionObserver(function (es) {
+    if (!wide.matches) return;
     es.forEach(function (e) {
-      if (e.isIntersecting && wide.matches) set(e.target.closest(".fgroup"), e.target.getAttribute("data-beat"));
+      var g = e.target.closest(".fgroup"), n = "1";
+      each(g.querySelectorAll(".flist [data-beat]"), function (d) {
+        if (d.getBoundingClientRect().top < innerHeight * 0.55) n = d.getAttribute("data-beat");
+      });
+      set(g, n);
     });
-  }, { rootMargin: "-35% 0px -45% 0px" });
+  }, { rootMargin: "0px 0px -45% 0px" });
   each(beats, function (d) { band.observe(d); });
   arm();
   if (wide.addEventListener) wide.addEventListener("change", arm);
