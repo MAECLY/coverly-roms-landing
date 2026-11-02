@@ -27,7 +27,9 @@ plain-HTML tag, `<script src="/_vercel/insights/script.js" defer>`, after
 its own scripts. Vercel serves that script and receives its page views
 (`/_vercel/insights/view`) on the deployment's own origin, so the CSP stays
 `script-src 'self'` / `connect-src 'self' https://api.github.com` and the
-footer counter, which counts only other origins, stays at 0. No cookies and
+footer counter, which counts only other origins, does not count them (on the
+home pages it still counts the `api.github.com` calls of `release.js` and
+`metrics.js`). No cookies and
 no cross-site tracking; the footer says so in both languages. The optional
 `window.va` queue stub is left out: it is an inline script, which the CSP
 forbids, and page views need no queue. The tag lives in `site/` (not
