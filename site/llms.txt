@@ -38,7 +38,7 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 
 - Audit: scans a library (systems, ROMs including multi-file .cue/.bin, .m3u, .gdi and folder games) and reports, per media type (cover, screenshot, title screen), what is present or missing. Read-only. Exports CSV or JSON.
 - Layout profiles, detected automatically: Anbernic stock, GarlicOS, Onion OS, MinUI / NextUI (cover); muOS (cover, screenshot); ES-DE, RetroArch (cover, screenshot, title); Batocera / Knulli / EmulationStation (cover, screenshot, title, plus gamelist.xml merging with undo). Custom profiles with your own path templates and a live preview.
-- More than 50 known systems with the folder aliases each firmware uses.
+- 131 known systems with the folder aliases each firmware uses.
 - Identification: CRC32, MD5 and SHA1 against libretro-database, then the file name; arcade short names through MAME and FBNeo DATs. Method selectable: hash-then-name, hash-only, name-only. .7z archives are identified by name only.
 - Sources: libretro-thumbnails (default, no account); SteamGridDB (optional, your own API key, kept in the OS keychain).
 - Choosing the image: by the ROM's region (default order rom, world, usa, europe, japan), by source priority, or by popularity (SteamGridDB votes, then agreement between sources). Each choice says why.

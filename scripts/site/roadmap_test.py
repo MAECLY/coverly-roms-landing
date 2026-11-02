@@ -150,6 +150,17 @@ class Drift(unittest.TestCase):
         self.assertIn("shipped 1: TODO has 1 of 2 done", self.errs(app=app))
 
 
+class Facts(unittest.TestCase):
+    def test_facts_match_the_systems_registry_and_credits(self):
+        app = rm.read_app(APP)
+        good = {"systems": 3, "credits": 2, "families": {"console": 1, "handheld": 1, "arcade": 1}}
+        self.assertEqual(rm.facts_drift(good, app), [])
+        bad = dict(good, systems=50, credits=1, families={"console": 3})
+        e = "\n".join(rm.facts_drift(bad, app))
+        for want in ("systems is 50, the app has 3", "credits is 1, the app lists 2", "families"):
+            self.assertIn(want, e)
+
+
 class Render(unittest.TestCase):
     def setUp(self):
         self.data = data_for(rm.read_app(APP))

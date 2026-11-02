@@ -41,6 +41,9 @@ browser.
             names; Apple silicon and Intel, plus Windows ARM64 when the
             release has it, for the new ones) with no asset block comment
             left over, and a release with both name schemes is refused
+  facts     every [data-fact] number on a page equals site/data/facts.json
+            (systems, profiles, credits, families.*)
+  stale     no copy that the facts made false ("more than 50 systems")
   metrics   the public-reach layer: both pages load metrics.js once,
             deferred, each data-metric slot (downloads, stars) is empty and
             hidden in site/ (apply_metrics.py fills it at build time only
@@ -1046,11 +1049,47 @@ def gate_metrics(site: Path, r: Report) -> None:
                 r.fail("metrics", f"{rel}: data-metric={name} must be empty and end in ' hidden>'")
 
 
+FACTS = "data/facts.json"
+# Copy that a fact made false; a page or text file carrying it fails.
+STALE = re.compile(r"más de 50\b|more than 50\b|\b5\d (?:sistemas|systems)\b", re.I)
+
+
+def gate_facts(site: Path, r: Report) -> None:
+    path = site / FACTS
+    if not path.is_file():
+        r.fail("facts", f"missing {FACTS}")
+        return
+    facts = json.loads(path.read_text(encoding="utf-8"))
+    seen = 0
+    for page in sorted(site.rglob("*.html")):
+        text = page.read_text(encoding="utf-8")
+        for tag, key, inner in re.findall(r'<(\w+)\b[^>]*\sdata-fact="([\w.]+)"[^>]*>(.*?)</\1>', text, re.S):
+            seen += 1
+            want = facts
+            for part in key.split("."):
+                want = want.get(part) if isinstance(want, dict) else None
+            got = re.search(r"\d[\d.,]*", re.sub(r"<[^>]+>", "", inner))
+            if not isinstance(want, int):
+                r.fail("facts", f"{page.relative_to(site)}: data-fact={key} is not a number in {FACTS}")
+            elif not got or int(re.sub(r"\D", "", got.group())) != want:
+                r.fail("facts", f"{page.relative_to(site)}: data-fact={key} says {got and got.group()!r}, {FACTS} says {want}")
+    r.note("facts", f"{seen} data-fact number(s)")
+    if not seen:
+        r.fail("facts", "no [data-fact] number on any page")
+
+
+def gate_stale(site: Path, r: Report) -> None:
+    for f in sorted(site.rglob("*")):
+        if f.suffix in (".html", ".txt", ".xml", ".webmanifest"):
+            for m in STALE.finditer(f.read_text(encoding="utf-8")):
+                r.fail("stale", f"{f.relative_to(site)}: {m.group()!r} (the facts say otherwise)")
+
+
 GATES = {
     "files": gate_files, "links": gate_links, "parity": gate_parity,
     "head": gate_head, "budget": gate_budget, "contrast": gate_contrast,
     "motion": gate_motion, "art": gate_art, "release": gate_release,
-    "metrics": gate_metrics,
+    "metrics": gate_metrics, "facts": gate_facts, "stale": gate_stale,
 }
 
 

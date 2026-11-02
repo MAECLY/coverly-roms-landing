@@ -44,6 +44,9 @@ DATA = ROOT / "site/data/roadmap.json"
 SITE = ROOT / "site"
 REPO = "MAECLY/coverly-roms"
 APP_FILES = {"todo": "TODO.md", "changelog": "CHANGELOG.md", "tracker": "docs/TRACKER.md"}
+# Read too, for site/data/facts.json (the numbers the pages print).
+FACT_FILES = {"systems": "crates/coverly-core/src/systems/systems.toml", "credits": "credits/credits.json"}
+FACTS = ROOT / "site/data/facts.json"
 STATUS = {
     "verifying": ("Hecho, falta probarlo", "Done, being tested"),
     "almost": ("Casi listo", "Almost there"),
@@ -128,12 +131,36 @@ def sha256(text: str) -> str:
 
 
 def read_app(path: Path) -> dict[str, str]:
-    return {k: (path / rel).read_text(encoding="utf-8") for k, rel in APP_FILES.items()}
+    out = {k: (path / rel).read_text(encoding="utf-8") for k, rel in APP_FILES.items()}
+    out.update({k: (path / rel).read_text(encoding="utf-8") for k, rel in FACT_FILES.items() if (path / rel).is_file()})
+    return out
+
+
+def facts_drift(facts: dict, app: dict[str, str]) -> list[str]:
+    """facts.json against the app's systems registry and credits list."""
+    e: list[str] = []
+    if "systems" in app:
+        blocks_ = re.split(r"^\[\[system\]\][ \t]*$", app["systems"], flags=re.M)[1:]
+        n = len(blocks_)
+        if facts.get("systems") != n:
+            e.append(f"facts.json systems is {facts.get('systems')}, the app has {n}")
+        count: dict[str, int] = {}
+        for block in blocks_:
+            m = re.search(r'^family\s*=\s*"(\w+)"', block, re.M)
+            fam = m.group(1) if m else "console"
+            count[fam] = count.get(fam, 0) + 1
+        if facts.get("families") != count:
+            e.append(f"facts.json families {facts.get('families')} != the app's {count}")
+    if "credits" in app:
+        n = len(json.loads(app["credits"]).get("entries", []))
+        if facts.get("credits") != n:
+            e.append(f"facts.json credits is {facts.get('credits')}, the app lists {n}")
+    return e
 
 
 def read_remote() -> dict[str, str]:
     out = {}
-    for k, rel in APP_FILES.items():
+    for k, rel in {**APP_FILES, **FACT_FILES}.items():
         url = f"https://api.github.com/repos/{REPO}/contents/{rel}?ref=main"
         req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
         with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 (fixed https host)
@@ -397,11 +424,13 @@ def main(argv: list[str]) -> int:
     p.add_argument("--remote", action="store_true")
     p.add_argument("--data", type=Path, default=DATA)
     p.add_argument("--site", type=Path, default=SITE)
+    p.add_argument("--facts", type=Path, default=FACTS)
     a = p.parse_args(argv)
     data = json.loads(a.data.read_text(encoding="utf-8"))
     if a.remote:
         try:
-            errs = validate(data) or drift(data, read_remote())
+            app = read_remote()
+            errs = validate(data) or drift(data, app) + facts_drift(json.loads(a.facts.read_text(encoding="utf-8")), app)
         except Exception as x:  # noqa: BLE001 (a warning, never a failed deploy)
             errs = [f"could not read the app from GitHub: {x}"]
         for m in errs:
@@ -424,7 +453,8 @@ def main(argv: list[str]) -> int:
     if not errs:
         errs = blocks(a.site, data, write=False)
         if a.app:
-            errs += drift(data, read_app(a.app))
+            app = read_app(a.app)
+            errs += drift(data, app) + facts_drift(json.loads(a.facts.read_text(encoding="utf-8")), app)
     for m in errs:
         print(f"FAIL roadmap {m}")
     print(f"roadmap: {len(errs)} failure(s)" + (f" (against {a.app})" if a.app else ""))
