@@ -5,10 +5,30 @@
 [Español](README.es.md)
 
 The website of [Coverly ROMs](https://github.com/MAECLY/coverly-roms), live at
-**https://coverly-roms.maecly.com**: a static, bilingual page (Spanish at `/`,
+**https://coverly-roms.maecly.com**: a static, bilingual site (Spanish at `/`,
 English at `/en/`) with no framework, no dependencies and no trackers. The app
 itself, its releases and its issues live in
 [MAECLY/coverly-roms](https://github.com/MAECLY/coverly-roms).
+
+## What is on it
+
+- **The home** ([es](https://coverly-roms.maecly.com/), [en](https://coverly-roms.maecly.com/en/)):
+  covers first (the hero, the four steps on one desk, and «Your card comes
+  back as it was» with how each cover is chosen), then what grew around
+  them: sorting archives and discs, current consoles without keys,
+  duplicates and the six views, the layouts and the 131 systems by family,
+  the command line in its own section, the comparison with Skraper,
+  Skyscraper, ARRM and Mini Scraper, what comes next, downloads and the FAQ.
+- **[Features](https://coverly-roms.maecly.com/en/features/)** (`/features/`,
+  `/en/features/`): every feature in seven groups, each with the version it
+  arrived in and a drawing built from the page's own parts.
+- **[Roadmap](https://coverly-roms.maecly.com/en/roadmap/)** (`/roadmap/`,
+  `/en/roadmap/`): each version with its date, and what comes next with
+  its status.
+
+Every animation is drawn (no screenshot carousels), plays once or on a
+button, pauses off screen and on hover, and is a still frame under reduced
+motion.
 
 ## Run it locally
 
@@ -21,13 +41,31 @@ make site RELEASE=scripts/site/fixtures/release.json            # a (fake) relea
 make site RELEASE=scripts/site/fixtures/release-new.json        # the release names, with the Intel and ARM64 files
 make site RELEASE=scripts/site/fixtures/release-new-no-arm.json # the release names, without Windows ARM64
 make check                                                      # every gate, as CI runs it
+make roadmap                                                    # sync site/data/roadmap.json with ../coverly-roms
 make help                                                       # all targets
 ```
 
 `make check` runs the token and cover-sprite staleness checks, the
-`release.js` tests and `scripts/site/check_site.py` (links, ES/EN parity, head
-tags and CSP, budgets, contrast, motion, art, release markers) on four builds:
-the three fixtures above and the no-release state.
+`release.js`, metrics and roadmap tests and `scripts/site/check_site.py`
+(links, ES/EN parity per page, head tags and CSP, budgets, contrast, motion,
+art, release markers, facts, stale copy, roadmap blocks) on four builds: the
+three fixtures above and the no-release state. With the app checked out next
+to this repository (`../coverly-roms`, or `APP=`/`COVERLY_APP=`), it also
+fails when the roadmap or the facts drift from the app.
+
+## Roadmap and facts
+
+- `site/data/roadmap.json` is the one file behind `/roadmap/` and the home's
+  «What's next». `scripts/site/roadmap.py` writes the blocks into the pages
+  (`<!-- roadmap:…:begin -->`), checks them, and compares the file with the
+  app's `TODO.md`, `CHANGELOG.md` and `docs/TRACKER.md`. `make roadmap`
+  fills the machine fields (progress, versions, dates, hashes) from the app;
+  the copy, status and what is public are written by hand. When the app
+  publishes a version, `make roadmap` moves «Next version» into it, also on
+  `/features/`. The Vercel build only warns when the app has moved on.
+- `site/data/facts.json` holds the numbers the pages print (131 systems,
+  8 layouts, 62 credits, systems per family). Every number marked
+  `data-fact` must match it, and copy like «more than 50 systems» fails.
 
 ## How it deploys
 
@@ -75,6 +113,15 @@ first fetches the app's copy from `main`. The `Sync tokens` workflow does
 that weekly and opens a pull request when something changed.
 
 More in [docs/landing.md](docs/landing.md); open work in [TODO.md](TODO.md).
+
+## Credits
+
+Designed and built by Miguel Esparza ([MAECLY](https://www.maecly.com)).
+Type: Archivo and Atkinson Hyperlegible Next and Mono (SIL OFL 1.1). The
+covers on the site are generated shapes, not game art. The app's own
+credits (cover sources, databases, libraries) are in its Settings →
+Credits tab and in its
+[THIRD-PARTY-NOTICES.md](https://github.com/MAECLY/coverly-roms/blob/main/THIRD-PARTY-NOTICES.md).
 
 ## License
 
