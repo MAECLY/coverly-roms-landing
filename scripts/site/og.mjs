@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
- * Render the landing's Open Graph cards, site/assets/og.png (es) and
- * og-en.png (en), 1200x630.
+ * Render the landing's Open Graph cards, 1200x630: site/assets/og.png (es)
+ * and og-en.png (en) for the homes, og-features(-en).png and
+ * og-roadmap(-en).png for the other pages, each with that page's H1.
+ * `node scripts/site/og.mjs features roadmap` renders only those cards.
  *
  * The card: the Lean-To app icon (design/icon/app.svg, inlined as-is) on the
  * left; on the right the wordmark (COVERLY in Archivo Display 800 plus the
@@ -34,16 +36,47 @@ const H = 630;
 
 const COPY = {
   es: {
+    lang: 'es',
     out: 'og.png',
     h1: 'Cada ROM, con su portada.',
     p: 'Mira qué juegos de tu tarjeta SD no tienen portada y añádelas de una vez. Primero la simulación, después deshacer.',
   },
   en: {
+    lang: 'en',
     out: 'og-en.png',
     h1: 'Every ROM gets its cover.',
     p: 'See which games on your SD card have no cover art and fill them in one go. Dry run first, undo after.',
   },
+  'features-es': {
+    lang: 'es',
+    out: 'og-features.png',
+    h1: 'Todo lo que hace Coverly ROMs.',
+    p: 'Portadas, 131 sistemas, comprimidos y discos, duplicados, seis vistas y la terminal, con la versión de cada cosa.',
+  },
+  'features-en': {
+    lang: 'en',
+    out: 'og-features-en.png',
+    h1: 'Everything Coverly ROMs does.',
+    p: 'Covers, 131 systems, archives and discs, duplicates, six views and the command line, with the version of each.',
+  },
+  'roadmap-es': {
+    lang: 'es',
+    out: 'og-roadmap.png',
+    h1: 'Lo que ya está y lo que viene.',
+    p: 'Cada versión con su fecha, y lo que viene en orden y con su estado.',
+  },
+  'roadmap-en': {
+    lang: 'en',
+    out: 'og-roadmap-en.png',
+    h1: "What's done and what's next.",
+    p: 'Each version with its date, and what comes next in order and with its status.',
+  },
 };
+// `og.mjs features` renders only the cards whose key starts with a word given.
+const only = process.argv.slice(2);
+const cards = Object.keys(COPY).filter(
+  (k) => !only.length || only.some((w) => k.startsWith(w)),
+);
 
 // Light palette, brand.md 4.3.
 const C = {
@@ -66,10 +99,10 @@ const font = readFileSync(
 const esc = (s) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function page(lang) {
-  const t = COPY[lang];
+function page(key) {
+  const t = COPY[key];
   return `<!DOCTYPE html>
-<html lang="${lang}">
+<html lang="${t.lang}">
 <head>
 <meta charset="utf-8">
 <style>
@@ -146,7 +179,7 @@ function pngSize(buf) {
 const chrome = findChrome();
 const dir = mkdtempSync(join(tmpdir(), 'coverly-og-'));
 try {
-  for (const lang of Object.keys(COPY)) {
+  for (const lang of cards) {
     const html = join(dir, `${lang}.html`);
     const shot = join(dir, `${lang}.png`);
     writeFileSync(html, page(lang));

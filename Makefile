@@ -60,7 +60,7 @@ covers: ## Regenerate the cover sprite and inks (CONTACT=sheet.html also writes 
 	node scripts/site/gen_covers.mjs $(if $(CONTACT),--contact "$(CONTACT)")
 
 .PHONY: og
-og: ## Render the Open Graph cards site/assets/og.png and og-en.png (needs Chrome or Chromium).
+og: ## Render the Open Graph cards (homes, /features, /roadmap) into site/assets/og*.png (needs Chrome or Chromium).
 	node scripts/site/og.mjs
 
 .PHONY: tokens
