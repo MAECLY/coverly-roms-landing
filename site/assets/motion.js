@@ -57,58 +57,63 @@
     return t;
   }
 
-  /* The terminal types each command in turn; a line shows when its turn
-     comes, and its output 200ms after the command. The untyped rest stays
-     in place, hidden, so no glyph moves. Skipped when already on screen. */
+  /* The terminal types one scene (deck.js picks it) command by command;
+     a line shows when its turn comes, and its output 200ms after the
+     command. The untyped rest stays in place, hidden, so no glyph moves.
+     The first scene is skipped when already on screen at load. */
   function terminal() {
     var term = document.querySelector(".term");
-    var steps = term ? term.querySelectorAll(".t-step") : [];
-    if (!steps.length || onScreen(term)) return;
-    var cmds = [], texts = [], outs = [], later = timers();
+    if (!term) return;
+    var all = term.querySelectorAll(".t-step"), text = [], later = timers();
     var done = document.createElement("span"), rest = document.createElement("span");
+    var cmd = function (el) { return el.querySelector(".t-cmd"); };
+    var out = function (el) { return el.querySelector(".t-out") || done; };
     rest.className = "t-rest";
-    for (var k = 0; k < steps.length; k++) {
-      cmds[k] = steps[k].querySelector(".t-cmd");
-      texts[k] = cmds[k].textContent;
-      outs[k] = steps[k].querySelector(".t-out") || done;
-    }
+    for (var k = 0; k < all.length; k++) text[k] = cmd(all[k]).textContent;
     var stop = function () {
       later.clear();
-      for (var j = 0; j < steps.length; j++) {
-        cmds[j].textContent = texts[j];
-        steps[j].classList.remove("t-wait");
-        outs[j].classList.remove("t-hold");
+      for (var j = 0; j < all.length; j++) {
+        cmd(all[j]).textContent = text[j];
+        all[j].classList.remove("t-wait");
+        out(all[j]).classList.remove("t-hold");
       }
       term.classList.remove("typing");
     };
     stops.push(stop);
-    var type = function (s, i) {
-      if (s >= steps.length) {
-        term.classList.remove("typing");
-        return later(function () { cmds[s - 1].textContent = texts[s - 1]; }, 1400, stop);
+    var play = function (scene) {
+      stop();
+      var steps = scene.querySelectorAll(".t-step"), base = Array.prototype.indexOf.call(all, steps[0]);
+      var type = function (s, i) {
+        if (s >= steps.length) {
+          term.classList.remove("typing");
+          return later(function () { cmd(steps[s - 1]).textContent = text[base + s - 1]; }, 1400, stop);
+        }
+        var t = text[base + s];
+        if (i === 0) {
+          if (s) cmd(steps[s - 1]).textContent = text[base + s - 1];
+          steps[s].classList.remove("t-wait");
+          cmd(steps[s]).textContent = "";
+          cmd(steps[s]).appendChild(done);
+          cmd(steps[s]).appendChild(rest);
+        }
+        done.textContent = t.slice(0, i);
+        rest.textContent = t.slice(i);
+        if (i >= t.length) return later(function () {
+          out(steps[s]).classList.remove("t-hold");
+          later(function () { type(s + 1, 0); }, 420, stop);
+        }, 200, stop);
+        later(function () { type(s, i + 1); }, 18 + ((i * 37) % 17) + (t.charAt(i) === " " ? 30 : 0), stop);
+      };
+      term.classList.add("typing");
+      for (var m = 0; m < steps.length; m++) {
+        steps[m].classList.add("t-wait");
+        out(steps[m]).classList.add("t-hold");
       }
-      var text = texts[s];
-      if (i === 0) {
-        if (s) cmds[s - 1].textContent = texts[s - 1];
-        steps[s].classList.remove("t-wait");
-        cmds[s].textContent = "";
-        cmds[s].appendChild(done);
-        cmds[s].appendChild(rest);
-      }
-      done.textContent = text.slice(0, i);
-      rest.textContent = text.slice(i);
-      if (i >= text.length) return later(function () {
-        outs[s].classList.remove("t-hold");
-        later(function () { type(s + 1, 0); }, 420, stop);
-      }, 200, stop);
-      later(function () { type(s, i + 1); }, 18 + ((i * 37) % 17) + (text.charAt(i) === " " ? 30 : 0), stop);
+      later(function () { type(0, 0); }, 300, stop);
     };
-    term.classList.add("typing");
-    for (var m = 0; m < steps.length; m++) {
-      steps[m].classList.add("t-wait");
-      outs[m].classList.add("t-hold");
-    }
-    once(term, 0.45, function () { later(function () { type(0, 0); }, 300, stop); });
+    var now = function () { return term.querySelector(".t-scene.is-on") || term.querySelector(".t-scene") || term; };
+    if (!onScreen(term)) once(term, 0.45, function () { play(now()); });
+    term.addEventListener("cr-deck", function () { try { play(now()); } catch (x) { stop(); } });
   }
 
   /* Already on screen at load: shown, not played. */

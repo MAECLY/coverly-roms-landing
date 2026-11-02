@@ -306,23 +306,69 @@
 </div>
 <p class="note">On Batocera, Knulli and EmulationStation it also updates <code>gamelist.xml</code>, with undo. For other firmware, build your own layout with a live preview.</p>
 </div>
-<div class="term" role="region" aria-label="Command line example">
-<div class="term-bar">Same engine, in the terminal: <code>coverly</code></div>
-<pre><code><span class="t-step"><span class="c"># What is missing (read-only)</span>
+<div class="fams">
+<h3><span data-fact="systems">131</span> systems, by family</h3>
+<ul class="fam-list"><li><span class="fam-n" data-fact="families.console">50</span> Consoles</li><li><span class="fam-n" data-fact="families.handheld">20</span> Handhelds</li><li><span class="fam-n" data-fact="families.computer">27</span> Computers</li><li><span class="fam-n" data-fact="families.arcade">15</span> Arcade</li><li><span class="fam-n" data-fact="families.engine">19</span> Engines, ports and fantasy consoles</li></ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section band-dark" id="terminal" aria-labelledby="terminal-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="terminal-t">All of it, from the terminal too.</h2>
+<p>The <code>coverly</code> command does what the app does and can be scripted. Filling, sorting and setting duplicates aside are a dry run until you add <code>--apply</code>, and every report comes out as JSON if you ask.</p>
+</div>
+<div class="cli">
+<dl class="cmds" aria-label="coverly commands">
+<div><dt><code>audit</code></dt><dd>Counts what's missing. Read-only.</dd></div>
+<div><dt><code>fill</code></dt><dd>Fills covers, screenshots and title screens.</dd></div>
+<div><dt><code>organize</code></dt><dd>Sorts by system, with archives and discs.</dd></div>
+<div><dt><code>dedupe</code></dt><dd>Sets repeated copies aside.</dd></div>
+<div><dt><code>undo</code></dt><dd>Undoes the last job, or the later ones too.</dd></div>
+<div><dt><code>catalog switch</code></dt><dd>Downloads, checks or removes the Switch name catalogue.</dd></div>
+<div><dt><code>profiles, systems</code></dt><dd>Lists the layouts and the <span data-fact="systems">131</span> systems.</dd></div>
+<div><dt><code>update</code></dt><dd>Checks for and installs signed versions.</dd></div>
+</dl>
+<div class="cli-term">
+<div class="term" data-deck data-deck-seen="0.45" role="region" aria-label="Command line example">
+<div class="term-bar"><div class="term-ctl" data-deck-ctl role="group" aria-label="Terminal scenes"><button class="btn btn-small" type="button" aria-pressed="true" hidden>Covers</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Sort</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Duplicates</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Undo</button></div></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># What's missing (read-only)</span>
 <span class="p">$ </span><span class="t-cmd">coverly audit /Volumes/SD --missing-only</span>
-<span class="t-out">4553 missing</span></span>
+<span class="t-out">4553 missing covers</span></span>
 
 <span class="t-step"><span class="c"># The plan, nothing written</span>
 <span class="p">$ </span><span class="t-cmd">coverly fill /Volumes/SD</span>
 <span class="t-out">plan: 4553 · 0 written</span></span>
 
-<span class="t-step"><span class="c"># For real, skipping the doubtful ones</span>
+<span class="t-step"><span class="c"># Now for real, skipping the doubtful ones</span>
 <span class="p">$ </span><span class="t-cmd">coverly fill /Volumes/SD --apply --auto-only</span>
-<span class="t-out">✓ 4401 applied</span></span>
+<span class="t-out">✓ 4401 applied</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># A downloads folder, onto the card</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Downloads --target /Volumes/SD</span>
+<span class="t-out">plan: 212 into 31 systems · 0 moved</span></span>
 
-<span class="t-step"><span class="c"># Changed your mind</span>
+<span class="t-step"><span class="c"># Apply, and leave 10 GB or more for later</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Downloads --target /Volumes/SD --apply --skip-large</span>
+<span class="t-out">extract item 2/4 files 5/16
+✓ 209 sorted · 3 large ones skipped</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Repeated copies, by their contents</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD</span>
+<span class="t-out">38 extra copies across 17 games · 0 set aside</span></span>
+
+<span class="t-step"><span class="c"># Set them aside, delete nothing</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD --apply</span>
+<span class="t-out">✓ 38 to _Duplicados/</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># The last job</span>
 <span class="p">$ </span><span class="t-cmd">coverly undo</span>
-<span class="t-out">↶ 4401 restored</span></span></code></pre>
+<span class="t-out">↶ 4401 restored</span></span>
+
+<span class="t-step"><span class="c"># An earlier one, and those that came after</span>
+<span class="p">$ </span><span class="t-cmd">coverly undo --job 7 --include-later</span>
+<span class="t-out">↶ 2 jobs undone</span></span></code></pre></div>
+</div>
+<p class="note">A single binary for macOS, Windows and Linux, x64 and ARM64. <a href="#download">Download the command line</a></p>
 </div>
 </div>
 </div>

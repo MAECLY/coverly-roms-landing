@@ -306,9 +306,35 @@
 </div>
 <p class="note">En Batocera, Knulli y EmulationStation también actualiza <code>gamelist.xml</code>, con deshacer. Para otro firmware, crea tu propio formato con vista previa.</p>
 </div>
-<div class="term" role="region" aria-label="Ejemplo de la línea de comandos">
-<div class="term-bar">La misma lógica, en la terminal: <code>coverly</code></div>
-<pre><code><span class="t-step"><span class="c"># Qué falta (solo lee)</span>
+<div class="fams">
+<h3><span data-fact="systems">131</span> sistemas, por familia</h3>
+<ul class="fam-list"><li><span class="fam-n" data-fact="families.console">50</span> Consolas</li><li><span class="fam-n" data-fact="families.handheld">20</span> Portátiles</li><li><span class="fam-n" data-fact="families.computer">27</span> Ordenadores</li><li><span class="fam-n" data-fact="families.arcade">15</span> Arcade</li><li><span class="fam-n" data-fact="families.engine">19</span> Motores, ports y consolas de fantasía</li></ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section band-dark" id="terminal" aria-labelledby="terminal-t">
+<div class="wrap">
+<div class="section-head">
+<h2 id="terminal-t">Todo, también desde la terminal.</h2>
+<p>La orden <code>coverly</code> hace lo mismo que la app y se puede programar. Rellenar, ordenar y apartar duplicados son una simulación hasta que añades <code>--apply</code>, y cada informe sale en JSON si lo pides.</p>
+</div>
+<div class="cli">
+<dl class="cmds" aria-label="Órdenes de coverly">
+<div><dt><code>audit</code></dt><dd>Cuenta lo que falta. Solo lee.</dd></div>
+<div><dt><code>fill</code></dt><dd>Rellena portadas, capturas y pantallas de título.</dd></div>
+<div><dt><code>organize</code></dt><dd>Ordena por sistema, con comprimidos y discos.</dd></div>
+<div><dt><code>dedupe</code></dt><dd>Aparta las copias repetidas.</dd></div>
+<div><dt><code>undo</code></dt><dd>Deshace el último trabajo, o también los posteriores.</dd></div>
+<div><dt><code>catalog switch</code></dt><dd>Descarga, revisa o borra el catálogo de nombres de Switch.</dd></div>
+<div><dt><code>profiles, systems</code></dt><dd>Lista los formatos y los <span data-fact="systems">131</span> sistemas.</dd></div>
+<div><dt><code>update</code></dt><dd>Busca e instala versiones firmadas.</dd></div>
+</dl>
+<div class="cli-term">
+<div class="term" data-deck data-deck-seen="0.45" role="region" aria-label="Ejemplo de la línea de comandos">
+<div class="term-bar"><div class="term-ctl" data-deck-ctl role="group" aria-label="Escenas de la terminal"><button class="btn btn-small" type="button" aria-pressed="true" hidden>Portadas</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Ordenar</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Duplicados</button><button class="btn btn-small" type="button" aria-pressed="false" hidden>Deshacer</button></div></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Qué falta (solo lee)</span>
 <span class="p">$ </span><span class="t-cmd">coverly audit /Volumes/SD --missing-only</span>
 <span class="t-out">4553 sin portada</span></span>
 
@@ -318,11 +344,31 @@
 
 <span class="t-step"><span class="c"># Ahora sí, sin las dudosas</span>
 <span class="p">$ </span><span class="t-cmd">coverly fill /Volumes/SD --apply --auto-only</span>
-<span class="t-out">✓ 4401 aplicadas</span></span>
+<span class="t-out">✓ 4401 aplicadas</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Una carpeta de descargas, a la tarjeta</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Descargas --target /Volumes/SD</span>
+<span class="t-out">plan: 212 en 31 sistemas · 0 movidos</span></span>
 
-<span class="t-step"><span class="c"># Y si no te convence</span>
+<span class="t-step"><span class="c"># Aplica, y deja para luego lo de 10 GB o más</span>
+<span class="p">$ </span><span class="t-cmd">coverly organize ~/Descargas --target /Volumes/SD --apply --skip-large</span>
+<span class="t-out">extract item 2/4 files 5/16
+✓ 209 ordenados · 3 grandes saltados</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># Copias repetidas, por su contenido</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD</span>
+<span class="t-out">38 copias de más en 17 juegos · 0 apartadas</span></span>
+
+<span class="t-step"><span class="c"># Apartarlas, sin borrar nada</span>
+<span class="p">$ </span><span class="t-cmd">coverly dedupe /Volumes/SD --apply</span>
+<span class="t-out">✓ 38 a _Duplicados/</span></span></code></pre></div>
+<div class="t-scene" data-deck-panel><pre><code><span class="t-step"><span class="c"># El último trabajo</span>
 <span class="p">$ </span><span class="t-cmd">coverly undo</span>
-<span class="t-out">↶ 4401 restauradas</span></span></code></pre>
+<span class="t-out">↶ 4401 restauradas</span></span>
+
+<span class="t-step"><span class="c"># Uno anterior, y los que vinieron después</span>
+<span class="p">$ </span><span class="t-cmd">coverly undo --job 7 --include-later</span>
+<span class="t-out">↶ 2 trabajos deshechos</span></span></code></pre></div>
+</div>
+<p class="note">Binario suelto para macOS, Windows y Linux, en x64 y ARM64. <a href="#descargar">Descargar la línea de comandos</a></p>
 </div>
 </div>
 </div>

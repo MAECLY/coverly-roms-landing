@@ -3484,6 +3484,107 @@ html.motion .t-rest::before {
   }
 }
 
+/* == redesign:terminal == */
+/* #terminal, the second dark band: the commands as a list (real text),
+   and the terminal as a deck of four scenes (deck.js; motion.js types
+   the pressed one). No JS: every scene, one under another. */
+.cli {
+  display: grid;
+  gap: clamp(32px, 4vw, 56px);
+}
+@media (min-width: 960px) {
+  .cli {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+  }
+}
+.cli > * {
+  min-width: 0;
+}
+.cmds > div {
+  display: grid;
+  grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--cr-border);
+}
+.cmds dt code {
+  font-size: 0.875rem;
+  color: var(--cr-primary);
+}
+.cmds dd {
+  margin: 0;
+  color: var(--cr-text-secondary);
+}
+.term {
+  --deck-ms: 10s;
+  border: 1px solid var(--cr-border);
+}
+.term-ctl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.term-ctl [hidden] {
+  display: none;
+}
+.term-ctl .btn {
+  position: relative;
+  border-color: color-mix(in srgb, var(--cr-code-fg) 20%, transparent);
+  background: transparent;
+  color: var(--cr-code-fg);
+}
+.term-ctl [aria-pressed='true'] {
+  border-color: var(--cr-code-accent);
+  color: var(--cr-code-accent);
+}
+.term .t-scene + .t-scene {
+  border-top: 1px dashed color-mix(in srgb, var(--cr-code-fg) 14%, transparent);
+}
+.term.deck-on .t-scene {
+  border: 0;
+  min-height: 15.5em;
+}
+.term.deck-on .t-scene:not(.is-on) {
+  display: none;
+}
+html.motion .term.play [aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 3px;
+  height: 2px;
+  background: var(--cr-code-accent);
+  transform-origin: 0 50%;
+}
+.fams h3 {
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+  margin-bottom: 14px;
+}
+.fam-list {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  list-style: none;
+}
+.fam-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--cr-border);
+  color: var(--cr-text-secondary);
+}
+.fam-n {
+  min-width: 2.2ch;
+  font: 800 1.5rem/1 var(--cr-font-display);
+  font-stretch: 75%;
+  font-variant-numeric: tabular-nums;
+  color: var(--cr-text);
+}
+
 /* == redesign:archive == */
 /* #ordenar: the archive that opens (after the app's own extraction
    progress, #30). The lid lifts, four tracks come out as dashed slots and
