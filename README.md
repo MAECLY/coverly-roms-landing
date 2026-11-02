@@ -6,8 +6,11 @@
 
 The website of [Coverly ROMs](https://github.com/MAECLY/coverly-roms), live at
 **https://coverly-roms.maecly.com**: a static, bilingual site (Spanish at `/`,
-English at `/en/`) with no framework, no dependencies and no trackers. The app
-itself, its releases and its issues live in
+English at `/en/`) with no framework, no dependencies and no cookies. The only
+measurement is [Vercel Web Analytics](https://vercel.com/docs/analytics):
+anonymous visit counts, its script and beacon served from the site's own
+domain (`/_vercel/insights/*`), with no cookies and no cross-site tracking.
+The app itself, its releases and its issues live in
 [MAECLY/coverly-roms](https://github.com/MAECLY/coverly-roms).
 
 ## What is on it
@@ -52,7 +55,8 @@ make help                                                       # all targets
 `make check` runs the token and cover-sprite staleness checks, the
 `release.js`, metrics and roadmap tests and `scripts/site/check_site.py`
 (links, ES/EN parity per page, head tags and CSP, budgets, contrast, motion,
-art, release markers, facts, stale copy, roadmap blocks, systems) on four builds: the
+art, release markers, metrics, the analytics tag on every page, facts, stale
+copy, roadmap blocks, systems) on four builds: the
 three fixtures above and the no-release state. With the app checked out next
 to this repository (`../coverly-roms`, or `APP=`/`COVERLY_APP=`), it also
 fails when the roadmap, the facts or the systems drift from the app.

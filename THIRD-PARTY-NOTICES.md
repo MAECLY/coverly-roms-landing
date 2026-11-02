@@ -3,8 +3,9 @@
 The Coverly ROMs landing (https://coverly-roms.maecly.com) is licensed under
 the GNU Affero General Public License v3.0 (see `LICENSE`), like the app in
 [MAECLY/coverly-roms](https://github.com/MAECLY/coverly-roms), whose
-`THIRD-PARTY-NOTICES.md` covers the application. The page uses no
-third-party code; the screenshots show the app's mock backend with labelled
+`THIRD-PARTY-NOTICES.md` covers the application. The repository ships no
+third-party code (see **Vercel Web Analytics** for the one script Vercel
+serves); the screenshots show the app's mock backend with labelled
 placeholder art, not real box art.
 
 ## Fonts
@@ -31,6 +32,15 @@ Extended-A, hinting is removed, and they are converted to WOFF2. They keep
 their original family names, which the OFL allows because none of these
 fonts declares a Reserved Font Name. Each licence file sits next to the font
 files.
+
+## Vercel Web Analytics
+
+Every page loads `/_vercel/insights/script.js`, the Vercel Web Analytics
+script (https://vercel.com/docs/analytics), © Vercel, Inc. It is not part
+of this repository: Vercel serves it, and receives the anonymous page views
+it sends, on the site's own domain, under Vercel's terms
+(https://vercel.com/legal/terms) and privacy notice
+(https://vercel.com/legal/privacy-policy). It sets no cookies.
 
 ## System icons
 
