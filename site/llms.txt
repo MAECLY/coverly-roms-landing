@@ -9,7 +9,7 @@ Roadmap: https://coverly-roms.maecly.com/en/roadmap/ (Spanish: https://coverly-r
 Source: https://github.com/MAECLY/coverly-roms
 Licence: AGPL-3.0-only, contributions under a Contributor License Agreement. The name Coverly ROMs and its mark belong to MAECLY and are not covered by the licence.
 Contact: hola@maecly.com
-This site: no cookies and no third-party requests; anonymous visit statistics with Vercel Web Analytics, served from this same domain.
+This site: no cookies; anonymous visit statistics with Vercel Web Analytics, served from this same domain. The only other server it contacts is api.github.com (latest release and public reach).
 
 ## Status
 
