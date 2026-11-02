@@ -3694,31 +3694,238 @@ html.motion .term.play [aria-pressed='true']::after {
   background: var(--cr-code-accent);
   transform-origin: 0 50%;
 }
-.fams h3 {
+/* #formatos, every system (docs/landing-round2-plan.md §1): two shelves
+   of plates (the app's silhouettes, or its abbreviation on a slot mount)
+   that loop slowly, and the full list in a <details> with search. The
+   placeholders are dashed slots until systems.js swaps the sprite in. */
+.fmt {
+  max-width: 760px;
+}
+.sys {
+  margin-top: clamp(48px, 6vw, 72px);
+}
+.sys [hidden] {
+  display: none !important;
+}
+.sys-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-top: 14px;
+  border-top: var(--cr-border-width-spine) solid var(--cr-border-strong);
+  position: relative;
+}
+.sys-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--cr-border-width-spine));
+  width: 48px;
+  height: var(--cr-border-width-spine);
+  background: var(--cr-slot-applied);
+}
+.sys-head h3 {
   font: var(--cr-type-landing-h3);
   font-stretch: 75%;
-  margin-bottom: 14px;
 }
-.fam-list {
+.sys i {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 28px;
+  border: 1px dashed var(--cr-slot-missing);
+  border-radius: var(--cr-radius-sm);
+  color: var(--cr-text-secondary);
+  font: 700 0.625rem/1 var(--cr-font-mono);
+  letter-spacing: 0.02em;
+}
+.sys i.on {
+  border-color: transparent;
+}
+.sys i[data-a] {
+  border: 1px solid var(--cr-border-strong);
+  background: var(--cr-surface-sunken);
+}
+.sys i[data-a]::before {
+  content: attr(data-a);
+  content: attr(data-a) / '';
+}
+.sys i svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+.sys-shelf {
   display: grid;
-  gap: 0;
+  gap: 4px;
+  margin: 20px 0 8px;
+}
+.sys-shelf:empty {
+  display: none;
+}
+.sys-row {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  border-bottom: 2px solid var(--cr-border-strong);
+  scrollbar-width: thin;
+}
+html.motion .sys:not(.is-still) .sys-row {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.sys-track {
+  display: flex;
+  width: max-content;
+}
+.sys-set {
+  display: flex;
+  gap: 8px;
+  padding: 10px 8px 8px 0;
+}
+.sys-p {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 96px;
+  scroll-snap-align: start;
+  font: 600 0.75rem/1.2 var(--cr-font-display);
+  font-stretch: 75%;
+  text-align: center;
+  color: var(--cr-text-secondary);
+}
+.sys-p i {
+  width: 56px;
+  height: 40px;
+  font-size: 0.75rem;
+}
+.sys-all {
+  border-bottom: 1px solid var(--cr-border);
+}
+.sys-all summary {
+  padding: 14px 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sys-tools {
+  display: grid;
+  gap: 10px;
+  margin: 4px 0 20px;
+}
+.sys-tools label {
+  font-weight: 600;
+}
+.sys-tools input {
+  max-width: 28rem;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--cr-border-strong);
+  border-radius: var(--cr-radius-md);
+  background: var(--cr-surface);
+  color: var(--cr-text);
+  font: inherit;
+}
+.sys-fams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sys-fams button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--cr-border-strong);
+  border-radius: var(--cr-radius-full);
+  background: none;
+  color: var(--cr-text-secondary);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.sys-fams button[aria-pressed='true'] {
+  border-color: var(--cr-text);
+  background: var(--cr-text);
+  color: var(--cr-bg);
+}
+.sys-n {
+  min-height: 1.5em;
+  color: var(--cr-text-secondary);
+  font-size: 0.875rem;
+}
+.sys-g {
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--cr-border);
+}
+.sys-g h4 {
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+.sys-g h5 {
+  margin: 10px 0 4px;
+  font-size: 0.8125rem;
+  color: var(--cr-text-secondary);
+}
+.sys-c {
+  font-variant-numeric: tabular-nums;
+  color: var(--cr-text-secondary);
+  font-weight: 400;
+}
+.sys-m ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 2px 16px;
   padding: 0;
   list-style: none;
 }
-.fam-list li {
+.sys-m li {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 9px 0;
-  border-top: 1px solid var(--cr-border);
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  font-size: 0.9375rem;
+}
+.sys-none {
+  padding: 8px 0 20px;
   color: var(--cr-text-secondary);
 }
-.fam-n {
-  min-width: 2.2ch;
-  font: 800 1.5rem/1 var(--cr-font-display);
-  font-stretch: 75%;
-  font-variant-numeric: tabular-nums;
-  color: var(--cr-text);
+.sys-legal {
+  margin-top: 16px;
+  max-width: 52em;
+  font-size: 0.8125rem;
+  color: var(--cr-text-muted);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .sys-track {
+    animation: sys-roll 240s linear infinite;
+  }
+  html.motion .sys-row + .sys-row .sys-track {
+    animation-duration: 210s;
+    animation-direction: reverse;
+  }
+  html.motion .sys:is(.is-paused, .is-hidden) .sys-track,
+  html.motion .sys-shelf:is(:hover, :focus-within, [data-off]) .sys-track {
+    animation-play-state: paused;
+  }
+  html.motion .sys.is-still .sys-track {
+    animation: none;
+  }
+  html.motion .sys i.on svg {
+    animation: sys-lit var(--cr-duration-slow) var(--cr-ease-ink) both;
+  }
+}
+@keyframes sys-roll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes sys-lit {
+  from {
+    opacity: 0.2;
+    transform: scale(0.85);
+  }
 }
 
 /* == redesign:archive == */
