@@ -3484,6 +3484,192 @@ html.motion .t-rest::before {
   }
 }
 
+/* == redesign:pick == */
+/* #seguro, second half: how each cover is chosen. The cascade (a clip,
+   motion.js): two sources come up empty (dashed), the game's own icon
+   fills the slot (solid, Buckram spine, Manila tab). Static = that end. */
+.pick {
+  display: grid;
+  gap: clamp(28px, 4vw, 48px);
+  margin-top: clamp(56px, 8vw, 96px);
+  padding-top: clamp(36px, 5vw, 56px);
+  border-top: 1px solid var(--cr-border);
+}
+.pick-h {
+  font: var(--cr-type-landing-h3);
+  font-stretch: 75%;
+  font-size: clamp(1.5rem, 1.6vw + 1rem, 2.25rem);
+}
+@media (min-width: 960px) {
+  .pick {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+  .pick-h {
+    grid-column: 1 / -1;
+  }
+}
+.cas-box {
+  padding: clamp(12px, 2vw, 20px);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-xl);
+  background: var(--cr-surface);
+}
+.cas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cas-rl {
+  stroke: var(--cr-border-strong);
+}
+.cas-cap {
+  stroke: var(--cr-slot-applied);
+  stroke-width: 3;
+}
+.cas-gd {
+  color: var(--lp-paper);
+}
+.cas .mi {
+  color: var(--cr-slot-missing);
+  opacity: 0;
+}
+.cas .sp {
+  color: var(--cr-slot-applied);
+}
+.cas .tb {
+  color: var(--cr-manila);
+}
+.cas .sb {
+  fill: none;
+  stroke: var(--cr-slot-missing);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.cas .s3 .sb {
+  fill: var(--cr-slot-applied);
+  stroke: none;
+}
+.cas .ln {
+  fill: none;
+  stroke: var(--cr-border-strong);
+  stroke-dasharray: 2 4;
+}
+.cas .l3 {
+  stroke: var(--cr-slot-applied);
+  stroke-dasharray: none;
+  stroke-width: 1.5;
+}
+.cas-src {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-top: 12px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--cr-text-secondary);
+}
+.cas-src li:last-child {
+  color: var(--cr-text);
+  font-weight: 600;
+}
+.picks > div {
+  padding: 14px 0;
+  border-top: 1px solid var(--cr-border);
+}
+.picks dt {
+  font-weight: 600;
+}
+.picks dd {
+  margin: 4px 0 0;
+  color: var(--cr-text-secondary);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .cas :is(.src, .cv, .mi, .sp, .tb) {
+    animation: 2600ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing .cas .src {
+    animation-name: cas-try;
+  }
+  html.motion .is-playing .cas .s2 {
+    animation-delay: 600ms;
+  }
+  html.motion .is-playing .cas .s3 {
+    animation-delay: 1200ms;
+    animation-duration: 1000ms;
+  }
+  html.motion .is-playing .cas .cv {
+    animation-name: cas-cover;
+  }
+  html.motion .is-playing .cas .mi {
+    animation-name: cas-miss;
+  }
+  html.motion .is-playing .cas .sp {
+    transform-box: fill-box;
+    transform-origin: 0 50%;
+    animation-name: cas-spine;
+  }
+  html.motion .is-playing .cas .tb {
+    animation-name: cas-tab;
+  }
+  html.motion .cas[data-off] *,
+  html.motion .pick:is(:hover, :focus-within) .cas * {
+    animation-play-state: paused;
+  }
+}
+@keyframes cas-try {
+  0%,
+  100% {
+    transform: none;
+  }
+  40%,
+  60% {
+    transform: translateX(-28px);
+  }
+}
+@keyframes cas-cover {
+  0%,
+  70% {
+    opacity: 0;
+  }
+  85%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes cas-miss {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes cas-spine {
+  0%,
+  78% {
+    transform: scaleX(0);
+  }
+  90%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes cas-tab {
+  0%,
+  86% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* == showcase:reduce == */
 
 @media (prefers-reduced-motion: reduce) {

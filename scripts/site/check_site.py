@@ -146,7 +146,11 @@ BUDGET = {
     # Raised to 83,500 / 18,800 for the alternating .feat rows of v0.2.0.
     # Raised to 86,000 / 19,400 for the six-views window (its fills, the
     # per-view swaps, the tile easing and the button spine).
-    "css": (86_000, 19_400),
+    # Raised to 92,000 / 20,800 for the redesign (docs/landing-redesign-plan.md
+    # §7): the one-desk steps (minus the pinned desk and its rail), the
+    # source cascade, the archive that opens, the terminal scenes, the
+    # sticky comparison column and the roadmap teaser.
+    "css": (92_000, 20_800),
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to
@@ -197,7 +201,10 @@ COVERS_SVG = 18_000
 # duplicates, views), a FAQ entry on duplicates and a not-yet line.
 # Raised to 1,900 for the per-chip downloads: the Intel Mac link and the
 # Windows ARM64 installer, .msi and CLI links of the release names.
-MAX_WORDS = 1_900
+# Raised to 2,050 for the redesign: #como loses about 180 words; the cover
+# choices in #seguro, current consoles, #terminal, five comparison rows,
+# #siguiente and the keys question add them back.
+MAX_WORDS = 2_050
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)
