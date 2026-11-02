@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the landing page before it ships. Standard library only.
 
-  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics,facts,roadmap,stale,systems]
+  check_site.py [--site site] [--only files,links,parity,head,budget,contrast,motion,art,release,metrics,analytics,facts,roadmap,stale,systems]
 
 Fills site/ four times into a temporary folder with apply_release.py (once
 per fixture in scripts/site/fixtures/: release.json with the names releases
@@ -56,6 +56,12 @@ browser.
             hidden in site/ (apply_metrics.py fills it at build time only
             when the number is known and above zero), and metrics.js asks
             only this repository
+  analytics Vercel Web Analytics: every page (404 included) loads
+            /_vercel/insights/script.js once, deferred, same-origin (Vercel
+            serves it on the deployment; `make site` answers 404, which is
+            expected), nothing else under /_vercel/, the CSP stays as it is,
+            the footer counter only counts other origins, and the privacy
+            copy names it instead of claiming "no analytics"
 
 Exit status 1 when any gate fails; every failure is printed.
 """
@@ -273,6 +279,14 @@ VERCEL_OUT = "target/site"
 VERCEL_BUILD = "scripts/site/vercel_build.sh"
 LANDING_WORKFLOWS = ["check.yml", "sync-tokens.yml"]
 VERCEL_HEADERS = ["X-Content-Type-Options", "Referrer-Policy", "X-Frame-Options", "Permissions-Policy"]
+# Vercel Web Analytics, plain-HTML integration: Vercel serves this path on
+# the deployment's own origin, so script-src/connect-src 'self' allow it.
+ANALYTICS = "/_vercel/insights/script.js"
+ANALYTICS_PAGES = [*PAGES, "404.html"]
+# Copy the analytics made false, and the copy that must replace it.
+NO_ANALYTICS = re.compile(r"ni anal[ií]tica|no analytics|sin anal[ií]tica|no trackers|sin rastreadores", re.I)
+ANALYTICS_COPY = {"es": "Vercel Web Analytics, desde este mismo dominio",
+                  "en": "Vercel Web Analytics, served from this same domain"}
 ACTION_PIN = re.compile(r"uses:\s*[\w./-]+@([0-9a-f]{40})\s+#\s*v\d")
 
 
@@ -472,6 +486,8 @@ def gate_links(site: Path, r: Report) -> None:
                 continue
             if u.scheme:
                 continue
+            if tag == "script" and ref == ANALYTICS:
+                continue  # served by Vercel, not by site/ (see gate_analytics)
             if u.path.startswith("/"):
                 target = site / unquote(u.path.lstrip("/"))
             elif u.path:
@@ -1162,6 +1178,47 @@ def gate_metrics(site: Path, r: Report) -> None:
                 r.fail("metrics", f"{rel}: data-metric={name} must be empty and end in ' hidden>'")
 
 
+def gate_analytics(site: Path, r: Report) -> None:
+    for rel in ANALYTICS_PAGES:
+        path = site / rel
+        if not path.is_file():
+            continue
+        doc = parse(path)
+        tags = [a for t, a in doc.tags if t == "script" and "_vercel" in a.get("src", "")]
+        if len(tags) != 1 or tags[0].get("src") != ANALYTICS or "defer" not in tags[0]:
+            r.fail("analytics", f"{rel}: does not load {ANALYTICS} once, deferred and same-origin")
+        refs = [ref for _, _, ref in doc.refs if "_vercel" in ref and ref != ANALYTICS]
+        if refs:
+            r.fail("analytics", f"{rel}: other /_vercel/ references {refs}")
+    # The footer counter compares origins, so the same-origin script and
+    # its beacon to /_vercel/insights/view never count as other servers.
+    motion = site / "assets/motion.js"
+    if motion.is_file() and "u.origin !== location.origin" not in motion.read_text(encoding="utf-8"):
+        r.fail("analytics", "motion.js counter no longer compares origins")
+    for lang, rel in (("es", "index.html"), ("en", "en/index.html"),
+                      ("es", "features/index.html"), ("en", "en/features/index.html"),
+                      ("es", "roadmap/index.html"), ("en", "en/roadmap/index.html")):
+        path = site / rel
+        if path.is_file() and path.read_text(encoding="utf-8").count(ANALYTICS_COPY[lang]) != 2:
+            r.fail("analytics", f"{rel}: the privacy line does not name Vercel Web Analytics (with and without JS)")
+    for f in sorted(site.rglob("*")):
+        if f.suffix in (".html", ".txt", ".xml", ".webmanifest"):
+            for m in NO_ANALYTICS.finditer(f.read_text(encoding="utf-8")):
+                r.fail("analytics", f"{f.relative_to(site)}: {m.group()!r}, but the site uses Vercel Web Analytics")
+    # Vercel serves /_vercel/insights/* itself: no rewrite, redirect or
+    # header rule may touch that path.
+    path = ROOT / "vercel.json"
+    if path.is_file():
+        try:
+            conf = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            conf = {}
+        for key in ("rewrites", "redirects", "routes"):
+            for rule in conf.get(key, []) if isinstance(conf, dict) else []:
+                if isinstance(rule, dict) and "_vercel" in str(rule.get("source", rule.get("src", ""))):
+                    r.fail("analytics", f"vercel.json {key} touches /_vercel/")
+
+
 FACTS = "data/facts.json"
 # Copy that a fact made false; a page or text file carrying it fails.
 STALE = re.compile(r"más de 50\b|more than 50\b|\b5\d (?:sistemas|systems)\b", re.I)
@@ -1262,7 +1319,7 @@ GATES = {
     "files": gate_files, "links": gate_links, "parity": gate_parity,
     "head": gate_head, "budget": gate_budget, "contrast": gate_contrast,
     "motion": gate_motion, "art": gate_art, "release": gate_release,
-    "metrics": gate_metrics, "facts": gate_facts, "stale": gate_stale,
+    "metrics": gate_metrics, "analytics": gate_analytics, "facts": gate_facts, "stale": gate_stale,
     "roadmap": gate_roadmap, "systems": gate_systems,
 }
 
