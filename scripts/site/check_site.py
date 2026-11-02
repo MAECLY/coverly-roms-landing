@@ -623,6 +623,41 @@ JS_GATES = ("html.anim", "html.motion", "html.vt-ink")
 TEXT = re.compile(r"(^|[\s>+~])(h[1-6]|p|li|a|img|picture|figure|button|\.btn)$")
 
 
+class ClipScan(HTMLParser):
+    """Every [data-clip] inside a [data-clip-box] that holds a .clip-replay."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[tuple[str, bool]] = []
+        self.boxes: list[list[bool]] = []  # per open box: [has clip, has replay]
+        self.bad: list[str] = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        box = "data-clip-box" in a
+        if box:
+            self.boxes.append([False, False])
+        if "data-clip" in a:
+            if not self.boxes:
+                self.bad.append(f"<{tag} data-clip> outside a [data-clip-box]")
+            else:
+                self.boxes[-1][0] = True
+        if "clip-replay" in (a.get("class") or "").split() and self.boxes:
+            self.boxes[-1][1] = True
+        if tag not in Page.VOID:
+            self.stack.append((tag, box))
+
+    def handle_endtag(self, tag):
+        while self.stack:
+            t, box = self.stack.pop()
+            if box:
+                clip, replay = self.boxes.pop()
+                if clip and not replay:
+                    self.bad.append("a [data-clip-box] without its .clip-replay button")
+            if t == tag:
+                break
+
+
 def css_rules(css: str) -> list[tuple[list[str], str, str]]:
     """(enclosing at-rule preludes, selector, body) for every style rule."""
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
@@ -782,6 +817,12 @@ def gate_motion(site: Path, r: Report) -> None:
                         r.fail("motion", f"{s.strip()}: motion hides text or images")
     gate_hiding_keyframes(rules, r)
     for rel in PAGES.values():
+        # motion.js clip(): every [data-clip] sits in a [data-clip-box]
+        # that holds its replay button, or motion.js halts on it.
+        scan = ClipScan()
+        scan.feed((site / rel).read_text(encoding="utf-8"))
+        for what in scan.bad:
+            r.fail("motion", f"{rel}: {what}")
         doc = parse(site / rel)
         for t, a in doc.tags:
             if t == "video" or "autoplay" in a:

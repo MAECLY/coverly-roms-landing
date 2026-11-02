@@ -3484,6 +3484,142 @@ html.motion .t-rest::before {
   }
 }
 
+/* == redesign:archive == */
+/* #ordenar: the archive that opens (after the app's own extraction
+   progress, #30). The lid lifts, four tracks come out as dashed slots and
+   each turns solid with its tick once its CRC checks. Static = all four
+   ticked. A row without a picture spans the text column only. */
+.feat-solo {
+  grid-template-columns: minmax(0, 40rem);
+}
+.feats-more {
+  max-width: 46rem;
+  margin-top: clamp(40px, 6vw, 64px);
+  color: var(--cr-text-secondary);
+}
+.feats-more a {
+  font-weight: 600;
+}
+.arc {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.arc-rl {
+  stroke: var(--cr-border-strong);
+}
+.arc-cap {
+  stroke: var(--cr-slot-applied);
+  stroke-width: 3;
+}
+.arc-route {
+  stroke: var(--cr-border);
+  stroke-dasharray: 2 4;
+}
+.arc-body {
+  fill: var(--cr-manila);
+}
+.arc-zip {
+  stroke: var(--cr-manila-fg);
+  stroke-width: 3;
+  stroke-dasharray: 2 2;
+}
+.arc .t-f {
+  color: var(--cr-slot-filled);
+}
+.arc .t-o {
+  color: var(--cr-slot-missing);
+  opacity: 0;
+}
+.arc .t-k {
+  color: var(--cr-success);
+}
+.arc-count {
+  margin-top: 8px;
+  font: 500 0.75rem/1.4 var(--cr-font-mono);
+  color: var(--cr-text-secondary);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .arc :is(.arc-lid, .trk, .t-f, .t-o, .t-k) {
+    animation: 3200ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing .arc-lid {
+    transform-box: fill-box;
+    transform-origin: 0 100%;
+    animation-name: arc-lid;
+  }
+  html.motion .is-playing .arc .trk {
+    animation-name: arc-out;
+  }
+  html.motion .is-playing .arc .t-f,
+  html.motion .is-playing .arc .t-k {
+    animation-name: arc-on;
+  }
+  html.motion .is-playing .arc .t-o {
+    animation-name: arc-off;
+  }
+  html.motion .is-playing .arc .k1 * ,
+  html.motion .is-playing .arc .k1 {
+    animation-delay: 250ms;
+  }
+  html.motion .is-playing .arc .k2 *,
+  html.motion .is-playing .arc .k2 {
+    animation-delay: 500ms;
+  }
+  html.motion .is-playing .arc .k3 *,
+  html.motion .is-playing .arc .k3 {
+    animation-delay: 750ms;
+  }
+  html.motion .arc[data-off] *,
+  html.motion .feat:is(:hover, :focus-within) .arc * {
+    animation-play-state: paused;
+  }
+}
+@keyframes arc-lid {
+  0% {
+    transform: none;
+  }
+  12%,
+  80% {
+    transform: rotate(-28deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes arc-out {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateX(-80px) scale(0.6);
+  }
+  32%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes arc-on {
+  0%,
+  55% {
+    opacity: 0;
+  }
+  68%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes arc-off {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  68%,
+  100% {
+    opacity: 0;
+  }
+}
+
 /* == redesign:pick == */
 /* #seguro, second half: how each cover is chosen. The cascade (a clip,
    motion.js): two sources come up empty (dashed), the game's own icon

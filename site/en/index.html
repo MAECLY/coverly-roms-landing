@@ -230,27 +230,29 @@
 <div class="wrap">
 <div class="section-head">
 <h2 id="tidy-t">More than covers.</h2>
-<p>Coverly ROMs also sorts a downloads folder by system, sets aside the games you have twice and shows the library in six ways. Sorting and setting aside are dry runs first, and both can be undone.</p>
+<p>Around the covers, Coverly ROMs has learned to tidy the library. Everything is a dry run first and can be undone.</p>
 </div>
 <div class="feats">
-<div class="feat">
+<div class="feat" data-clip-box>
 <div class="feat-text">
-<h3>Sorts archives by what is inside them.</h3>
-<p>It opens zip, 7z, tar, gz, bz2, xz, zst and lz4, and tells them apart by their contents, not their extension. RAR opens through a program you already have: unrar, 7-Zip or bsdtar, which macOS includes.</p>
-<p>Inside archives it finds disc games for PlayStation, Saturn, Dreamcast, Sega CD, PC Engine CD and Neo Geo CD. On apply it extracts them into their system folder and checks the size and CRC of every file. If it stops, you resume it; if you do not like it, you undo it.</p>
+<h3>Sorts by system, archives too.</h3>
+<p>It recognises zip, 7z, RAR and more by what's inside. It extracts disc games checking each track's CRC, moves folder games (PS3, Vita, Wii U, PS4…) as one item and groups loose multi-disc games with their <code>.m3u</code>.</p>
 </div>
-<figure>
-<div class="shot"><picture>
-<source data-dark media="(prefers-color-scheme: dark)" type="image/webp" srcset="../assets/shots/en/organise-dark@1x.webp 1280w, ../assets/shots/en/organise-dark.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)">
-<img src="../assets/shots/en/organise-light@1x.webp" srcset="../assets/shots/en/organise-light@1x.webp 1280w, ../assets/shots/en/organise-light.webp 2560w" sizes="(min-width: 1240px) 700px, (min-width: 960px) 58vw, calc(100vw - 32px)" width="1280" height="800" loading="lazy" decoding="async" alt="The Organise by system plan for a downloads folder: 19 ROMs in 7 systems and three disc games for Dreamcast, PlayStation and Sega Saturn extracted from .zip files, each with its serial, its files and its size.">
-</picture></div>
-<figcaption class="shot-cap">The dry run: three disc games to extract. Nothing has moved yet.</figcaption>
+<figure class="arcfig" data-clip data-clip-ms="3200">
+<div class="cas-box" role="img" aria-label="Illustration: an archive opens and the four tracks of a disc game come out; each goes from a dashed slot to solid and gets its tick once its CRC is checked."><svg class="art arc" viewBox="0 0 320 110" width="320" height="110" aria-hidden="true" focusable="false"><path class="arc-rl" d="M0 96.5H320"/><path class="arc-cap" d="M0 96.5h24"/><path class="arc-route" d="M84 72H308"/><g class="arc-box"><rect class="arc-body" x="16" y="38" width="64" height="58" rx="3"/><path class="arc-zip" d="M48 40v54"/><g class="arc-lid"><rect class="arc-body" x="12" y="26" width="72" height="12" rx="2"/></g></g><g transform="translate(118 56)"><g class="trk k0"><use class="t-f" href="../assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="../assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="../assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(164 56)"><g class="trk k1"><use class="t-f" href="../assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="../assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="../assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(210 56)"><g class="trk k2"><use class="t-f" href="../assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="../assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="../assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g><g transform="translate(256 56)"><g class="trk k3"><use class="t-f" href="../assets/art/kit.svg#sf" width="30" height="40"/><use class="t-o" href="../assets/art/kit.svg#sm" width="30" height="40"/><use class="t-k" href="../assets/art/kit.svg#ck" x="7" y="-20" width="16" height="16"/></g></g></svg><p class="arc-count" aria-hidden="true">Game 2 of 4 · Track 5 of 16</p></div>
+<figcaption class="caption-row"><span>Illustration, with the app's own wording.</span><button class="replay clip-replay" type="button" aria-label="Replay the extraction"><span aria-hidden="true">↻</span> Replay</button></figcaption>
 </figure>
+</div>
+<div class="feat feat-solo">
+<div class="feat-text">
+<h3>Current consoles, no keys.</h3>
+<p>Switch, 3DS, PS4, PS5 and Xbox One are recognised from what's stored in the clear. Coverly never reads or asks for keys, and leaves your licence files where they are. Switch names come from the file itself or, if you turn it on, from a public catalogue.</p>
+</div>
 </div>
 <div class="feat">
 <div class="feat-text">
 <h3>Sets aside repeated copies and deletes nothing.</h3>
-<p>It finds the same game stored more than once in a system by its contents, never by its name. One copy stays, picked by rules you can reorder, with the reason shown.</p>
+<p>It finds the same game stored more than once in a system by its contents, never by its name. One copy stays, picked by rules you can reorder, with the reason shown. It also catches copies with the same title ID and version, or the same folder.</p>
 <p>The others go to <code>_Duplicados/</code> inside the library, with their saves and art, or to the Trash if you choose. If two copies have different saves, it touches neither. Undo puts everything back.</p>
 </div>
 <figure>
@@ -273,6 +275,7 @@
 </figure>
 </div>
 </div>
+<p class="feats-more">Also: it asks before moving a game over 10 GB, it updates with signed versions, and in Settings, Credits lists the <span data-fact="credits">62</span> sources and libraries it uses, with their licences.</p>
 </div>
 </section>
 
