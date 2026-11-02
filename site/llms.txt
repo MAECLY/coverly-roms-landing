@@ -71,6 +71,7 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - Editing gamelist metadata, renaming or verifying ROMs.
 - Running on the handheld itself.
 - It bundles no ROMs, BIOS files or game art. Game art belongs to its owners.
+- Not affiliated with or endorsed by Nintendo, Sony, Microsoft, Sega or any other maker; system names are their owners' trademarks, used only to say what it works with. The system icons on the site are adapted from RetroArch Assets (XMB Monochrome theme), (c) libretro contributors, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 - Not yet tested on real handhelds; the maximum image sizes some firmware accepts are not confirmed.
 
 ## Docs
