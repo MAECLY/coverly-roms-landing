@@ -2,9 +2,9 @@
   "schema": 1,
   "source": {
     "app_repo": "MAECLY/coverly-roms",
-    "app_commit": "638aacf",
+    "app_commit": "98dc427",
     "todo_sha256": "e305c9ca6601a11a3c5a0eafefe48b1538c26c383ca2c7247da7cc7a4c10de0a",
-    "changelog_sha256": "18214cabdd29b69329999d8b663e87bfca3700f61a55a2fd46cda563567d4abc",
+    "changelog_sha256": "8b29c48bf94e148a485e8185b33afcf3e472a50a654d2057029275b5eb5ab06e",
     "tracker_sha256": "7d8015261b066ff0f7e226453c6d5c0a6f78ec15daa836eb50231fac3eb6c276",
     "synced": "2026-11-02"
   },
@@ -34,25 +34,30 @@
         { "es": "Duplicados apartados en _Duplicados/ o en la Papelera, con deshacer", "en": "Duplicates set aside in _Duplicados/ or the Trash, with undo" },
         { "es": "coverly dedupe en la terminal", "en": "coverly dedupe in the terminal" }
       ]
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-11-02",
+      "items": [
+        { "es": "131 sistemas, antes 54", "en": "131 systems, up from 54" },
+        { "es": "PS4, PS5, Xbox One, Switch y 3DS reconocidos sin claves", "en": "PS4, PS5, Xbox One, Switch and 3DS recognised without keys" },
+        { "es": "Nombres de Switch desde un catálogo público, si lo activas", "en": "Switch names from a public catalogue, if you turn it on" },
+        { "es": "La portada que lleva el propio juego, cuando ninguna fuente la tiene", "en": "The cover a game carries, when no source has one" },
+        { "es": "Juegos que son una carpeta, también dentro de zip y 7z", "en": "Games that are a folder, inside zip and 7z too" },
+        { "es": "Pregunta antes de escribir un juego de 10 GB o más", "en": "Asks before writing a game of 10 GB or more" },
+        { "es": "Multidisco sueltos agrupados con su .m3u", "en": "Loose multi-disc games grouped with their .m3u" },
+        { "es": "Duplicados por title ID y versión; en Wii U, el .wua se queda frente a su carpeta", "en": "Duplicates by title ID and version; on Wii U, the .wua stays over its folder" },
+        { "es": "RetroArch encuentra las portadas de títulos con «&» o «:»", "en": "RetroArch finds the covers of titles with “&” or “:”" },
+        { "es": "Agradecimientos: 62 fuentes y bibliotecas con su licencia", "en": "Credits: 62 sources and libraries with their licences" },
+        { "es": "Descargas con el nombre de su sistema y chip, y Windows ARM64", "en": "Downloads named by system and chip, and Windows ARM64" },
+        { "es": "Pantallas de Organizar y Duplicados rehechas, con sus propios ajustes", "en": "Organise and Duplicates screens redone, with their own settings" }
+      ]
     }
   ],
   "unreleased": {
-    "after_pr": 27,
-    "prs": [28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
-    "items": [
-      { "es": "131 sistemas, antes 54", "en": "131 systems, up from 54", "prs": [32, 33, 34] },
-      { "es": "PS4, PS5, Xbox One, Switch y 3DS reconocidos sin claves", "en": "PS4, PS5, Xbox One, Switch and 3DS recognised without keys", "prs": [33, 34, 36] },
-      { "es": "Nombres de Switch desde un catálogo público, si lo activas", "en": "Switch names from a public catalogue, if you turn it on", "prs": [36] },
-      { "es": "La portada que lleva el propio juego, cuando ninguna fuente la tiene", "en": "The cover a game carries, when no source has one", "prs": [33, 34] },
-      { "es": "Juegos que son una carpeta, también dentro de zip y 7z", "en": "Games that are a folder, inside zip and 7z too", "prs": [33, 36] },
-      { "es": "Pregunta antes de escribir un juego de 10 GB o más", "en": "Asks before writing a game of 10 GB or more", "prs": [34, 36] },
-      { "es": "Multidisco sueltos agrupados con su .m3u", "en": "Loose multi-disc games grouped with their .m3u", "prs": [36] },
-      { "es": "Duplicados por title ID y versión; en Wii U, el .wua se queda frente a su carpeta", "en": "Duplicates by title ID and version; on Wii U, the .wua stays over its folder", "prs": [34, 36, 37] },
-      { "es": "RetroArch encuentra las portadas de títulos con «&» o «:»", "en": "RetroArch finds the covers of titles with “&” or “:”", "prs": [35] },
-      { "es": "Agradecimientos: 62 fuentes y bibliotecas con su licencia", "en": "Credits: 62 sources and libraries with their licences", "prs": [36] },
-      { "es": "Descargas con el nombre de su sistema y chip, y Windows ARM64", "en": "Downloads named by system and chip, and Windows ARM64", "prs": [29] },
-      { "es": "Pantallas de Organizar y Duplicados rehechas, con sus propios ajustes", "en": "Organise and Duplicates screens redone, with their own settings", "prs": [28, 30, 31] }
-    ]
+    "after_pr": 37,
+    "prs": [],
+    "items": []
   },
   "shipped": ["1", "1.5", "1.6"],
   "next": [
