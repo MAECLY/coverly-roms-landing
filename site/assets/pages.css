@@ -159,30 +159,11 @@
   font-size: 0.8125rem;
 }
 
-/* Duplicates, drawn: the copy that stays gets its spine; the other two
-   slide off the shelf into _Duplicados/, which shows its undo tab.
-   Static: that end. */
-.dup,
+/* Settings and trust, drawn. */
 .trust {
   display: block;
   width: 100%;
   height: auto;
-}
-.dup-fold {
-  color: var(--cr-surface-raised);
-  stroke: var(--cr-border-strong);
-}
-.dup-tab {
-  color: var(--cr-border-strong);
-}
-.dup-tag {
-  color: var(--cr-manila);
-}
-.dup-sp {
-  color: var(--cr-slot-applied);
-}
-.dup-o {
-  color: var(--cr-slot-missing);
 }
 .tr-box {
   fill: var(--cr-manila);
@@ -203,84 +184,6 @@
 .tr-none {
   color: var(--cr-slot-missing);
 }
-@media (prefers-reduced-motion: no-preference) {
-  html.motion .is-playing .dup :is(.d2, .d3, .dup-sp, .dup-tag, .dup-o) {
-    animation: 2800ms var(--cr-ease-ink) both;
-  }
-  html.motion .is-playing .dup .d2 {
-    animation-name: dup-go2;
-  }
-  html.motion .is-playing .dup .d3 {
-    animation-name: dup-go3;
-  }
-  html.motion .is-playing .dup .dup-sp {
-    transform-box: fill-box;
-    transform-origin: 0 50%;
-    animation-name: dup-spine;
-  }
-  html.motion .is-playing .dup .dup-tag {
-    animation-name: dup-tag;
-  }
-  html.motion .is-playing .dup .dup-o {
-    animation-name: dup-gap;
-  }
-  html.motion .dup[data-off] *,
-  html.motion .fgroup:is(:hover, :focus-within) .dup * {
-    animation-play-state: paused;
-  }
-}
-@keyframes dup-go2 {
-  0%,
-  25% {
-    transform: translate(-103px, 22px) scale(1.25);
-  }
-  60%,
-  100% {
-    transform: none;
-  }
-}
-@keyframes dup-go3 {
-  0%,
-  35% {
-    transform: translate(-80px, 18px) scale(1.25);
-  }
-  70%,
-  100% {
-    transform: none;
-  }
-}
-@keyframes dup-spine {
-  0%,
-  10% {
-    transform: scaleX(0);
-  }
-  22%,
-  100% {
-    transform: none;
-  }
-}
-@keyframes dup-tag {
-  0%,
-  80% {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes dup-gap {
-  0%,
-  30% {
-    opacity: 0;
-  }
-  70%,
-  100% {
-    opacity: 1;
-  }
-}
-
 /* /roadmap: one shelf per version, its accession tag and date, and what
    it brought as solid slots with a Buckram spine (Coverly made them). */
 .rm-shelf {

@@ -3928,6 +3928,220 @@ html.motion .sys:not(.is-still) .sys-row {
   }
 }
 
+/* Duplicates, drawn (docs/landing-round2-plan.md §2), on the home and in
+   /features: a shelf with three copies of one game; a read line finds the
+   same fingerprint ("Exact copy"), the one with a cover gets its spine and
+   its reason, the other two lift and drop into _Duplicados, the Undo tab
+   shows, and Undo brings them back. 7 s a turn, played 1.8 times so it
+   rests on the set-aside frame, which is also the static one. */
+.dup {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.dup-stage {
+  position: relative;
+}
+.dup-fold {
+  color: var(--cr-surface-raised);
+  stroke: var(--cr-border-strong);
+}
+.dup-tab {
+  color: var(--cr-border-strong);
+}
+.dup-tag {
+  color: var(--cr-manila);
+}
+.dup-sp {
+  color: var(--cr-slot-applied);
+}
+.dup-o {
+  color: var(--cr-slot-missing);
+}
+.dup-fp {
+  fill: var(--cr-text-secondary);
+}
+.dup-scan {
+  fill: var(--cr-primary);
+  opacity: 0;
+}
+.dup-l {
+  position: absolute;
+  font: 600 clamp(0.625rem, 0.5rem + 0.6vw, 0.75rem)/1.2 var(--cr-font-body);
+  white-space: nowrap;
+}
+.dup-exact {
+  left: 29%;
+  top: 37%;
+  color: var(--cr-text-secondary);
+}
+.dup-undo {
+  right: 0;
+  top: 5%;
+  padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-manila);
+  color: var(--cr-manila-fg);
+}
+.dup-dir {
+  left: 72.5%;
+  top: 66%;
+  font-family: var(--cr-font-mono);
+  color: var(--cr-text-secondary);
+}
+.dup-why {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  color: var(--cr-text-secondary);
+}
+.dup-mk {
+  flex: none;
+  width: 24px;
+  height: var(--cr-border-width-spine);
+  background: var(--cr-slot-applied);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .dup-box :is(.da, .db, .dup-sp, .dup-fp, .dup-scan, .dup-tag, .dup-l, .dup-why) {
+    animation: 7s var(--cr-ease-ink) 1.8 both;
+  }
+  html.motion .is-playing .dup-box .dup-dir {
+    animation: none;
+  }
+  html.motion .is-playing .dup .da {
+    animation-name: dup-a;
+  }
+  html.motion .is-playing .dup .db {
+    animation-name: dup-b;
+  }
+  html.motion .is-playing .dup .dup-sp {
+    transform-box: fill-box;
+    transform-origin: 0 50%;
+    animation-name: dup-spine;
+  }
+  html.motion .is-playing .dup .dup-fp {
+    animation-name: dup-in1;
+  }
+  html.motion .is-playing .dup .dup-scan {
+    animation-name: dup-scan;
+    animation-timing-function: linear;
+  }
+  html.motion .is-playing .dup-box :is(.dup-tag, .dup-undo) {
+    animation-name: dup-undo;
+  }
+  html.motion .is-playing .dup-box .dup-exact {
+    animation-name: dup-in1;
+  }
+  html.motion .is-playing .dup-box .dup-why {
+    animation-name: dup-in2;
+  }
+  html.motion .dup-box:is(:hover, :has([data-off])) * {
+    animation-play-state: paused;
+  }
+}
+@keyframes dup-a {
+  0%,
+  51% {
+    transform: translate(-162px, 44px) scale(1.2);
+  }
+  56% {
+    transform: translate(-162px, 30px) scale(1.2);
+  }
+  66%,
+  89% {
+    transform: none;
+  }
+  94% {
+    transform: translate(-162px, 30px) scale(1.2);
+  }
+  100% {
+    transform: translate(-162px, 44px) scale(1.2);
+  }
+}
+@keyframes dup-b {
+  0%,
+  54.5% {
+    transform: translate(-106px, 40px) scale(1.2);
+  }
+  59.5% {
+    transform: translate(-106px, 26px) scale(1.2);
+  }
+  69.5%,
+  89% {
+    transform: none;
+  }
+  95% {
+    transform: translate(-106px, 26px) scale(1.2);
+  }
+  100% {
+    transform: translate(-106px, 40px) scale(1.2);
+  }
+}
+@keyframes dup-spine {
+  0%,
+  34% {
+    transform: scaleX(0);
+  }
+  42%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes dup-scan {
+  0%,
+  17% {
+    opacity: 0;
+    transform: none;
+  }
+  19%,
+  32% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+    transform: translateX(220px);
+  }
+}
+@keyframes dup-in1 {
+  0%,
+  19% {
+    opacity: 0;
+  }
+  26%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dup-in2 {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  41%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dup-undo {
+  0%,
+  71% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  76%,
+  89% {
+    opacity: 1;
+    transform: none;
+  }
+  93%,
+  100% {
+    opacity: 0;
+  }
+}
+
 /* == redesign:archive == */
 /* #ordenar: the archive that opens (after the app's own extraction
    progress, #30). The lid lifts, four tracks come out as dashed slots and
