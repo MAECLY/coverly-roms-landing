@@ -276,7 +276,9 @@ COVERS_SVG = 18_000
 # headings (about 400), a reference list inside a closed <details>, plus
 # the trademark notice and the CC BY credit; the duplicates screenshot's
 # alt and caption leave.
-MAX_WORDS = {"page": 3_050, "features": 2_600, "roadmap": 1_200}
+# Raised to 3,120 for v0.4.0: the Integrations row in "More than covers"
+# and the coverly integrations line in #terminal (about 45 words).
+MAX_WORDS = {"page": 3_120, "features": 2_600, "roadmap": 1_200}
 # Vercel builds the landing (vercel.json); these workflows check it and
 # keep its tokens in sync with the app. (The app repository's
 # landing-redeploy.yml calls the deploy hook on every release.)
