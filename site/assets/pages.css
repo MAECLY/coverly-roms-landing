@@ -504,6 +504,7 @@
 .rm-slot b {
   font: 700 0.875rem/1.15 var(--cr-font-display);
   font-stretch: 75%;
+  hyphens: auto;
 }
 .rm-sl-o {
   fill: none;
