@@ -2,10 +2,10 @@
   "schema": 1,
   "source": {
     "app_repo": "MAECLY/coverly-roms",
-    "app_commit": "dd24d0cd",
+    "app_commit": "e2650ee1",
     "todo_sha256": "addd457173a97211cb7c559b4a66248d6c38591ad20572a7881ffe6aad1382e1",
     "changelog_sha256": "790054398ff35fb8ba8b83b12817c957ee0633f62ea5c6f76d3b64cc439d6773",
-    "tracker_sha256": "e655c11f7a8a59d5eea739b86d40a9321b1497fcd025d4dee4df7d56fe910541",
+    "tracker_sha256": "b9e2e92d1318d747837b6edcfc3a9d360b14a2f2ccd66e23879da70a95331ab0",
     "synced": "2026-11-03"
   },
   "released": [
