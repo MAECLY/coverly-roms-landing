@@ -2,11 +2,11 @@
   "schema": 1,
   "source": {
     "app_repo": "MAECLY/coverly-roms",
-    "app_commit": "77158bb",
-    "todo_sha256": "e305c9ca6601a11a3c5a0eafefe48b1538c26c383ca2c7247da7cc7a4c10de0a",
-    "changelog_sha256": "8b29c48bf94e148a485e8185b33afcf3e472a50a654d2057029275b5eb5ab06e",
-    "tracker_sha256": "ea0d6463a83ff5583d0cbfa3a165a8a6e111a2cb569c8795dcea43f9787dd905",
-    "synced": "2026-11-02"
+    "app_commit": "dd24d0cd",
+    "todo_sha256": "addd457173a97211cb7c559b4a66248d6c38591ad20572a7881ffe6aad1382e1",
+    "changelog_sha256": "790054398ff35fb8ba8b83b12817c957ee0633f62ea5c6f76d3b64cc439d6773",
+    "tracker_sha256": "e655c11f7a8a59d5eea739b86d40a9321b1497fcd025d4dee4df7d56fe910541",
+    "synced": "2026-11-03"
   },
   "released": [
     {
@@ -52,10 +52,21 @@
         { "es": "Descargas con el nombre de su sistema y chip, y Windows ARM64", "en": "Downloads named by system and chip, and Windows ARM64" },
         { "es": "Pantallas de Organizar y Duplicados rehechas, con sus propios ajustes", "en": "Organise and Duplicates screens redone, with their own settings" }
       ]
+    },
+    {
+      "version": "0.4.0",
+      "date": "2026-11-03",
+      "items": [
+        { "es": "Integraciones: una tarjeta por servicio, con su estado y «Probar conexión»", "en": "Integrations: one card per service, with its status and “Test connection”" },
+        { "es": "«Cómo conseguir la clave», en la página oficial de cada servicio", "en": "“How to get the key”, on each service's own page" },
+        { "es": "Claves en el llavero del sistema, nunca en registros ni exportaciones", "en": "Keys in the system keychain, never in logs or exports" },
+        { "es": "Los avisos de Rellenar y Organizar llevan a la tarjeta que falta", "en": "Fill and Organise notices lead to the card that is missing" },
+        { "es": "coverly integrations: listar, probar, guardar u olvidar claves", "en": "coverly integrations: list, test, save or forget keys" }
+      ]
     }
   ],
   "unreleased": {
-    "after_pr": 37,
+    "after_pr": 42,
     "prs": [],
     "items": []
   },
@@ -153,6 +164,16 @@
       "title": { "es": "Agradecimientos", "en": "Credits" },
       "short": { "es": "Agradecimientos", "en": "Credits" },
       "summary": { "es": "La pestaña que da crédito a cada fuente, base de datos y biblioteca ya está hecha. Faltan los créditos de las fuentes que vienen con los nombres y el arte por title ID.", "en": "The tab that credits every source, database and library is done. The credits of the sources that come with names and art by title ID are still to add." }
+    },
+    {
+      "id": "8",
+      "public": true,
+      "status": "almost",
+      "progress": { "done": 8, "total": 12 },
+      "after": [],
+      "title": { "es": "Integraciones: cuentas y claves en un sitio", "en": "Integrations: accounts and keys in one place" },
+      "short": { "es": "Integraciones", "en": "Integrations" },
+      "summary": { "es": "La pestaña llegó en la 0.4.0. Faltan el aviso en la ficha del juego, pasar al llavero las credenciales del proxy y las claves de los servicios que vienen.", "en": "The tab arrived in 0.4.0. Still to come: the notice in the game panel, the proxy credentials moving to the keychain and the keys of the services on the way." }
     }
   ]
 }
