@@ -1,6 +1,6 @@
 # Coverly ROMs
 
-> Free desktop app (AGPL-3.0-only) for Windows, macOS and Linux that audits a ROM library, such as a handheld's SD card, shows which games lack cover, screenshot or title-screen art, and fills them in bulk from libretro-thumbnails (no account) or SteamGridDB (your own key). A dry run comes first, existing art is never overwritten unless you ask (and then it is backed up), and the last job can be undone. Around the covers it sorts downloads into 131 systems (archives, disc games and games that are a folder included) and sets duplicates aside, both with a dry run and undo. It ships with a command line, `coverly`. No account, no telemetry. Made by Miguel Esparza (MAECLY).
+> Free desktop app (AGPL-3.0-only) for Windows, macOS and Linux that audits a ROM library, such as a handheld's SD card, shows which games lack cover, screenshot or title-screen art, and fills them in bulk from libretro-thumbnails (no account) or SteamGridDB (your own key). A dry run comes first, existing art is never overwritten unless you ask (and then it is backed up), and the last job can be undone. Around the covers it sorts downloads into 131 systems (archives, disc games and games that are a folder included) and sets duplicates aside, both with a dry run and undo. Its Integrations settings tab keeps the keys of online services in the OS keychain. It ships with a command line, `coverly`. No account, no telemetry. Made by Miguel Esparza (MAECLY).
 
 Canonical: https://coverly-roms.maecly.com/
 English page: https://coverly-roms.maecly.com/en/
@@ -44,16 +44,17 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - 131 known systems with the folder aliases each firmware uses.
 - Identification: CRC32, MD5 and SHA1 against libretro-database, then the file name; arcade short names through MAME and FBNeo DATs. Method selectable: hash-then-name, hash-only, name-only. .7z archives are identified by name only.
 - Sources: libretro-thumbnails (default, no account); SteamGridDB (optional, your own API key, kept in the OS keychain).
+- Integrations (since 0.4.0): a Settings tab with one card per online service (SteamGridDB, ScreenScraper, the Switch name catalogue). Each card shows what the service is for and its status (not set up, saved, connected, error with what to do, daily quota used up, off), "Test connection" (one request, only when pressed), "How to get the key" linking to the service's own account page, turn off without deleting, and "Forget credentials" with a confirmation. Keys live in the OS keychain (Keychain, Credential Manager, Secret Service) and never appear in logs, reports or settings exports. ScreenScraper's quota is shown when the service reports it; in public builds ScreenScraper shows as "Not available". Fill and Organise notices link to the right card. Services planned for later (IGDB, RetroAchievements, TheGamesDB and others) are listed under "Coming later" and ask for nothing yet.
 - Choosing the image: by the ROM's region (default order rom, world, usa, europe, japan), by source priority, or by popularity (SteamGridDB votes, then agreement between sources). Each choice says why.
 - Safety: dry run by default; only missing art by default; existing art replaced only if you choose overwrite-with-backup; nothing written outside the library folder; atomic writes; backups and job journals in the app data folder, not on the card; undo of the last job; uncertain matches go to a keyboard-driven review queue; jobs pause, resume and cancel; one failing item never stops a job; offline or rate-limited jobs pause; file names safe for FAT/exFAT; macOS ._ files ignored.
 - Organise: sorts a folder of loose ROMs into system folders for any layout profile, moving or copying, never overwriting, with a dry run, resume and undo (`coverly organize`). Archives are recognised by their contents: zip, 7z, tar, gzip, bzip2, xz, zstd, lz4 and single compressed ROMs; RAR through a program already installed (unrar, 7-Zip or bsdtar). Disc games inside archives are identified from the disc (PlayStation, Sega Saturn, Dreamcast, Sega CD, PC Engine CD, Neo Geo CD) and extracted on apply, each file verified by size and CRC.
 - Duplicates: finds the same game stored more than once in a system by its contents, never its name (exact copies, the same disc in another format, and other versions only with "One ROM per game"). One copy stays, picked by rules you can reorder; the others are set aside in `_Duplicados/` inside the library, with their saves, states and art, or sent to the Trash. Copies with different saves are never touched. Dry run first, resume and undo; nothing is deleted (`coverly dedupe`, dry run unless --apply).
 - App: library browser (folders, systems, date, all) with six views on Cmd/Ctrl+1-6 (Covers, Details, Columns, Gallery, Art slots, Shelves), an icon beside every system name, filters and search, a detail panel per game (change, search, from file, remove), fill wizard, connected drives on the start screen, English and Spanish, light/dark/system themes.
-- CLI: coverly audit, fill (dry run unless --apply; --auto-only skips review items), organize, dedupe, profiles, systems, undo, update.
-- Privacy: no telemetry. Network requests only to the art sources and the optional update check. Images are decoded and re-encoded, which strips metadata.
+- CLI: coverly audit, fill (dry run unless --apply; --auto-only skips review items), organize, dedupe, catalog switch, integrations, profiles, systems, undo, update. `coverly integrations list|test|set|forget` manages the same keys as the app: `set` reads the secret from stdin (without echo) or from an environment variable named with --from-env, never from an argument, and no output prints a value.
+- Privacy: no telemetry. Network requests only to the art sources, the optional Switch catalogue and the optional update check; each key is sent only to its own service. Images are decoded and re-encoded, which strips metadata.
 - Updates: in-app, from GitHub Releases, verified with minisign; stable and beta channels; never restarts during a job.
 
-## Next version (already in the code, not in a published release yet)
+Since 0.3.0:
 
 - 131 systems, up from 54: retro consoles, handhelds, computers, arcade boards, ports and engines, fantasy consoles, GameCube, Wii, Wii U, 3DS, Switch, PS Vita, PS3, PS4, PS5, Xbox, Xbox 360, Xbox One and Xbox Series (catalogued only).
 - Current consoles recognised without keys, from what is stored in the clear; anything unreadable is labelled "Encrypted". Coverly never reads, asks for, downloads or ships console keys, and leaves key and licence files untouched.
@@ -64,6 +65,10 @@ Builds carry no Apple or Microsoft code-signing certificate, so macOS Gatekeeper
 - Settings: a Credits tab listing 62 sources, databases and libraries with their licences; Organise and Duplicates in their own tabs with search.
 - Downloads named by system and chip: separate Apple silicon and Intel Mac builds, and Windows ARM64.
 - CLI: `coverly catalog switch status|update|remove`.
+
+## Next version (already in the code, not in a published release yet)
+
+Nothing beyond the latest version yet. What comes next, with its status: https://coverly-roms.maecly.com/en/roadmap/
 
 ## Not supported
 
