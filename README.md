@@ -19,12 +19,13 @@ The app itself, its releases and its issues live in
   covers first (the hero, the four steps on one desk, and «Your card comes
   back as it was» with how each cover is chosen), then what grew around
   them: sorting archives and discs, current consoles without keys,
-  duplicates and the six views, the layouts and every one of the 131
+  duplicates, the six views and Integrations (the keys of online
+  services), the layouts and every one of the 131
   systems (a slow shelf of their icons and a searchable list),
   the command line in its own section, the comparison with Skraper,
   Skyscraper, ARRM and Mini Scraper, what comes next, downloads and the FAQ.
 - **[Features](https://coverly-roms.maecly.com/en/features/)** (`/features/`,
-  `/en/features/`): every feature in seven groups, each with the version it
+  `/en/features/`): every feature in eight groups, each with the version it
   arrived in and a drawing built from the page's own parts, which stays
   beside the list and advances as you read.
 - **[Roadmap](https://coverly-roms.maecly.com/en/roadmap/)** (`/roadmap/`,

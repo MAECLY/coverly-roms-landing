@@ -19,13 +19,14 @@ con su script y su envío servidos desde el propio dominio
   primero las portadas (el hero, los cuatro pasos en un solo escritorio y
   «Tu tarjeta vuelve como estaba», con cómo se elige cada portada), y
   después lo que ha crecido alrededor: ordenar comprimidos y discos,
-  consolas actuales sin claves, duplicados y las seis vistas, los formatos y
+  consolas actuales sin claves, duplicados, las seis vistas e Integraciones
+  (las claves de los servicios en línea), los formatos y
   cada uno de los 131 sistemas (una balda lenta con sus iconos y una lista
   con buscador), la línea de comandos en su propia sección,
   la comparativa con Skraper, Skyscraper, ARRM y Mini Scraper, lo siguiente,
   las descargas y las preguntas.
 - **[Funciones](https://coverly-roms.maecly.com/features/)** (`/features/`,
-  `/en/features/`): todas las funciones en siete grupos, cada una con la
+  `/en/features/`): todas las funciones en ocho grupos, cada una con la
   versión en que llegó y un dibujo hecho con las piezas de la propia web,
   que se queda al lado de la lista y avanza a medida que lees.
 - **[Hoja de ruta](https://coverly-roms.maecly.com/roadmap/)** (`/roadmap/`,
