@@ -196,7 +196,10 @@ BUDGET = {
     # /features beats (sticky figures and each scene's earlier states,
     # minus the duplicates scene, which moved to site.css) and the
     # /roadmap shelf (grid columns, slots, arcs, phone list, its entrance).
-    "pages_css": (15_000, 4_200),
+    # Raised to 17,800 / 4,800 for v0.4.0: the drawn Integrations card on
+    # /features (its pieces, status tags, quota line, beats and clip
+    # keyframes), about 3.2 KB raw / 0.7 KB gzip.
+    "pages_css": (17_800, 4_800),
     # Every .js under assets/ (recursive, so a vendored file cannot slip
     # past). Raised from 16,000 / 5,500 for shelf.js (see SHELF_JS), then
     # to 22,000 / 7,500 for release.js (see RELEASE_JS), then to

@@ -98,6 +98,7 @@
 <li><a href="#duplicates">Duplicates</a></li>
 <li><a href="#library">Library and views</a></li>
 <li><a href="#command-line">Command line</a></li>
+<li><a href="#integrations">Integrations</a></li>
 <li><a href="#trust">Settings and trust</a></li>
 </ol>
 </nav>
@@ -215,22 +216,45 @@
 Audit and fill ROM cover art
 
 <span class="c">Commands:</span>
-  audit     Report which ROMs lack cover, screenshot or title art
-  catalog   Manage the optional name catalogues
-  dedupe    Find the same game stored more than once
-  fill      Fill missing art from the enabled sources
-  organize  Sort a pile of loose ROMs into one folder per system
-  profiles  List the layout profiles
-  systems   List the known systems
-  undo      Undo the last job
-  update    Check for a newer coverly, or install it</code></pre></div>
+  audit         Report which ROMs lack cover, screenshot or title art
+  catalog       Manage the optional name catalogues
+  dedupe        Find the same game stored more than once
+  fill          Fill missing art from the enabled sources
+  integrations  Manage the accounts and keys of online services
+  organize      Sort a pile of loose ROMs into one folder per system
+  profiles      List the layout profiles
+  systems       List the known systems
+  undo          Undo the last job
+  update        Check for a newer coverly, or install it</code></pre></div>
 <dl class="flist">
 <div><dt>Dry run until --apply</dt><dd><code>fill</code>, <code>organize</code> and <code>dedupe</code> write nothing without <code>--apply</code>.</dd><dd class="since"><span class="vtag" data-since="0.1.0">v0.1.0</span></dd></div>
 <div><dt>Reports as JSON</dt><dd>Every report comes out as JSON if you ask, ready for a script.</dd><dd class="since"><span class="vtag" data-since="0.1.0">v0.1.0</span></dd></div>
 <div><dt><code>dedupe</code></dt><dd>Sets duplicates aside from the terminal.</dd><dd class="since"><span class="vtag" data-since="0.2.0">v0.2.0</span></dd></div>
 <div><dt><code>catalog switch</code></dt><dd>Downloads, checks or removes the Switch name catalogue.</dd><dd class="since"><span class="vtag" data-since="0.3.0">v0.3.0</span></dd></div>
+<div><dt><code>integrations</code></dt><dd>Lists, tests, saves or forgets keys. The secret comes from stdin or a variable, never an argument.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
 <div><dt><code>--skip-large</code></dt><dd>Leaves games of 10 GB or more where they are, without asking.</dd><dd class="since"><span class="vtag" data-since="0.3.0">v0.3.0</span></dd></div>
 <div><dt>A single binary</dt><dd>For macOS, Windows and Linux, x64 and ARM64.</dd><dd class="since"><span class="vtag" data-since="0.3.0">v0.3.0</span></dd></div>
+</dl>
+</section>
+
+<section class="fgroup" id="integrations" aria-labelledby="integrations-t" data-clip-box>
+<div class="fgroup-head">
+<h2 id="integrations-t">Integrations</h2>
+<p>The accounts and keys of the services Coverly uses, in one Settings tab.</p>
+</div>
+<figure class="intfig" data-clip data-clip-ms="4800">
+<div class="cas-box int-box" role="img" aria-label="Illustration: a service card in Integrations. It goes from “Not set up” to “Connected” once the key is saved, a cover fills in beside it and today's quota appears."><div class="int-stage"><svg class="art intg" viewBox="0 0 320 130" width="320" height="130" aria-hidden="true" focusable="false"><path class="cas-rl" d="M0 120.5H320"/><path class="cas-cap" d="M0 120.5h24"/><g transform="translate(12 56)scale(1.6)"><use class="cas-gd" href="../../assets/art/kit.svg#sf" width="30" height="40"/><use class="int-cv ink-1" href="../../assets/art/covers.svg#c-30" width="30" height="40"/><use class="int-mi" href="../../assets/art/kit.svg#sm" width="30" height="40"/><use class="int-sp" href="../../assets/art/kit.svg#spine" y="37" width="30" height="3"/></g><rect class="int-card" x="64.75" y="10.75" width="240.5" height="96.5" rx="6"/><path class="int-nm" d="M80 24h64v7h-64z"/><path class="int-ds" d="M80 37h112v4h-112z"/><rect class="int-fld" x="80.75" y="52.75" width="140.5" height="17.5" rx="3"/><path class="int-dots" d="M88 59h5v5h-5zM97 59h5v5h-5zM106 59h5v5h-5zM115 59h5v5h-5zM124 59h5v5h-5zM133 59h5v5h-5zM142 59h5v5h-5zM151 59h5v5h-5z"/><use class="int-ck" href="../../assets/art/kit.svg#ck" x="204" y="55.5" width="12" height="12"/><rect class="int-btn" x="228.75" y="52.75" width="62.5" height="17.5" rx="3"/><g class="int-q"><rect class="int-qt" x="80" y="82" width="210" height="6" rx="3"/><rect class="int-qf" x="80" y="82" width="82" height="6" rx="3"/></g></svg><span class="int-l int-t0" aria-hidden="true">Not set up</span><span class="int-l int-t1" aria-hidden="true">Connected</span><span class="int-l int-ql" aria-hidden="true">Today: 7,840 of 20,000 requests</span></div></div>
+<figcaption class="caption-row"><span>Illustration, with the app's own text.</span><button class="replay clip-replay" type="button" aria-label="Replay: the card connects"><span aria-hidden="true">↻</span> Replay</button></figcaption>
+</figure>
+<dl class="flist">
+<div data-beat="1"><dt>One card per service</dt><dd>SteamGridDB, ScreenScraper and the Switch catalogue, each with what it is for and its status: not set up, connected, error and what to do, quota used up or off.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div><dt>How to get the key</dt><dd>Links to the service's own account page, with the steps in one line.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div data-beat="2"><dt>Test connection</dt><dd>One request, only when you press it: works, wrong credentials, offline or service down.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div><dt>In the system keychain</dt><dd>A saved key is never shown again, and never appears in logs, reports or the settings you export.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div><dt>Turn off or forget</dt><dd>Turn a service off without deleting its key, or forget its credentials after confirming on the page itself.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div data-beat="3"><dt>Today's quota</dt><dd>Requests used, the daily maximum and the threads, when the service reports them. ScreenScraper still shows as “Not available” in published versions.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div><dt>Notices that lead to its card</dt><dd>When a key is missing or a quota runs out, Fill and Organise link to the service's card.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
+<div><dt>Coming later</dt><dd>IGDB, RetroAchievements, TheGamesDB and more, in a list that asks for no key yet.</dd><dd class="since"><span class="vtag" data-since="0.4.0">v0.4.0</span></dd></div>
 </dl>
 </section>
 

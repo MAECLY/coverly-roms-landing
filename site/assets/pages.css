@@ -184,6 +184,187 @@
 .tr-none {
   color: var(--cr-slot-missing);
 }
+/* Integrations, drawn (a clip below 1200px, beats beside the list):
+   a service card goes from Not set up (dashed tag, empty field) to
+   Connected (key dots, a tick, the cover beside it fills) to today's
+   quota. Static, phones without motion and the last beat: that end. */
+.int-stage {
+  position: relative;
+}
+.intg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.int-card {
+  fill: var(--cr-surface-raised);
+  stroke: var(--cr-border-strong);
+}
+.int-nm {
+  fill: var(--cr-text);
+}
+.int-ds,
+.int-dots {
+  fill: var(--cr-text-secondary);
+}
+.int-fld,
+.int-btn {
+  fill: var(--cr-surface);
+  stroke: var(--cr-border-strong);
+}
+.int-btn {
+  stroke: var(--cr-primary);
+}
+.int-ck {
+  color: var(--cr-success);
+}
+.int-qt {
+  fill: var(--cr-surface-sunken);
+}
+.int-qf {
+  fill: var(--cr-slot-applied);
+}
+.int-cv {
+  opacity: 1;
+}
+.int-mi {
+  color: var(--cr-slot-missing);
+  opacity: 0;
+}
+.int-sp {
+  color: var(--cr-slot-applied);
+}
+.int-l {
+  position: absolute;
+  font: 600 clamp(0.625rem, 0.5rem + 0.6vw, 0.75rem)/1.3 var(--cr-font-body);
+  white-space: nowrap;
+}
+.int-t0,
+.int-t1 {
+  right: 7%;
+  top: 14%;
+  padding: 1px 8px;
+  border-radius: var(--cr-radius-sm);
+}
+.int-t0 {
+  outline: 1.5px dashed var(--cr-slot-missing);
+  outline-offset: -1.5px;
+  color: var(--cr-text-secondary);
+  opacity: 0;
+}
+.int-t1 {
+  background: var(--cr-success-bg);
+  color: var(--cr-success);
+}
+.int-ql {
+  left: 25%;
+  top: 71%;
+  font-family: var(--cr-font-mono);
+  font-weight: 500;
+  color: var(--cr-text-secondary);
+}
+.int-sp,
+.int-qf,
+.int-dots {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.fgroup[data-beat='1'] :is(.int-cv, .int-sp, .int-dots, .int-ck, .int-t1),
+.fgroup:is([data-beat='1'], [data-beat='2']) :is(.int-q, .int-ql) {
+  opacity: 0;
+}
+.fgroup[data-beat='1'] :is(.int-mi, .int-t0) {
+  opacity: 1;
+}
+.fgroup:is([data-beat='1'], [data-beat='2']) .int-qf {
+  transform: scaleX(0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.motion .is-playing .int-box * {
+    animation: 4800ms var(--cr-ease-ink) both;
+  }
+  html.motion .is-playing :is(.int-mi, .int-t0) {
+    animation-name: int-off;
+  }
+  html.motion .is-playing :is(.int-cv, .int-ck, .int-t1) {
+    animation-name: int-on;
+  }
+  html.motion .is-playing .int-sp {
+    animation-name: int-sp;
+  }
+  html.motion .is-playing .int-dots {
+    animation-name: int-type;
+  }
+  html.motion .is-playing :is(.int-q, .int-ql) {
+    animation-name: int-q;
+  }
+  html.motion .is-playing .int-qf {
+    animation-name: int-qf;
+  }
+  html.motion .intfig:is(:hover, :focus-within) .int-box * {
+    animation-play-state: paused;
+  }
+}
+@keyframes int-type {
+  0%,
+  12% {
+    clip-path: inset(0 100% 0 0);
+  }
+  30%,
+  100% {
+    clip-path: inset(0);
+  }
+}
+@keyframes int-off {
+  0%,
+  32% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes int-on {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  40%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes int-sp {
+  0%,
+  40% {
+    transform: scaleX(0);
+  }
+  52%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes int-q {
+  0%,
+  60% {
+    opacity: 0;
+  }
+  66%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes int-qf {
+  0%,
+  64% {
+    transform: scaleX(0);
+  }
+  86%,
+  100% {
+    transform: none;
+  }
+}
 /* /features from 1200px: each group's figure stays beside its list
    (sticky, no pinned section, no scroll hijack) and toc.js puts the beat
    being read on the group ([data-beat] on .fgroup): early beats draw the
@@ -251,7 +432,7 @@
   opacity: 0.35;
 }
 @media (prefers-reduced-motion: no-preference) {
-  html.motion .fgroup[data-beat] :is(.cas, .gal, .arc, .dup-box, .trust) * {
+  html.motion .fgroup[data-beat] :is(.cas, .gal, .arc, .dup-box, .trust, .int-box) * {
     animation: none;
     transition: opacity 420ms var(--cr-ease-standard), transform 600ms var(--cr-ease-ink);
   }
